@@ -259,15 +259,44 @@ let DLSB_Spellblade_FF = {
     learnFlags: ["DLSB_FancyFootwork"],     // Set a flag when you learn this spell, probably more performant than checking if you have the spell.
 }
 
+
+
 //#region Hexed Blade
+/************************************************************************
+ * Upgrade - Hexed Blade                                                *
+ *                                                                      *
+ * Adds a bunch of new and exciting effects to your Spellweaver.        *
+ ************************************************************************/
 let DLSB_Spellblade_HexedBlade = {
     name: "DLSB_HexedBlade", tags: ["utility", "offense"], school: "Special", manacost: 0, components: [],
     classSpecific: "DLSB_Spellblade", prerequisite: "DLSB_Spellweaver", hideWithout: "DLSB_Spellweaver",
     level:1, passive: true, type:"", onhit:"", time: 0, delay: 0, range: 0, lifetime: 0, power: 0, damage: "inert",
-    events: [],
+    events: [
+        {type: "DLSB_HexedBlade", trigger: "duringCrit"},
+    ],
     learnFlags: ["DLSB_HexedBlade"],        // Set a flag when you learn this spell, probably more performant than checking if you have the spell.
     spellPointCost: 2,                      // Make it cost 2
 }
+
+KDAddEvent(KDEventMapSpell, "duringCrit", "DLSB_HexedBlade", (e, spell, data) => {
+    // console.log("Knowledge - During Crit:")
+    // console.log(data)
+    if (data.faction == "Player"
+        // Buff that we are consuming has the correct tag
+        && KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_SpellTag == "knowledge"
+        // Is a weapon attack made with Spellweaver
+        && (data.weapon || data.spell?.name == "DLSB_Spellweaver")
+        && !data.customCrit
+    ){
+        // Make it super crit.
+        data.crit *= 1.5;
+        data.bindcrit *= 1.5;
+        KinkyDungeonSetEnemyFlag(data.enemy, "RogueTarget", -1);
+        KDDamageQueue.push({ floater: TextGet("KDRogueCritical"), Entity: data.enemy, Color: "#ff5555", Delay: data.Delay });
+        data.customCrit = true;
+    }
+});
+    
 
 // Clone of Familiar, but doesn't count towards summons.
 // Has a cool hat though!
@@ -492,7 +521,7 @@ let DLSB_SPELLWEAVER_HEXED_POWER            = 4
 let DLSB_SPELLWEAVER_HEXED_POWER_UTIL       = 3
 let DLSB_SPELLWEAVER_HEXED_POWER_BIND       = 2
 let DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT    = 2.5   // Bondage schools
-let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "summon", "physics", "metal", "leather", "rope", "stealth", "light", "shadow", "knowledge"]//, "telekinesis"]
+let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "summon", "physics", "metal", "leather", "rope", "knowledge", "stealth", "light", "shadow"]//, "telekinesis"]
 
 function DLSB_Spellweaver_BuffType(data){
     // Use Spell Tags to determine what buff to grant to the player.
@@ -512,6 +541,7 @@ function DLSB_Spellweaver_BuffType(data){
     // > This returns the first thing found, so putting "hybrid" tags first might be a play.
     // > If a "frostfire" spell has ["frostfire", "fire", "ice"] it SHOULD find "frostfire" first.
     let spellTag = data.spell.tags.find((spelltag) => DLSB_Checked_Tags.includes(spelltag))
+    if(data.spell.name = "TrueSteel"){spellTag = "knowledge"}
     if(!spellTag){
         //console.log("Invalid spell for spellblade")
         return
@@ -691,7 +721,7 @@ function DLSB_Spellweaver_BuffType(data){
         case "knowledge":
             spellweaver_type            = "stun";
             spellweaver_color           = KDBaseLightGrey;
-            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_UTIL : DLSB_SPELLWEAVER_POWER_UTIL
+            spellweaverBuff_Power       = DLSB_SPELLWEAVER_POWER_UTIL;
             spellweaver_buffSprite      = "DLSB_Spellweaver_knowledge";
             spellweaver_buffText        = "DLSB_Spellweaver_knowledge";
             break;
@@ -917,7 +947,7 @@ KDEventMapSpell.playerAttack["DLSB_Spellweaver"] = (e, spell, data) => {
                     bindType:   KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_BindType,
                     addBind:    KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_AddBind,
                     bindEff:    KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_BindEff,
-                }, false, e.power < 0.5, undefined, undefined, KinkyDungeonPlayerEntity);
+                }, false, e.power < 0.5, {name:"DLSB_Spellweaver"}, undefined, KinkyDungeonPlayerEntity);
 
                 // Spawn Effect Tiles if there is a tile to spawn.
                 if(KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_Tile_Kind){
