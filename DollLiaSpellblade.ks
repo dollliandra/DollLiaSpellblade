@@ -549,9 +549,12 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
         spellTag = forceTag;
     }
     else if(data){
-        spellTag = data.spell.tags.find((spelltag) => DLSB_Checked_Tags.includes(spelltag))
         // Force certain overrides.
-        if(data.spell.name = "TrueSteel"){spellTag = "knowledge"};
+        if(data.spell.name == "TrueSteel"){spellTag = "knowledge"}
+        else{
+            spellTag = data.spell.tags.find((spelltag) => DLSB_Checked_Tags.includes(spelltag))
+        }
+
     }
     if(!spellTag){
         //console.log("Invalid spell for spellblade")
@@ -1346,28 +1349,53 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
  * 
  * Generate two random Spellweaver charges.
  ***********************************************/
-let DLSB_Preparation = {name: "DLSB_Preparation", tags: ["stamina", "defense"], prerequisite: "DLSB_Spellweaver", classSpecific: "DLSB_Spellblade", hideWithout: "DLSB_Spellweaver", school: "Special",
-    staminacost: 0, manacost: 0, components: [], defaultOff: true, level:1, type:"passive", onhit:"", time: 0, delay: 0, range: 0, lifetime: 0, power: 0, damage: "inert",
+let DLSB_Preparation = {name: "DLSB_Preparation", tags: ["utility", "defense"], prerequisite: "DLSB_Spellweaver", classSpecific: "DLSB_Spellblade", hideWithout: "DLSB_Spellweaver", school: "Special",
+    staminacost: 0, manacost: 1, components: [], defaultOff: true, level:1, type:"passive", onhit:"", time: 0, delay: 0, range: 0, lifetime: 0, power: 0, damage: "inert",
     events: [
-        {type: "DLSB_Preparation", trigger: "toggleSpell", time: 1},
+        {type: "DLSB_Preparation", trigger: "toggleSpell", time: 100},
     ],
-    // Custom cost and cast condition
-    //customCost: "DLSB_BladeTwirl",
-    castCondition: "DLSB_BladeTwirl",
+    // Custom cost
+    customCost: "DLSB_Preparation",
 }
 
+KDCustomCost["DLSB_Preparation"] = (data) => {
+    // Display cooldown.
+    if (KinkyDungeonFlags.get("DLSB_Prepared")) {
+        data.cost = Math.round(KinkyDungeonFlags.get("DLSB_Prepared")) + " Turns";
+        data.color = KDBaseWhite;
+    // Display mana cost.
+    }else{
+        data.cost = Math.round(10 * data.spell.manacost) + "MP";
+        data.color = "#d0dcff"//KDBaseWhite;//KDBaseMint;
+    }
+}
 
 // Twirl Spell Action
 KDAddEvent(KDEventMapSpell, "toggleSpell", "DLSB_Preparation", (e, spell, data) => {
     if (data.spell?.name == spell?.name) {
         KinkyDungeonSpellChoicesToggle[data.index] = false;
+        if (!KinkyDungeonFlags.get("DLSB_Prepared")) {
+            if (KinkyDungeonStatMana > KinkyDungeonGetManaCost(spell)) {
+                // Trigger cooldown
+                KinkyDungeonSetFlag("DLSB_Prepared", e.time);
+                // How many charges can we generate?
+                let totalCharges = (KinkyDungeonFlags.get("DLSB_SpellweaverQueue") ? 2 : 1)
 
-        // How many charges can we generate?
-        let totalCharges = (KinkyDungeonFlags.get("DLSB_SpellweaverQueue") ? 2 : 1)
+                // Generate that many random charges
+                for(let itr = 0; itr < totalCharges; itr++){
+                    DLSB_Spellweaver_BuffType(null, "random", DLSB_SPELLWEAVER_BUFFDUR + itr)
+                }
 
-        // Generate that many random charges
-        for(let itr = 0; itr < totalCharges; itr++){
-            DLSB_Spellweaver_BuffType(null, "random", DLSB_SPELLWEAVER_BUFFDUR + itr)
+                // Spend the Mana.
+                KDChangeMana(spell.name, "spell", "cast", -KinkyDungeonGetManaCost(spell, false, false));
+
+                // Display success message
+                KinkyDungeonSendTextMessage(5, TextGet("DLSB_PreparedSuccess"), "#e7cf1a", 10);
+            }else{
+                KinkyDungeonSendTextMessage(5, TextGet("DLSB_PreparationFail_ManaCost"), KDBaseOrange, 10);
+            }
+        }else{
+            KinkyDungeonSendTextMessage(5, TextGet("DLSB_PreparationFail_Prepared"), KDBaseOrange, 10);
         }
     }
 });
