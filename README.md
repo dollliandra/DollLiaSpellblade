@@ -33,5 +33,5 @@ The Spellweaver is a mobility focused class, and as such has tools to get in and
 
 ## License
 * Code - You are free to use this mod's to help write your own mods for Kinky Dungeon, so long as you credit DollLia.
-* Sprites - You may NOT use the spritework contained in this mod for any purpose.
+* Sprites - You may NOT use the spritework contained in this mod for any other purpose.
 * Audio - The mod samples royalty-free audio, the details of which are listed in Readme.txt.
