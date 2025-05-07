@@ -20,7 +20,9 @@ Whenever a Spellweaver casts a spell, they gain a Spellweaver charge. This grant
 With the upgrade **Hexed Blade**, your Spellweaver charges gain additional effects, or deal more damage.  For example:
 * Fire Spellweaver deals 33% additional damage.
 * Ice Spellweaver will slow the target on-hit, or freeze the target if already slowed.
-* Summon Spellweaver will summon a ghostly ally who wields a foil and a cool hat.
+* Summon Spellweaver will summon a ghostly ally in a cool hat.
+
+All effects are in the description when you hover over the buff's tooltip.
 
 ### High Mobility Attacks
 ![Flèche](/Spells/DLSB_Fleche.png)![Displacement](/Spells/DLSB_Displacement.png)
@@ -28,3 +30,8 @@ With the upgrade **Hexed Blade**, your Spellweaver charges gain additional effec
 The Spellweaver is a mobility focused class, and as such has tools to get in and out of combat quickly.
 * Flèche is a gapcloser melee strike, but with the Fancy Footwork upgrade, can dash through an enemy in melee range.
 * Displacement lets you backflip away from a target as you strike them.
+
+## License
+* Code - You are free to this mod's to help write your own mods for Kinky Dungeon, so long as you credit DollLia.
+* Sprites - You may NOT use the spritework contained in this mod for any purpose.
+* Audio - The mod samples royalty-free audio, the details of which are listed in Readme.txt.
