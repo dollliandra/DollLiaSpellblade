@@ -527,7 +527,7 @@ let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "la
 let DLSB_All_Possible_Tags = DLSB_Checked_Tags.concat([])
 
 
-function DLSB_Spellweaver_BuffType(data, forceTag = null){
+function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
     // Use Spell Tags to determine what buff to grant to the player.
     /****************************************
      * Relevant Spell Tags
@@ -560,8 +560,9 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null){
 
     // Randomly assign a spell tag if we are given "random"
     // This can include spell tags not normally accessible to the player. (Blade Twirl)
+    console.log(DLSB_All_Possible_Tags)
     if(spellTag == "random"){
-        spellTag = DLSB_All_Possible_Tags.length[KDRandom() * DLSB_All_Possible_Tags.length];
+        spellTag = DLSB_All_Possible_Tags[Math.floor(KDRandom() * DLSB_All_Possible_Tags.length)];
     }
 
     // Buff ID is entirely arbitrary. I'm just using an integer to make it unique.
@@ -763,7 +764,7 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null){
         id:                         newBuff, 
         type:                       "DLSB_Spellweaver",
         power:                      spellweaverBuff_Power,
-        duration:                   DLSB_SPELLWEAVER_BUFFDUR, 
+        duration:                   forceDur ? forceDur : DLSB_SPELLWEAVER_BUFFDUR, 
         aura:                       spellweaver_color, 
         buffSprite:                 true,
         buffSpriteSpecific:         spellweaver_buffSprite,
@@ -1339,6 +1340,40 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
 
 
 
+//#region Preparation
+/***********************************************
+ * Spell - Preparation
+ * 
+ * Generate two random Spellweaver charges.
+ ***********************************************/
+let DLSB_Preparation = {name: "DLSB_Preparation", tags: ["stamina", "defense"], prerequisite: "DLSB_Spellweaver", classSpecific: "DLSB_Spellblade", hideWithout: "DLSB_Spellweaver", school: "Special",
+    staminacost: 0, manacost: 0, components: [], defaultOff: true, level:1, type:"passive", onhit:"", time: 0, delay: 0, range: 0, lifetime: 0, power: 0, damage: "inert",
+    events: [
+        {type: "DLSB_Preparation", trigger: "toggleSpell", time: 1},
+    ],
+    // Custom cost and cast condition
+    //customCost: "DLSB_BladeTwirl",
+    castCondition: "DLSB_BladeTwirl",
+}
+
+
+// Twirl Spell Action
+KDAddEvent(KDEventMapSpell, "toggleSpell", "DLSB_Preparation", (e, spell, data) => {
+    if (data.spell?.name == spell?.name) {
+        KinkyDungeonSpellChoicesToggle[data.index] = false;
+
+        // How many charges can we generate?
+        let totalCharges = (KinkyDungeonFlags.get("DLSB_SpellweaverQueue") ? 2 : 1)
+
+        // Generate that many random charges
+        for(let itr = 0; itr < totalCharges; itr++){
+            DLSB_Spellweaver_BuffType(null, "random", DLSB_SPELLWEAVER_BUFFDUR + itr)
+        }
+    }
+});
+
+
+
 //#region Spell List
 // Add class spells to spell list.
 KinkyDungeonSpellList["Special"].push(DLSB_Spellblade_CorePassive);
@@ -1347,6 +1382,7 @@ KinkyDungeonSpellList["Special"].push(DLSB_Spellblade_Fleche);
 KinkyDungeonSpellList["Special"].push(DLSB_Spellblade_Displacement);
 KinkyDungeonSpellList["Special"].push(DLSB_BladeTwirl);
 KinkyDungeonSpellList["Special"].push(DLSB_BladeTwirl_Invis);
+KinkyDungeonSpellList["Special"].push(DLSB_Preparation);
 KinkyDungeonSpellList["Special"].push(DLSB_Spellblade_Sustain);
 KinkyDungeonSpellList["Special"].push(DLSB_Spellblade_FF);
 KinkyDungeonSpellList["Special"].push(DLSB_Spellblade_Mageblade);
@@ -1363,6 +1399,7 @@ KinkyDungeonLearnableSpells[2][0].push("DLSB_SpellbladeOffhand");
 KinkyDungeonLearnableSpells[2][1].push("DLSB_Fleche");
 KinkyDungeonLearnableSpells[2][1].push("DLSB_Displacement");
 KinkyDungeonLearnableSpells[2][1].push("DLSB_BladeTwirl");
+KinkyDungeonLearnableSpells[2][1].push("DLSB_Preparation");
 // Col 2 - Misc
 KinkyDungeonLearnableSpells[2][2].push("DLSB_ArcaneSynergy");
 KinkyDungeonLearnableSpells[2][2].push("DLSB_Mageblade");

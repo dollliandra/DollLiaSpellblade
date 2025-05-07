@@ -96,6 +96,11 @@ DLSB_BladeTwirlFail_NoMana,You don't have enough mana.
 DLSB_BladeTwirlFail_NoStamina,You don't have enough stamina.
 DLSB_BladeTwirlSuccess,You twirl your blade!
 
+
+KinkyDungeonSpellDLSB_Preparation,"Preparation"
+KinkyDungeonSpellDescriptionDLSB_Preparation,"Generate as many random Spellweaver charges as possible.|These Spellweaver charges can have effects from spells you don't know, or even effects that are unique to enemy spells."
+
+
 KinkyDungeonSpellDLSB_FancyFootwork,"Fancy Footwork"
 KinkyDungeonSpellDescriptionDLSB_FancyFootwork,"You have refined your form when making special attacks:|> Flèche can target an adjacent enemy to dash through them.|> Displacement makes the target vulnerable if it strikes them while they are attacking."
 
