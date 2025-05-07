@@ -523,7 +523,11 @@ let DLSB_SPELLWEAVER_HEXED_POWER_BIND       = 2
 let DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT    = 2.5   // Bondage schools
 let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "summon", "physics", "metal", "leather", "rope", "knowledge", "stealth", "light", "shadow"]//, "telekinesis"]
 
-function DLSB_Spellweaver_BuffType(data){
+// TODO - Expand this.
+let DLSB_All_Possible_Tags = DLSB_Checked_Tags.concat([])
+
+
+function DLSB_Spellweaver_BuffType(data, forceTag = null){
     // Use Spell Tags to determine what buff to grant to the player.
     /****************************************
      * Relevant Spell Tags
@@ -540,12 +544,26 @@ function DLSB_Spellweaver_BuffType(data){
     // Find a valid spell tag that we are listening for.
     // > This returns the first thing found, so putting "hybrid" tags first might be a play.
     // > If a "frostfire" spell has ["frostfire", "fire", "ice"] it SHOULD find "frostfire" first.
-    let spellTag = data.spell.tags.find((spelltag) => DLSB_Checked_Tags.includes(spelltag))
-    if(data.spell.name = "TrueSteel"){spellTag = "knowledge"}
+    let spellTag = null;
+    if(forceTag){
+        spellTag = forceTag;
+    }
+    else if(data){
+        spellTag = data.spell.tags.find((spelltag) => DLSB_Checked_Tags.includes(spelltag))
+        // Force certain overrides.
+        if(data.spell.name = "TrueSteel"){spellTag = "knowledge"};
+    }
     if(!spellTag){
         //console.log("Invalid spell for spellblade")
         return
     }
+
+    // Randomly assign a spell tag if we are given "random"
+    // This can include spell tags not normally accessible to the player. (Blade Twirl)
+    if(spellTag == "random"){
+        spellTag = DLSB_All_Possible_Tags.length[KDRandom() * DLSB_All_Possible_Tags.length];
+    }
+
     // Buff ID is entirely arbitrary. I'm just using an integer to make it unique.
     let newBuff = "DLSB_Spellweaver_" + String(KDGameData.DollLia.Spellblade.spellsWoven)//spellTag;
     KDGameData.DollLia.Spellblade.spellsWoven += 1;
@@ -618,7 +636,7 @@ function DLSB_Spellweaver_BuffType(data){
         // Conjuration - Bondage
         case "latex":
             spellweaver_type            = "glue";
-            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER : DLSB_SPELLWEAVER_POWER_BIND;
+            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
             spellweaver_addBind         = true;
             spellweaver_bindType        = "Slime";
             spellweaver_bind            = DLSB_SPELLWEAVER_POWER_BINDAMT;
@@ -633,7 +651,7 @@ function DLSB_Spellweaver_BuffType(data){
             break;
         case "metal":
             spellweaver_type            = "chain";
-            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER : DLSB_SPELLWEAVER_POWER_BIND;
+            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
             spellweaver_addBind         = true;
             spellweaver_bindType        = "Metal";
             spellweaver_bind            = DLSB_SPELLWEAVER_POWER_BINDAMT;
@@ -648,7 +666,7 @@ function DLSB_Spellweaver_BuffType(data){
             break;
         case "leather":
             spellweaver_type            = "pain";       // Leather is specifically pain
-            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER : DLSB_SPELLWEAVER_POWER_BIND;
+            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
             spellweaver_addBind         = true;
             spellweaver_bindType        = "Leather";
             spellweaver_bind            = DLSB_SPELLWEAVER_POWER_BINDAMT;
@@ -663,7 +681,7 @@ function DLSB_Spellweaver_BuffType(data){
             break;
         case "rope":
             spellweaver_type            = "chain";
-            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER : DLSB_SPELLWEAVER_POWER_BIND;
+            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
             spellweaver_addBind         = true;
             spellweaver_bindType        = "Rope";
             spellweaver_bind            = DLSB_SPELLWEAVER_POWER_BINDAMT;
@@ -728,8 +746,9 @@ function DLSB_Spellweaver_BuffType(data){
         /// We should never hit this, but just in case, default to blast damage.
         default:
             spellweaver_type            = "stun";
-            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER : DLSB_SPELLWEAVER_POWER_UTIL
+            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER : spellweaverBuff_Power
             spellweaver_buffSprite      = "DLSB_Spellweaver_DEFAULT";
+            spellweaver_buffText        = "DLSB_Spellweaver_DEFAULT";
             break;
     }
 
@@ -1294,6 +1313,8 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
     console.log("Spell blocked!")
     console.log(data)
     if(data?.player && data?.spell){
+        // Default if we somehow cannot assign anything.
+        let spellTag = "DEFAULT"
 
         // switch(data.spell.damage){
         //     case "chain":
@@ -1304,56 +1325,8 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
         //         break;
         // }
 
-        // Buff ID is entirely arbitrary. I'm just using an integer to make it unique.
-        let newBuff = "DLSB_Spellweaver_" + String(KDGameData.DollLia.Spellblade.spellsWoven)//spellTag;
-        KDGameData.DollLia.Spellblade.spellsWoven += 1;
-
-        // If we have too many spellweaver charges, expire the oldest buff (first in queue).
-        // TODO - Flag ternary condition instead of 1
-        if(KDGameData.DollLia.Spellblade.spellweaver.length >= (KinkyDungeonFlags.get("DLSB_SpellweaverQueue") ? 2 : 1)){
-            KinkyDungeonExpireBuff(KinkyDungeonPlayerEntity, KDGameData.DollLia.Spellblade.spellweaver[0])
-            KDGameData.DollLia.Spellblade.spellweaver.shift();
-        }
-        // Push the buff.
-        KDGameData.DollLia.Spellblade.spellweaver.push(newBuff)
-
-        // Determine specific stats of the buff based upon tag.
-        let spellweaverBuff_Power = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER : DLSB_SPELLWEAVER_POWER;
-        // Declare various properties that the buff may or may not have.
-        let spellweaver_bind = null, spellweaver_distract = null, spellweaver_bindType = null, spellweaver_addBind = null, spellweaver_bindEff = null, 
-            spellweaver_color = KDBaseWhite, spellweaver_crit = KDDefaultCrit
-        let spellweaver_tileKind = null, spellweaver_tileAoE = 1.1, spellweaver_tileDur = null
-
-        // Stuff all the necessary information into the buff directly.
-        KinkyDungeonApplyBuffToEntity(KinkyDungeonPlayerEntity, {
-            id:                         newBuff, 
-            type:                       "DLSB_Spellweaver",
-            power:                      spellweaverBuff_Power,
-            duration:                   DLSB_SPELLWEAVER_BUFFDUR, 
-            aura:                       spellweaver_color, 
-            buffSprite:                 true,
-            buffSpriteSpecific:         "DLSB_Spellweaver_DEFAULT",
-            desc:                       "DLSB_Spellweaver_bladeTwirl",
-            // Custom buff additions to store properties of the attack. These persist through save/load.
-            DLSB_Spellweaver_Type:      "stun",
-            DLSB_Spellweaver_Crit:      spellweaver_crit,
-            DLSB_Spellweaver_Bind:      spellweaver_bind,
-            DLSB_Spellweaver_Distract:  spellweaver_distract,
-            DLSB_Spellweaver_BindType:  spellweaver_bindType,
-            DLSB_Spellweaver_AddBind:   spellweaver_addBind,
-            DLSB_Spellweaver_BindEff:   spellweaver_bindEff,
-
-            // Handle spawning effect tiles.
-            DLSB_Spellweaver_Tile_Kind:     spellweaver_tileKind,
-            DLSB_Spellweaver_Tile_AoE:      spellweaver_tileAoE,
-            DLSB_Spellweaver_Tile_Dur:      spellweaver_tileDur,
-
-            events: [
-                {type: "DLSB_Spellweaver", trigger: "tick"},
-                {type: "DLSB_Spellweaver", trigger: "expireBuff"},
-            ]
-        });
-
+        // Apply the buff
+        DLSB_Spellweaver_BuffType(null, spellTag)
 
         // If the player has the spell, reequip their old weapon.
         if (KDHasSpell("DLSB_Mageblade") && KinkyDungeonPlayerWeapon != KDGameData.PlayerWeaponLastEquipped && KinkyDungeonInventoryGet(KDGameData.PlayerWeaponLastEquipped)) {
