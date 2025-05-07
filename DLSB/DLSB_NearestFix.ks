@@ -38,6 +38,7 @@ KDAddEvent(KDEventMapGeneric, "afterModSettingsLoad", "DLSB_SpriteNearestFix", (
         "DLSB_Fleche.png",
         "DLSB_Mageblade.png",
         "DLSB_BladeTwirl.png",
+        "DLSB_Preparation.png",
     ]
     let DLSB_BulletsList = [
     ]
