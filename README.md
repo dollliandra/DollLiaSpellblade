@@ -28,10 +28,18 @@ All effects are in the description when you hover over the buff's tooltip.
 ![Flèche](/Spells/DLSB_Fleche.png)![Displacement](/Spells/DLSB_Displacement.png)
 
 The Spellweaver is a mobility focused class, and as such has tools to get in and out of combat quickly.
-* Flèche is a gapcloser melee strike, but with the Fancy Footwork upgrade, can dash through an enemy in melee range.
+* Flèche is a gapcloser melee strike to help you use your Spellweaver charges. With the Fancy Footwork upgrade, it can dash through an enemy in melee range.
 * Displacement lets you backflip away from a target as you strike them.
 
 ## License
 * Code - You are free to use this mod's to help write your own mods for Kinky Dungeon, so long as you credit DollLia.
 * Sprites - You may NOT use the spritework contained in this mod for any other purpose.
 * Audio - The mod samples royalty-free audio, the details of which are listed in Readme.txt.
+
+## Building Mod
+
+Download the entire repository, then compress everything into a .zip archive.
+
+## Bug Reports & Contributions
+
+Please use the modding-bugs forum channel in the Kinky Dungeon discord to report bugs, or alternatively, the Spellweaver mod's post in the mods forum channel.
