@@ -1291,7 +1291,7 @@ KDAddEvent(KDEventMapSpell, "toggleSpell", "DLSB_BladeTwirl", (e, spell, data) =
  * When enemy spells strike the player, they call KDTestSpellHits.
  * However, KDTestSpellHits does not have any events to call, it simply
  *  calculates if the attack hits, misses, or is blocked.
- * There is no event to, for example, raise block if the incoming hit
+ * There is no event to, for example, let me raise block if the incoming hit
  *  is a projectile.
  * INSTEAD, Blade Twirl gives 9999 block, but this event removes ALL BLOCK 
  *  FROM THE PLAYER if they are attacked in melee whilst twirling their blade.
@@ -1300,10 +1300,10 @@ KDAddEvent(KDEventMapSpell, "beforeAttackCalculation", "DLSB_BladeTwirl_Invis", 
     if (data.target?.player && data.attacker) {
         let player = KinkyDungeonPlayerEntity;
         let buff = KDEntityGetBuff(player, "DLSB_BladeTwirl");
-
-        console.log(data)
-        // Set playerBlock to a very high number, so you can never block.
-        data.playerBlock = 2;
+        if(buff){
+            // Set playerBlock to a very high number, so you can never block.
+            data.playerBlock = 2;
+        }
     }
 });
 
@@ -1315,6 +1315,8 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
     if(data?.player && data?.spell){
         // Default if we somehow cannot assign anything.
         let spellTag = "DEFAULT"
+
+        // TODO - How many possible spells can we get hit by?  Oh no.
 
         // switch(data.spell.damage){
         //     case "chain":
