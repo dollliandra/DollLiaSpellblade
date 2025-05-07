@@ -1,0 +1,116 @@
+KDModButtonDLSBMCM,"Spellblade Class"
+
+KDModButtonDLSBMCM_Header_Meow,"Thanks for playing!  -Doll.Lia"
+KDModButtonDLSBMCM_Meow,"Placeholder - Does Nothing"
+
+KinkyDungeonClassModeDLSB_Spellblade,Spellblade
+KinkyDungeonClassModeDescDLSB_Spellblade,"Start with 125 stamina and mana, plus Vault, deftly wielding both blade and spell."
+
+KinkyDungeonStatMC_DLSB_Spellblade,"Spellblade"
+KinkyDungeonStatDescMC_DLSB_Spellblade,"Your training has given you access to the powers of the Spellblade class."
+
+KinkyDungeonSpellDLSB_SpellbladeOffhand,"Dual Wield (Spellblade)"
+KinkyDungeonSpellDescriptionDLSB_SpellbladeOffhand,"Equip to hotbar and cast to designate an Offhand weapon to gain passive effects such as a light source or extra crit damage.|Spellblades cannot wield heavy or massive weapons in the offhand unless they are multiclass.|(Equip Dual Wield spell to equip an offhand weapon, or use the Items menu)"
+
+
+KinkyDungeonSpellDLSB_Spellweaver,"Spellweaver"
+KinkyDungeonSpellDescriptionDLSB_Spellweaver,"After you cast a spell, your next melee weapon attack within 10 turns deals bonus magical damage.|Damage type is determined by the school of the spell you cast.|Telekinetic spells and toggled passive spells do not generate Spellweaver charges."
+
+KinkyDungeonSpellDLSB_SpellweaverQueue,"Twin Enchantment"
+KinkyDungeonSpellDescriptionDLSB_SpellweaverQueue,"You can store up to two charges of Spellweaver and Arcane Synergy.|> Only one Spellweaver charge can be used per attack.|> Only one Arcane Synergy charge can be used per cast."
+
+
+
+KinkyDungeonBuffDLSB_Spellweaver_fire,"Spellweaver: Your next melee weapon attack deals an additional 30 fire damage."
+KinkyDungeonBuffDLSB_Spellweaver_ice,"Spellweaver: Your next melee weapon attack deals an additional 30 ice damage."
+KinkyDungeonBuffDLSB_Spellweaver_earth,"Spellweaver: Your next melee weapon attack deals an additional 30 crush damage."
+KinkyDungeonBuffDLSB_Spellweaver_electric,"Spellweaver: Your next melee weapon attack deals an additional 30 electric damage."
+KinkyDungeonBuffDLSB_Spellweaver_air,"Spellweaver: Your next melee weapon attack deals an additional 30 blast damage."
+KinkyDungeonBuffDLSB_Spellweaver_water,"Spellweaver: Your next melee weapon attack deals an additional 30 soap damage."
+
+KinkyDungeonBuffDLSB_Spellweaver_latex,"Spellweaver: Your next melee weapon attack deals an additional 15 glue damage and applies slime."
+KinkyDungeonBuffDLSB_Spellweaver_metal,"Spellweaver: Your next melee weapon attack deals an additional 15 chain damage and applies metal restraints."
+KinkyDungeonBuffDLSB_Spellweaver_leather,"Spellweaver: Your next melee weapon attack deals an additional 15 pain damage and applies belts."
+KinkyDungeonBuffDLSB_Spellweaver_rope,"Spellweaver: Your next melee weapon attack deals an additional 15 chain damage and applies ropes."
+KinkyDungeonBuffDLSB_Spellweaver_summon,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage."
+KinkyDungeonBuffDLSB_Spellweaver_physics,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage."
+KinkyDungeonBuffDLSB_Spellweaver_telekinesis,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage."
+
+KinkyDungeonBuffDLSB_Spellweaver_light,"Spellweaver: Your next melee weapon attack deals an additional 30 holy damage."
+KinkyDungeonBuffDLSB_Spellweaver_shadow,"Spellweaver: Your next melee weapon attack deals an additional 30 shadow damage."
+KinkyDungeonBuffDLSB_Spellweaver_stealth,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage."
+KinkyDungeonBuffDLSB_Spellweaver_knowledge,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage."
+
+KinkyDungeonBuffDLSB_Spellweaver_bladeTwirl,"Spellweaver: Your next melee weapon attack deals an additional 30 blast damage."
+
+
+KinkyDungeonSpellDLSB_HexedBlade,"Hexed Blade"
+KinkyDungeonSpellDescriptionDLSB_HexedBlade,"You are capable of weaving more potent magics into your blade with Spellweaver, gaining bonus effects.|Bonus effect changes based upon the school of the cast spell.|Elements such as Fire will deal additional damage, while elements such as Ice can slow or freeze."
+
+KinkyDungeonBuffDLSB_Spellweaver_firehex,"Hexweaver: Your next melee weapon attack deals an additional 40 fire damage."
+KinkyDungeonBuffDLSB_Spellweaver_icehex,"Hexweaver: Your next melee weapon attack deals an additional 30 ice damage and slows/freezes the target."
+KinkyDungeonBuffDLSB_Spellweaver_earthhex,"Hexweaver: Your next melee weapon attack deals an additional 30 crush damage and briefly grants Stoneskin."
+KinkyDungeonBuffDLSB_Spellweaver_electrichex,"Hexweaver: Your next melee weapon attack deals an additional 30 electric damage and stuns briefly."
+KinkyDungeonBuffDLSB_Spellweaver_airhex,"Hexweaver: Your next melee weapon attack deals an additional 30 blast damage and pushes the target back."
+KinkyDungeonBuffDLSB_Spellweaver_waterhex,"Hexweaver: Your next melee weapon attack deals an additional 40 soap damage."
+
+KinkyDungeonBuffDLSB_Spellweaver_latexhex,"Hexweaver: Your next melee weapon attack deals an additional 20 glue damage and applies slime."
+KinkyDungeonBuffDLSB_Spellweaver_metalhex,"Hexweaver: Your next melee weapon attack deals an additional 20 chain damage and applies metal restraints."
+KinkyDungeonBuffDLSB_Spellweaver_leatherhex,"Hexweaver: Your next melee weapon attack deals an additional 20 pain damage and applies belts."
+KinkyDungeonBuffDLSB_Spellweaver_ropehex,"Hexweaver: Your next melee weapon attack deals an additional 20 chain damage and applies ropes."
+
+KinkyDungeonBuffDLSB_Spellweaver_summonhex,"Hexweaver: Your next melee weapon attack deals an additional 20 blast damage and summons a familiar."
+NameDLSB_HexedAlly,Hexblade's Familiar
+KillDLSB_HexedAlly,"The familiar dissolves into spectral ash."
+KinkyDungeonBuffDLSB_Spellweaver_physicshex,"Hexweaver: Your next melee weapon attack deals an additional 20 blast damage and grants Quickness."
+KinkyDungeonBuffDLSB_Spellweaver_telekinesishex,"Hexweaver: Your next melee weapon attack deals an additional 30 blast damage."
+
+KinkyDungeonBuffDLSB_Spellweaver_lighthex,"Hexweaver: Your next melee weapon attack deals an additional 30 holy damage and blinds/stuns the target."
+KinkyDungeonBuffDLSB_Spellweaver_shadowhex,"Hexweaver: Your next melee weapon attack deals an additional 30 shadow damage, x1.5 in shadow."
+KinkyDungeonBuffDLSB_Spellweaver_stealthhex,"Hexweaver: Your next melee weapon attack deals an additional 30 blast damage and turns you invisible."
+KinkyDungeonBuffDLSB_Spellweaver_knowledgehex,"Hexweaver: Your next melee weapon attack deals an additional 30 blast damage."
+
+KinkyDungeonBuffDLSB_Spellweaver_bladeTwirl,"Hexweaver: Your next melee weapon attack deals an additional 40 blast damage."
+
+
+
+
+KinkyDungeonSpellDLSB_ArcaneSynergy,"Arcane Synergy"
+KinkyDungeonSpellDescriptionDLSB_ArcaneSynergy,"After making a melee weapon attack with Spellweaver, your next spell costs 25% less MP."
+KinkyDungeonBuffDLSB_ArcaneSynergy,"Arcane Synergy: Your next spell costs 25% less MP."
+
+KinkyDungeonSpellDLSB_Fleche,"Flèche"
+KinkyDungeonSpellDescriptionDLSB_Fleche,"Dash and make an attack against a target within 3 tiles. If the attack misses, you still dash. Costs stamina equal to your sprint cost plus your attack cost."
+KinkyDungeonSpellCastDLSB_Fleche,
+KinkyDungeonSpellTargetDLSB_Fleche,Choose a target.
+
+KinkyDungeonSpellDLSB_Displacement,"Displacement"
+KinkyDungeonSpellDescriptionDLSB_Displacement,"Dramatically backflip away up to 2 tiles from an adjacent target as you melee attack. If the attack misses, you still backflip. Costs stamina equal to twice your sprint cost plus your attack cost."
+KinkyDungeonSpellCastDLSB_Displacement,
+KinkyDungeonSpellTargetDLSB_Displacement,Choose a target.
+
+KinkyDungeonSpellDLSB_BladeTwirl,"Blade Twirl"
+KinkyDungeonSpellDescriptionDLSB_BladeTwirl,"Swiftly twirl your weapon, deflecting most projectiles until the end of the turn.|Successfully deflecting a projectile grants you Spellweaver.|However, you cannot block melee attacks during this action."
+DLSB_BladeTwirlFail_NoWeapon,"You need to equip a weapon to twirl."
+DLSB_BladeTwirlFail_NoMana,You don't have enough mana.
+DLSB_BladeTwirlFail_NoStamina,You don't have enough stamina.
+DLSB_BladeTwirlSuccess,You twirl your blade!
+
+KinkyDungeonSpellDLSB_FancyFootwork,"Fancy Footwork"
+KinkyDungeonSpellDescriptionDLSB_FancyFootwork,"You have refined your form when making special attacks:|> Flèche can target an adjacent enemy to dash through them.|> Displacement makes the target vulnerable if it strikes them while they are attacking."
+
+KinkyDungeonSpellDLSB_Mageblade,"Bound Weapon"
+KinkyDungeonSpellDescriptionDLSB_Mageblade,"Ritualistically bind yourself to a weapon over 5 turns, empowering it:|> The weapon's stamina cost is reduced by 1% per 10 Max MP, up to a max of 30%.|> The weapon can be wielded without arms while you have a Spellweaver charge, but with reduced accuracy."
+KDInventoryActionDLSB_BindWeapon,Bind to this Weapon
+KDBindWeapon,Bound Weapon
+
+KDDLSB_FlecheFail_NoTarget,You need to target an enemy.
+KDDLSB_FlecheFail_NoWeapon,You need to have a weapon equipped.
+KDDLSB_FlecheFail_NoStamina,You don't have enough stamina.
+KDDLSB_FlecheFail_NoSprint,You need to be able to sprint.
+KDDLSB_FlecheFail_NoAttack,You need to be able to attack.
+KDDLSB_FlecheFail_NoSpace,There is no room to dash!
+KDDLSB_FlecheFail_AttackMiss,You missed!
+KDDLSB_DisplacementFail_Backflip,There is no room to backflip to.
+KDDLSB_FlecheSuccess,You dash at the target!
+KDDLSB_DisplacementSuccess,You stylishly backflip away from your target!
