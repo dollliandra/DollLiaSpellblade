@@ -543,24 +543,37 @@ let DLSB_SPELLWEAVER_BUFFDUR                = 10
 let DLSB_SPELLWEAVER_POWER                  = 3     
 let DLSB_SPELLWEAVER_POWER_UTIL             = 2     // Utility schools hit weaker than Elemental, etc.
 let DLSB_SPELLWEAVER_POWER_BIND             = 1.5   // Bondage schools
-let DLSB_SPELLWEAVER_POWER_BINDAMT          = 2     // Bondage schools
+let DLSB_SPELLWEAVER_POWER_BINDAMT          = 2.5   // Bondage schools
 // Hexed Blade
 let DLSB_SPELLWEAVER_HEXED_POWER            = 4
 let DLSB_SPELLWEAVER_HEXED_POWER_UTIL       = 3
 let DLSB_SPELLWEAVER_HEXED_POWER_BIND       = 2
-let DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT    = 2.5   // Bondage schools
+let DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT    = 3     // Bondage schools
+//
+let DLSB_CHAOSMULT                          = 1.2
 let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "summon", "physics", "metal", "leather", "rope", "knowledge", "stealth", "light", "shadow"]//, "telekinesis"]
 
 // TODO - Expand this.
-let DLSB_Chaos_Tags = ["e_asylum"]
+let DLSB_Chaos_Tags = ["e_asylum","e_magicbelt"]
 let DLSB_All_Possible_Tags = DLSB_Checked_Tags.concat(DLSB_Chaos_Tags)
 
+
+//#region Spellweaver Bind Types
 // Add in missing Bind Types
 KDBindTypeTagLookup.DLSB_Asylum = ["nurseRestraints"]
+KDBindTypeTagLookup.DLSB_MagicBelt = ["beltRestraintsMagic"]
 
 KDSpecialBondage["DLSB_Asylum"] = {
     priority: 10,               // What does this do?
-    color: "#ad2f45",
+    color: KDBaseWhite,
+    struggleRate: 1.0,
+    powerStruggleBoost: 1.0,
+    healthStruggleBoost: 1.0,
+    enemyBondageMult: 1.0,
+}
+KDSpecialBondage["DLSB_MagicBelt"] = {
+    priority: 10,               // What does this do?
+    color: KDBasePink,
     struggleRate: 1.0,
     powerStruggleBoost: 1.0,
     healthStruggleBoost: 1.0,
@@ -568,6 +581,7 @@ KDSpecialBondage["DLSB_Asylum"] = {
 }
 
 
+//#region Generate Spellweaver
 function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
     // Use Spell Tags to determine what buff to grant to the player.
     /****************************************
@@ -792,9 +806,11 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaver_buffText        = "DLSB_Spellweaver_knowledge";
             break;
         // Enemy-Specific
+        // Intentionally stronger than normal ones.
+        // Apply Asylum Restraints - Stronger than other chaos ones.
         case "e_asylum":
             spellweaver_type            = "chain";
-            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND) * 1.5;
             spellweaver_addBind         = true;
             spellweaver_bindType        = "DLSB_Asylum";
             spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT : DLSB_SPELLWEAVER_POWER_BINDAMT) * 1.5;
@@ -803,11 +819,25 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaver_tileAoE         = 1.1;
             spellweaver_tileDur         = 12;
 
-            spellweaver_color           = KDBaseLightGrey;
+            spellweaver_color           = KDBaseWhite;
             spellweaver_buffSprite      = "DLSB_Spellweaver_e_asylum";
             spellweaver_buffText        = "DLSB_Spellweaver_e_asylum";
             break;
+        // Magic Belts from Witch Apprentices and Bondage Tomes
         case "e_magicbelt":
+            spellweaver_type            = "chain";
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND) * DLSB_CHAOSMULT;
+            spellweaver_addBind         = true;
+            spellweaver_bindType        = "DLSB_MagicBelt";
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT : DLSB_SPELLWEAVER_POWER_BINDAMT) * DLSB_CHAOSMULT;
+
+            spellweaver_tileKind        = "Belts";
+            spellweaver_tileAoE         = 1.1;
+            spellweaver_tileDur         = 12;
+
+            spellweaver_color           = KDBaseWhite;
+            spellweaver_buffSprite      = "DLSB_Spellweaver_e_magicbelt";
+            spellweaver_buffText        = "DLSB_Spellweaver_e_magicbelt";
             break;
         /// We should never hit this, but just in case, default to blast damage.
         default:
@@ -1422,7 +1452,7 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                 //TODO - Special Cases
                 switch(data.spell.name){
                     case "NurseBola":
-                        spellTag = "leather";
+                        spellTag = "e_asylum";
                         break;
                     case "ZombieOrb":
                         spellTag = "rope";
@@ -1439,7 +1469,7 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                         case "Leather":
                             //TODO - Magical Belt
                             if(data.spell.name == "MagicBelt"){
-                                spellTag = "leather";
+                                spellTag = "e_magicbelt";
                                 break;
                             }else{
                                 spellTag = "leather";
