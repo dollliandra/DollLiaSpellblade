@@ -34,6 +34,7 @@ KinkyDungeonBuffDLSB_Spellweaver_air,"Spellweaver: Your next melee weapon attack
 KinkyDungeonBuffDLSB_Spellweaver_water,"Spellweaver: Your next melee weapon attack deals an additional 30 soap damage."
 
 KinkyDungeonBuffDLSB_Spellweaver_latex,"Spellweaver: Your next melee weapon attack deals an additional 15 glue damage and applies slime."
+KinkyDungeonBuffDLSB_Spellweaver_latex_solid,"Spellweaver: Your next melee weapon attack deals an additional 15 glue damage and applies latex restraints."
 KinkyDungeonBuffDLSB_Spellweaver_metal,"Spellweaver: Your next melee weapon attack deals an additional 15 chain damage and applies metal restraints."
 KinkyDungeonBuffDLSB_Spellweaver_leather,"Spellweaver: Your next melee weapon attack deals an additional 15 pain damage and applies belts."
 KinkyDungeonBuffDLSB_Spellweaver_rope,"Spellweaver: Your next melee weapon attack deals an additional 15 chain damage and applies ropes."
@@ -60,6 +61,7 @@ KinkyDungeonBuffDLSB_Spellweaver_airhex,"Hexweaver: Your next melee weapon attac
 KinkyDungeonBuffDLSB_Spellweaver_waterhex,"Hexweaver: Your next melee weapon attack deals an additional 40 soap damage."
 
 KinkyDungeonBuffDLSB_Spellweaver_latexhex,"Hexweaver: Your next melee weapon attack deals an additional 20 glue damage and applies slime."
+KinkyDungeonBuffDLSB_Spellweaver_latex_solidhex,"Hexweaver: Your next melee weapon attack deals an additional 20 glue damage and applies latex restraints."
 KinkyDungeonBuffDLSB_Spellweaver_metalhex,"Hexweaver: Your next melee weapon attack deals an additional 20 chain damage and applies metal restraints."
 KinkyDungeonBuffDLSB_Spellweaver_leatherhex,"Hexweaver: Your next melee weapon attack deals an additional 20 pain damage and applies belts."
 KinkyDungeonBuffDLSB_Spellweaver_ropehex,"Hexweaver: Your next melee weapon attack deals an additional 20 chain damage and applies ropes."

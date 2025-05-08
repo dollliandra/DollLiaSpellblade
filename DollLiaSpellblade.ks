@@ -551,7 +551,7 @@ let DLSB_SPELLWEAVER_HEXED_POWER_BIND       = 2
 let DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT    = 3     // Bondage schools
 //
 let DLSB_CHAOSMULT                          = 1.2
-let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "summon", "physics", "metal", "leather", "rope", "knowledge", "stealth", "light", "shadow"]//, "telekinesis"]
+let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "latex_solid", "summon", "physics", "metal", "leather", "rope", "knowledge", "stealth", "light", "shadow"]//, "telekinesis"]
 
 // TODO - Expand this.
 let DLSB_Chaos_Tags = ["e_asylum","e_magicbelt"]
@@ -609,7 +609,9 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
         else{
             spellTag = data.spell.tags.find((spelltag) => DLSB_Checked_Tags.includes(spelltag))
         }
-
+        if(spellTag == "latex" && data.spell.prerequisite == "SlimeToLatex"){
+            spellTag = "latex_solid"
+        }
     }
     if(!spellTag){
         //console.log("Invalid spell for spellblade")
@@ -646,7 +648,7 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
     // Declare various properties that the buff may or may not have.
     let spellweaver_bind = null, spellweaver_distract = null, spellweaver_bindType = null, spellweaver_addBind = null, spellweaver_bindEff = null, 
         spellweaver_color = KDBaseWhite, spellweaver_crit = KDDefaultCrit
-    let spellweaver_tileKind = null, spellweaver_tileAoE = 1.1, spellweaver_tileDur = null
+    let spellweaver_tileKind = null, spellweaver_tileAoE = 1.1, spellweaver_tileDur = null, spellweaver_tileDurMod = null,spellweaver_tileDensity = null
     let spellweaver_buffSprite = null, spellweaver_buffText = null
     let spellweaver_buffTime = null
 
@@ -696,6 +698,7 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaver_buffText        = "DLSB_Spellweaver_water";
             break;
         // Conjuration - Bondage
+        // Slime Bondage
         case "latex":
             spellweaver_type            = "glue";
             spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
@@ -710,6 +713,25 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaver_color           = "cc2f7b";       // Slime Pink
             spellweaver_buffSprite      = "DLSB_Spellweaver_latex";
             spellweaver_buffText        = "DLSB_Spellweaver_latex";
+            break;
+        // Latex Bondage
+        case "latex_solid":
+            spellweaver_type            = "glue";
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND);
+            spellweaver_addBind         = true;
+            spellweaver_bindType        = "Latex";
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT : DLSB_SPELLWEAVER_POWER_BINDAMT);
+
+            // TODO - Might be a bit sketchy.
+            spellweaver_tileKind        = "LatexThinBlue";
+            spellweaver_tileAoE         = 0.5;
+            spellweaver_tileDur         = 20;
+            spellweaver_tileDurMod      = 10;
+            spellweaver_tileDensity     = 0.5;
+
+            spellweaver_color           = KDBaseWhite;
+            spellweaver_buffSprite      = "DLSB_Spellweaver_latex_solid";
+            spellweaver_buffText        = "DLSB_Spellweaver_latex_solid";
             break;
         case "metal":
             spellweaver_type            = "chain";
@@ -878,6 +900,8 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
         DLSB_Spellweaver_Tile_Kind:     spellweaver_tileKind,
         DLSB_Spellweaver_Tile_AoE:      spellweaver_tileAoE,
         DLSB_Spellweaver_Tile_Dur:      spellweaver_tileDur,
+        DLSB_Spellweaver_Tile_DurMod:   spellweaver_tileDurMod,
+        DLSB_Spellweaver_Tile_Density:  spellweaver_tileDensity,
 
         DLSB_Spellweaver_Time:      spellweaver_buffTime,
 
@@ -1069,7 +1093,11 @@ KDEventMapSpell.playerAttack["DLSB_Spellweaver"] = (e, spell, data) => {
                     KDCreateAoEEffectTiles(data.targetX, data.targetY, {
                         name:       KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]].DLSB_Spellweaver_Tile_Kind,
                         duration:   KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]].DLSB_Spellweaver_Tile_Dur,
-                    }, e.variance, KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]].DLSB_Spellweaver_Tile_AoE);
+                    },
+                    KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_Tile_DurMod,
+                    KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]].DLSB_Spellweaver_Tile_AoE,
+                    null,
+                    KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_Tile_Density);
                 }
 
                 // Consume the buff.
@@ -1520,8 +1548,7 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                 if(data.spell?.bindType){
                     switch(data.spell?.bindType){
                         case "Latex":
-                            // TODO - SPECIAL SPELL TAG HERE
-                            spellTag = "latex";
+                            spellTag = "latex_solid";
                             break;
                         case "Slime":
                             spellTag = "latex";
