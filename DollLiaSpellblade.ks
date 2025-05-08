@@ -330,7 +330,7 @@ KDAddEvent(KDEventMapSpell, "duringCrit", "DLSB_HexedBlade", (e, spell, data) =>
 // Has a cool hat though!
 KinkyDungeonEnemies.push({
     name: "DLSB_HexedAlly", tags: KDMapInit(["ghost", "flying", "silenceimmune", "blindimmune", "player", "melee"]), keepLevel: true, allied: true, armor: 0, followRange: 1, AI: "hunt", evasion: 0.33, accuracy: 1.5,
-    visionRadius: 20, playerBlindSight: 100, maxhp: 8, minLevel:0, weight:-1000, movePoints: 1, attackPoints: 1, attack: "MeleeWill", attackRange: 1, attackWidth: 3, power: 1.5, dmgType: "pierce", CountLimit: false,
+    visionRadius: 20, playerBlindSight: 100, maxhp: 12, minLevel:0, weight:-1000, movePoints: 1, attackPoints: 1, attack: "MeleeWill", attackRange: 1, attackWidth: 3, power: 1.5, dmgType: "pierce", CountLimit: false,
     stamina: 4,
     maxblock: 0,
     maxdodge: 2,
@@ -1604,13 +1604,13 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
             case "pain":
                 // TODO - Enemy Specific
                 if(data.spell.name == "NurseSyringe"){
-                    spellTag = "leather";
+                    spellTag = "e_asylum";      // TODO - Syringeweaver. Sounds DIFFICULT.
                 }
                 // TODO - Enemy Specific
                 // NOTE - Not really a spell, should it count?
                 else if(data.spell.name == "Hairpin"){
                     spellTag = "DEFAULT";
-
+                    break;
                 }else{
                     spellTag = "leather";
                     break;
