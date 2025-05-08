@@ -535,6 +535,8 @@ KDAddEvent(KDEventMapBuff, "tick", "DLSB_Spellweaver", (_e, buff, entity, data) 
         //console.log("END BUFF NOW");
         buff.duration = 0;
         KDGameData.DollLia.Spellblade.spellweaver.shift()//[0] = null;
+    }else if(buff.id != KDGameData.DollLia.Spellblade.spellweaver[0] && entity.player){
+        buff.duration += 1;
     }
 });
 
@@ -1881,10 +1883,10 @@ KDAddEvent(KDEventMapSpell, "toggleSpell", "DLSB_Preparation", (e, spell, data) 
                 for(let itr = 0; itr < totalCharges; itr++){
                     // Roll Chaos chance. Set a boolean if any roll succeeds.
                     if(KDRandom() < (KDModSettings["DLSBMCM"]["DLSBMCM_Prep_ChaosChance"] / 100)){
-                        DLSB_Spellweaver_BuffType(null, "chaos", DLSB_SPELLWEAVER_BUFFDUR + itr)
+                        DLSB_Spellweaver_BuffType(null, "chaos", DLSB_SPELLWEAVER_BUFFDUR - ((itr == 0) ? 1 : 0))
                         chaosHit = true;
                     }else{
-                        DLSB_Spellweaver_BuffType(null, "random", DLSB_SPELLWEAVER_BUFFDUR + itr)
+                        DLSB_Spellweaver_BuffType(null, "random", DLSB_SPELLWEAVER_BUFFDUR - ((itr == 0) ? 1 : 0))
                     }
                 }
                 // Spend the Mana.
