@@ -1745,6 +1745,7 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                         spellTag = "e_asylum";
                         break;
                     case "ZombieOrb":
+                    case "ZombieOrbMini":
                         spellTag = "e_zombieorb";
                         break;
                     case "ElfArrow":
