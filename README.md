@@ -40,6 +40,9 @@ This list isn't meant to be exhaustive, but the Spellweaver has additional spell
 * *Blade Twirl* blocks all projectiles until the end of turn. If you do, you gain a Spellweaver charge of its type. This can potentially grant one that you cannot obtain normally.
 * And more!
 
+## Uninstallation
+Uninstalling the mod is mostly safe.  Your existing Spellblade saves won't crash the game post-uninstallation; you'll just see a \[Not Found\] text string in place of your class name.  They should still load, but you won't have any class abilities anymore, and might run into unexpected bugs.
+
 ## Credits
 * DollLia - Code, Spritework
 
@@ -49,7 +52,6 @@ This list isn't meant to be exhaustive, but the Spellweaver has additional spell
 * Audio - The mod samples royalty-free audio, the details of which are listed in Readme.txt.
 
 ## Building Mod
-
 Download the entire repository, then compress everything into a .zip archive.
 
 ## Bug Reports & Contributions
