@@ -79,6 +79,9 @@ KinkyDungeonBuffDLSB_Spellweaver_DEFAULThex,"Hexweaver: Your next melee weapon a
 
 
 
+KinkyDungeonBuffDLSB_Spellweaver_e_asylum,"Spellweaver?: Your next melee weapon attack deals an additional 15 chain damage and applies asylum restraints."
+KinkyDungeonBuffDLSB_Spellweaver_e_asylumhex,"Hexweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies asylum restraints."
+
 
 KinkyDungeonSpellDLSB_ArcaneSynergy,"Arcane Synergy"
 KinkyDungeonSpellDescriptionDLSB_ArcaneSynergy,"After making a melee weapon attack with Spellweaver, your next spell costs 25% less MP."

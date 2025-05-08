@@ -552,8 +552,20 @@ let DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT    = 2.5   // Bondage schools
 let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "summon", "physics", "metal", "leather", "rope", "knowledge", "stealth", "light", "shadow"]//, "telekinesis"]
 
 // TODO - Expand this.
-let DLSB_Chaos_Tags = []
+let DLSB_Chaos_Tags = ["e_asylum"]
 let DLSB_All_Possible_Tags = DLSB_Checked_Tags.concat(DLSB_Chaos_Tags)
+
+// Add in missing Bind Types
+KDBindTypeTagLookup.DLSB_Asylum = ["nurseRestraints"]
+
+KDSpecialBondage["DLSB_Asylum"] = {
+    priority: 10,               // What does this do?
+    color: "#ad2f45",
+    struggleRate: 1.0,
+    powerStruggleBoost: 1.0,
+    healthStruggleBoost: 1.0,
+    enemyBondageMult: 1.0,
+}
 
 
 function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
@@ -675,7 +687,7 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
             spellweaver_addBind         = true;
             spellweaver_bindType        = "Slime";
-            spellweaver_bind            = DLSB_SPELLWEAVER_POWER_BINDAMT;
+            spellweaver_bind            = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT : DLSB_SPELLWEAVER_POWER_BINDAMT;
 
             spellweaver_tileKind        = "Slime";
             spellweaver_tileAoE         = 1.1;
@@ -690,7 +702,7 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
             spellweaver_addBind         = true;
             spellweaver_bindType        = "Metal";
-            spellweaver_bind            = DLSB_SPELLWEAVER_POWER_BINDAMT;
+            spellweaver_bind            = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT : DLSB_SPELLWEAVER_POWER_BINDAMT;
 
             spellweaver_tileKind        = "Chains";
             spellweaver_tileAoE         = 1.1;
@@ -705,7 +717,7 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
             spellweaver_addBind         = true;
             spellweaver_bindType        = "Leather";
-            spellweaver_bind            = DLSB_SPELLWEAVER_POWER_BINDAMT;
+            spellweaver_bind            = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT : DLSB_SPELLWEAVER_POWER_BINDAMT;
 
             spellweaver_tileKind        = "Belts";
             spellweaver_tileAoE         = 1.1;
@@ -720,7 +732,7 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
             spellweaver_addBind         = true;
             spellweaver_bindType        = "Rope";
-            spellweaver_bind            = DLSB_SPELLWEAVER_POWER_BINDAMT;
+            spellweaver_bind            = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT : DLSB_SPELLWEAVER_POWER_BINDAMT;
 
             spellweaver_tileKind        = "Ropes";
             spellweaver_tileAoE         = 1.1;
@@ -778,6 +790,24 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaverBuff_Power       = DLSB_SPELLWEAVER_POWER_UTIL;
             spellweaver_buffSprite      = "DLSB_Spellweaver_knowledge";
             spellweaver_buffText        = "DLSB_Spellweaver_knowledge";
+            break;
+        // Enemy-Specific
+        case "e_asylum":
+            spellweaver_type            = "chain";
+            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND;
+            spellweaver_addBind         = true;
+            spellweaver_bindType        = "DLSB_Asylum";
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT : DLSB_SPELLWEAVER_POWER_BINDAMT) * 1.5;
+
+            spellweaver_tileKind        = "Belts";
+            spellweaver_tileAoE         = 1.1;
+            spellweaver_tileDur         = 12;
+
+            spellweaver_color           = KDBaseLightGrey;
+            spellweaver_buffSprite      = "DLSB_Spellweaver_e_asylum";
+            spellweaver_buffText        = "DLSB_Spellweaver_e_asylum";
+            break;
+        case "e_magicbelt":
             break;
         /// We should never hit this, but just in case, default to blast damage.
         default:
