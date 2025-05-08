@@ -81,11 +81,20 @@ KinkyDungeonBuffDLSB_Spellweaver_DEFAULThex,"Hexweaver: Your next melee weapon a
 
 
 
-KinkyDungeonBuffDLSB_Spellweaver_e_asylum,"Spellweaver?: Your next melee weapon attack deals an additional 15 chain damage and applies asylum restraints."
-KinkyDungeonBuffDLSB_Spellweaver_e_asylumhex,"Hexweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies asylum restraints."
-KinkyDungeonBuffDLSB_Spellweaver_e_magicbelt,"Spellweaver?: Your next melee weapon attack deals an additional 15 chain damage and applies magic belts."
-KinkyDungeonBuffDLSB_Spellweaver_e_magicbelthex,"Hexweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies magic belts."
-
+KinkyDungeonBuffDLSB_Spellweaver_e_asylum,"Spellweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies asylum restraints."
+KinkyDungeonBuffDLSB_Spellweaver_e_asylumhex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies asylum restraints."
+KinkyDungeonBuffDLSB_Spellweaver_e_magicbelt,"Spellweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies magic belts."
+KinkyDungeonBuffDLSB_Spellweaver_e_magicbelthex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies magic belts."
+KinkyDungeonBuffDLSB_Spellweaver_e_wrapcharm,"Spellweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies magic charms."
+KinkyDungeonBuffDLSB_Spellweaver_e_wrapcharmhex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies magic charms."
+KinkyDungeonBuffDLSB_Spellweaver_e_mithril,"Spellweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies mithril ropes."
+KinkyDungeonBuffDLSB_Spellweaver_e_mithrilhex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies mithril ropes."
+KinkyDungeonBuffDLSB_Spellweaver_e_celestial,"Spellweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies celestial ropes."
+KinkyDungeonBuffDLSB_Spellweaver_e_celestialhex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies celestial ropes."
+KinkyDungeonBuffDLSB_Spellweaver_e_magic,"Spellweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies magic ropes."
+KinkyDungeonBuffDLSB_Spellweaver_e_magichex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies magic ropes."
+KinkyDungeonBuffDLSB_Spellweaver_e_vine,"Spellweaver?: Your next melee weapon attack deals an additional 20 grope damage and applies vines."
+KinkyDungeonBuffDLSB_Spellweaver_e_vinehex,"Hexweaver?: Your next melee weapon attack deals an additional 25 grope damage and applies vines."
 
 KinkyDungeonSpellDLSB_ArcaneSynergy,"Arcane Synergy"
 KinkyDungeonSpellDescriptionDLSB_ArcaneSynergy,"After making a melee weapon attack with Spellweaver, your next spell costs 25% less MP."

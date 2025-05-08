@@ -549,12 +549,16 @@ let DLSB_SPELLWEAVER_HEXED_POWER            = 4
 let DLSB_SPELLWEAVER_HEXED_POWER_UTIL       = 3
 let DLSB_SPELLWEAVER_HEXED_POWER_BIND       = 2
 let DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT    = 3     // Bondage schools
-//
-let DLSB_CHAOSMULT                          = 1.2
+// Chaos Elements - Basically all enemy spells apply binding.
+let DLSB_CHAOSWEAVER_POWER_BIND             = 2
+let DLSB_CHAOSWEAVER_POWER_BINDAMT          = 3
+let DLSB_CHAOSWEAVER_HEXED_POWER_BIND       = 2.5
+let DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT    = 4
+
 let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "latex_solid", "summon", "physics", "metal", "leather", "rope", "knowledge", "stealth", "light", "shadow"]//, "telekinesis"]
 
 // TODO - Expand this.
-let DLSB_Chaos_Tags = ["e_asylum","e_magicbelt"]
+let DLSB_Chaos_Tags = ["e_asylum","e_magicbelt","e_zombieorb", "e_ropemithril", "e_ropecelestial", "e_rope_vine", "e_rope_magic"]
 let DLSB_All_Possible_Tags = DLSB_Checked_Tags.concat(DLSB_Chaos_Tags)
 
 
@@ -562,22 +566,41 @@ let DLSB_All_Possible_Tags = DLSB_Checked_Tags.concat(DLSB_Chaos_Tags)
 // Add in missing Bind Types
 KDBindTypeTagLookup.DLSB_Asylum = ["nurseRestraints"]
 KDBindTypeTagLookup.DLSB_MagicBelt = ["beltRestraintsMagic"]
+KDBindTypeTagLookup.DLSB_RopeMithril = ["mithrilRope"]          // NOTE - No trailing 's' on Rope.
+KDBindTypeTagLookup.DLSB_RopeCelestial = ["celestialRopes"]
 
 KDSpecialBondage["DLSB_Asylum"] = {
     priority: 10,               // What does this do?
     color: KDBaseWhite,
-    struggleRate: 1.0,
-    powerStruggleBoost: 1.0,
-    healthStruggleBoost: 1.0,
-    enemyBondageMult: 1.0,
+    struggleRate: 0.8,
+    powerStruggleBoost: 0.5,
+    healthStruggleBoost: 0.5,
+    enemyBondageMult: 2.0,
 }
 KDSpecialBondage["DLSB_MagicBelt"] = {
     priority: 10,               // What does this do?
     color: KDBasePink,
-    struggleRate: 1.0,
-    powerStruggleBoost: 1.0,
+    struggleRate: 0.9,
+    powerStruggleBoost: 0.7,
     healthStruggleBoost: 1.0,
     enemyBondageMult: 1.0,
+}
+KDSpecialBondage["DLSB_RopeMithril"] = {
+    priority: -2,
+    color: KDBaseLightGrey,
+    struggleRate: 2.0,
+    powerStruggleBoost: 0.9,
+    healthStruggleBoost: 0.9,
+    enemyBondageMult: 2.0,
+},
+KDSpecialBondage["DLSB_RopeCelestial"] = {
+    priority: 10,
+    color: KDBaseYellow,
+    struggleRate: 1,
+    powerStruggleBoost: 0.8,
+    healthStruggleBoost: 0.8,
+    mageStruggleBoost: 1.2,
+    enemyBondageMult: 2.0,
 }
 
 
@@ -829,13 +852,12 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             break;
         // Enemy-Specific
         // Intentionally stronger than normal ones.
-        // Apply Asylum Restraints - Stronger than other chaos ones.
-        case "e_asylum":
+        case "e_asylum":        // Apply Asylum Restraints
             spellweaver_type            = "chain";
-            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND) * 1.5;
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BIND : DLSB_CHAOSWEAVER_POWER_BIND);
             spellweaver_addBind         = true;
             spellweaver_bindType        = "DLSB_Asylum";
-            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT : DLSB_SPELLWEAVER_POWER_BINDAMT) * 1.5;
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT : DLSB_CHAOSWEAVER_POWER_BINDAMT);
 
             spellweaver_tileKind        = "Belts";
             spellweaver_tileAoE         = 1.1;
@@ -845,23 +867,93 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaver_buffSprite      = "DLSB_Spellweaver_e_asylum";
             spellweaver_buffText        = "DLSB_Spellweaver_e_asylum";
             break;
-        // Magic Belts from Witch Apprentices and Bondage Tomes
-        case "e_magicbelt":
+        case "e_magicbelt":     // Magic Belts from Witch Apprentices and Bondage Tomes
             spellweaver_type            = "chain";
-            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BIND : DLSB_SPELLWEAVER_POWER_BIND) * DLSB_CHAOSMULT;
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BIND : DLSB_CHAOSWEAVER_POWER_BIND);
             spellweaver_addBind         = true;
             spellweaver_bindType        = "DLSB_MagicBelt";
-            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT : DLSB_SPELLWEAVER_POWER_BINDAMT) * DLSB_CHAOSMULT;
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT : DLSB_CHAOSWEAVER_POWER_BINDAMT);
 
             spellweaver_tileKind        = "Belts";
             spellweaver_tileAoE         = 1.1;
             spellweaver_tileDur         = 12;
 
-            spellweaver_color           = KDBaseWhite;
+            spellweaver_color           = KDBasePink;
             spellweaver_buffSprite      = "DLSB_Spellweaver_e_magicbelt";
             spellweaver_buffText        = "DLSB_Spellweaver_e_magicbelt";
             break;
-        /// We should never hit this, but just in case, default to blast damage.
+        case "e_zombieorb":     // Charm orbs from Zombies & Fuuka Windsong
+            spellweaver_type            = "chain";
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BIND : DLSB_CHAOSWEAVER_POWER_BIND);
+            spellweaver_addBind         = true;
+            spellweaver_bindType        = "Magic";
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT : DLSB_CHAOSWEAVER_POWER_BINDAMT);
+
+            spellweaver_color           = KDBaseRibbon;
+            spellweaver_buffSprite      = "DLSB_Spellweaver_e_wrapcharm";
+            spellweaver_buffText        = "DLSB_Spellweaver_e_wrapcharm";
+            break;
+        case "e_rope_magic":    // Mithril Rope (Elf Ranger)     
+            spellweaver_type            = "chain";
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BIND : DLSB_CHAOSWEAVER_POWER_BIND);
+            spellweaver_addBind         = true;
+            spellweaver_bindType        = "MagicRope";
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT : DLSB_CHAOSWEAVER_POWER_BINDAMT);
+
+            spellweaver_tileKind        = "Ropes";
+            spellweaver_tileAoE         = 1.1;
+            spellweaver_tileDur         = 12;
+
+            spellweaver_color           = KDBaseLightGrey
+            spellweaver_buffSprite      = "DLSB_Spellweaver_e_magic";
+            spellweaver_buffText        = "DLSB_Spellweaver_e_magic";
+            break;
+        case "e_rope_vine":    // Vine Bolt - Dryad
+            spellweaver_type            = "grope";
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BIND : DLSB_CHAOSWEAVER_POWER_BIND);
+            spellweaver_addBind         = true;
+            spellweaver_bindType        = "Vine";
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT : DLSB_CHAOSWEAVER_POWER_BINDAMT);
+
+            spellweaver_tileKind        = "Vines";
+            spellweaver_tileAoE         = 1.1;
+            spellweaver_tileDur         = 12;
+
+            spellweaver_color           = KDBaseLightGrey
+            spellweaver_buffSprite      = "DLSB_Spellweaver_e_vine";
+            spellweaver_buffText        = "DLSB_Spellweaver_e_vine";
+            break;
+        case "e_rope_mithril":    // Mithril Rope (Elf Ranger)     
+            spellweaver_type            = "chain";
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BIND : DLSB_CHAOSWEAVER_POWER_BIND);
+            spellweaver_addBind         = true;
+            spellweaver_bindType        = "DLSB_RopeMithril";
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT : DLSB_CHAOSWEAVER_POWER_BINDAMT);
+
+            // spellweaver_tileKind        = "Ropes";
+            // spellweaver_tileAoE         = 1.1;
+            // spellweaver_tileDur         = 12;
+
+            spellweaver_color           = KDBaseLightGrey
+            spellweaver_buffSprite      = "DLSB_Spellweaver_e_mithril";
+            spellweaver_buffText        = "DLSB_Spellweaver_e_mithril";
+            break;
+        case "e_rope_celestial":    // Angels, etc.
+            spellweaver_type            = "chain";
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BIND : DLSB_CHAOSWEAVER_POWER_BIND);
+            spellweaver_addBind         = true;
+            spellweaver_bindType        = "DLSB_RopeCelestial";
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT : DLSB_CHAOSWEAVER_POWER_BINDAMT);
+
+            // spellweaver_tileKind        = "Ropes";
+            // spellweaver_tileAoE         = 1.1;
+            // spellweaver_tileDur         = 12;
+
+            spellweaver_color           = KDBaseYellow
+            spellweaver_buffSprite      = "DLSB_Spellweaver_e_celestial";
+            spellweaver_buffText        = "DLSB_Spellweaver_e_celestial";
+            break;
+            /// We should never hit this, but just in case, default to blast damage.
         default:
             spellweaver_type            = "stun";
             spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER : spellweaverBuff_Power
@@ -1476,6 +1568,19 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                     break;
                 }
                 break;
+            case "grope":
+                if(data.spell?.bindType){
+                    switch(data.spell?.bindType){
+                        case "Vine":
+                            spellTag = "e_rope_vine";
+                            break;
+                    }
+                }
+                if(spellTag == "DEFAULT"){
+                    console.log("WEIRD SPELL ALERT - PLEASE REPORT TO DOLL.LIA")
+                    spellTag = "leather";       // assume Leather I guess.
+                }
+                break;
             case "chain":
                 //TODO - Special Cases
                 switch(data.spell.name){
@@ -1483,10 +1588,10 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                         spellTag = "e_asylum";
                         break;
                     case "ZombieOrb":
-                        spellTag = "rope";
+                        spellTag = "e_zombieorb";
                         break;
                     case "ElfArrow":
-                        spellTag = "rope";
+                        spellTag = "e_rope_mithril";
                         break;
                 }
                 // If any special cases hit, break
@@ -1517,19 +1622,19 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                             }
                         // TODO - Enemy-Specific
                         case "MagicRope":
-                            spellTag = "rope";
+                            spellTag = "e_rope_magic";
                             break;
                         case "Tape":
                             spellTag = "rope";
                             break;
                         case "Vine":
-                            spellTag = "rope";
+                            spellTag = "e_rope_vine";
                             break;
-                        case "Energy":
+                        case "Energy":              // TODO - IDFK
                             spellTag = "metal";
                             break;
                         case "Magic":
-                            spellTag = "rope";
+                            spellTag = "e_zombieorb";
                             break;
                     }
                 }else{
@@ -1564,7 +1669,7 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
             case "holy":
                 // TODO - Celestial Rope
                 if(data.spell.name == "EnemyCoronaBeam"){
-                    spellTag = "light";
+                    spellTag = "e_rope_celestial";
                     break;
                 }else{
                     spellTag = "light";
