@@ -15,10 +15,11 @@ KDAddEvent(KDEventMapGeneric, "afterModSettingsLoad", "DLSB_SpriteNearestFix", (
         "buffDLSB_Spellweaver_electric.png",
         "buffDLSB_Spellweaver_ice.png",
 
-        "buffDLSB_Spellweaver_leather.png",
         "buffDLSB_Spellweaver_latex.png",
-        "buffDLSB_Spellweaver_rope.png",
+        "buffDLSB_Spellweaver_latex_solid.png",
+        "buffDLSB_Spellweaver_leather.png",
         "buffDLSB_Spellweaver_metal.png",
+        "buffDLSB_Spellweaver_rope.png",
         "buffDLSB_Spellweaver_summon.png",
         "buffDLSB_Spellweaver_physics.png",
         "buffDLSB_Spellweaver_telekinesis.png",
@@ -27,6 +28,24 @@ KDAddEvent(KDEventMapGeneric, "afterModSettingsLoad", "DLSB_SpriteNearestFix", (
         "buffDLSB_Spellweaver_shadow.png",
         "buffDLSB_Spellweaver_knowledge.png",
         "buffDLSB_Spellweaver_stealth.png",
+
+        "buffDLSB_Spellweaver_DEFAULT.png",
+
+        "buffDLSB_Spellweaver_e_asylum.png",
+        "buffDLSB_Spellweaver_e_cables.png",
+        "buffDLSB_Spellweaver_e_capturefoam.png",
+        "buffDLSB_Spellweaver_e_celestial.png",
+        "buffDLSB_Spellweaver_e_crystal.png",
+        "buffDLSB_Spellweaver_e_hairpin.png",
+        "buffDLSB_Spellweaver_e_magic.png",
+        "buffDLSB_Spellweaver_e_magicbelt.png",
+        "buffDLSB_Spellweaver_e_mithril.png",
+        "buffDLSB_Spellweaver_e_rubberbullet.png",
+        "buffDLSB_Spellweaver_e_shadow.png",
+        "buffDLSB_Spellweaver_e_vine.png",
+        "buffDLSB_Spellweaver_e_wrapblessed.png",
+        "buffDLSB_Spellweaver_e_wrapcharm.png",
+        "buffDLSB_Spellweaver_e_wrapscarf.png",
     ]
     let DLSB_EnemiesList = [
         "DLSB_HexedAlly.png",

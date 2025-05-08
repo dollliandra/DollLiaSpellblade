@@ -40,7 +40,6 @@ if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
         if (KDModConfigs != undefined) {
             KDModConfigs["DLSBMCM"] = [
                 // Page 1 Col 1
-                {refvar: "DLSBMCM_Header_Meow", type: "text"},
 
                 // How chaotic will Preparation be?
                 // Access value with:  KDModSettings["DLSBMCM"]["DLSBMCM_Prep_ChaosChance"]
@@ -59,10 +58,17 @@ if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
                 {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
 
                 // Page 1, Column 2
-                {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Prep_ChaosChanceDesc", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Header_Meow", type: "text"},
             ]
         }
         let settingsobject = (KDModSettings.hasOwnProperty("DLSBMCM") == false) ? {} : Object.assign({}, KDModSettings["DLSBMCM"]);
@@ -124,6 +130,15 @@ function DLSB_Init_SpellbladeSave(){
             spellweaver:        [],                 // Queue for Spellweaver buffs.
             boundWeapon:        null,               // Store the player's bound weapon here.
             spellsWoven:        0,                  // Running total ID just to make sure buff IDs are unique.
+        }
+    }else{
+        // Verify spellweaver queue is clean.  Blank it if we find a buff that the player does not have.
+        for(let itr = 0; itr < KDGameData.DollLia.Spellblade.spellweaver.length; itr++){
+            if(!KDEntityGetBuff(KinkyDungeonPlayerEntity, KDGameData.DollLia.Spellblade.spellweaver[itr])){
+                KDGameData.DollLia.Spellblade.spellweaver = [];
+                console.log("Missing Queue Buff Detected - Reset Spellweaver Queue!")
+                break;
+            }
         }
     }
     console.log(KDGameData.DollLia.Spellblade)
@@ -1650,13 +1665,13 @@ KDAddEvent(KDEventMapSpell, "beforeAttackCalculation", "DLSB_BladeTwirl_Invis", 
 
 // Event to handle blocking a spell successfully.
 KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spell, data) => {
-    console.log("Spell blocked!")
-    console.log(data)
+    // console.log("Spell blocked!")
+    // console.log(data)
     if(data?.player && data?.spell){
         // Default if we somehow cannot assign anything.
         let spellTag = "DEFAULT"
 
-        // TODO - How many possible spells can we get hit by?  Oh no.
+        // Switching on the damage type first is promising.
         switch(data.spell.damage){
             case "fire":
                 spellTag = "fire";
@@ -1673,23 +1688,17 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
             case "soap":
                 spellTag = "water";
                 break;
-            // Unsure on this one.
-            case "blast":
+            case "blast":           // No idea if anything even does this?  Maybe the air gusts from Hard/Extreme enemies?
                 spellTag = "air";
                 break;
             case "pain":
-                // TODO - Enemy Specific
                 if(data.spell.name == "NurseSyringe"){
                     spellTag = "e_asylum";      // TODO - Syringeweaver. Sounds DIFFICULT.
                 }
-                // TODO - Enemy Specific
-                // NOTE - Not really a spell, should it count?
                 else if(data.spell.name == "Hairpin"){
                     spellTag = "e_hairpin";
-                    break;
                 }else{
                     spellTag = "leather";
-                    break;
                 }
                 break;
             case "grope":
@@ -1699,10 +1708,6 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                             spellTag = "e_rope_vine";
                             break;
                     }
-                }
-                if(spellTag == "DEFAULT"){
-                    console.log("WEIRD SPELL ALERT - PLEASE REPORT TO DOLL.LIA")
-                    spellTag = "leather";       // assume Leather I guess.
                 }
                 break;
             case "chain":
@@ -1724,27 +1729,23 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                 if(data.spell?.bindType){
                     switch(data.spell?.bindType){
                         case "Leather":
-                            //TODO - Magical Belt
                             if(data.spell.name == "MagicBelt"){
                                 spellTag = "e_magicbelt";
-                                break;
                             }else{
                                 spellTag = "leather";
-                                break;
                             }
+                            break;
                         case "Rope":
                             spellTag = "rope";
                             break;
                         case "Metal":
-                            // TODO - Cables?
                             if(data.spell.name == "RestrainingDevice"){
                                 spellTag = "e_cables";
-                                break;
                             }else{
-                            spellTag = "metal";
-                            break;
+                                spellTag = "metal";
                             }
-                        // TODO - Enemy-Specific
+                            break;
+                        // Enemy-Specific
                         case "MagicRope":
                             spellTag = "e_rope_magic";
                             break;
@@ -1761,11 +1762,6 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                             spellTag = "e_zombieorb";
                             break;
                     }
-                }else{
-                    //????????????????????????
-                    console.log("WEIRD SPELL ALERT - PLEASE REPORT TO DOLL.LIA")
-                    spellTag = "leather";       // assume Leather I guess.
-                    break;
                 }
                 break;
             case "glue":
@@ -1783,33 +1779,28 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                             spellTag = "latex";
                             break;
                     }
+                    break;
                 }else{
                     //????????????????????????
-                    console.log("WEIRD SPELL ALERT - PLEASE REPORT TO DOLL.LIA")
+                    console.log("WEIRD GLUE SPELL ALERT - PLEASE REPORT TO DOLL.LIA")
                     spellTag = "latex";       // assume Slime I guess.
                     break;
                 }
                 break;
             case "holy":
-                // TODO - Celestial Rope
                 if(data.spell.name == "EnemyCoronaBeam"){
                     spellTag = "e_rope_celestial";
-                    break;
                 }else{
                     spellTag = "light";
-                    break;
                 }
                 break;
-            // TODO - Shadow Hand Bolt
             case "cold":
                 spellTag = "shadow";
                 if(data.spell.playerEffect?.name == "ShadowBolt"){
                     spellTag = "e_shadow"
                 }
                 break;
-            // Psychic (Soul) damage is very rare, and basically always special cases.
-            // TODO - Crystal Dragon Girl
-            case "soul":
+            case "soul":        // Psychic (Soul) damage is very rare, and basically always special cases.
                 switch(data.spell.name){
                     case "MummyBolt":
                         spellTag = "e_wrapblessed";
@@ -1822,10 +1813,13 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
             // If somehow NOTHING matches, uh.  Yeah.
             default:
                 //????????????????????????
-                console.log("WEIRD SPELL ALERT - PLEASE REPORT TO DOLL.LIA")
-                console.log("Offending Spell:")
-                console.log(data.spell)
                 spellTag = "DEFAULT";
+        }
+
+        if(spellTag == "DEFAULT"){
+            console.log("WEIRD SPELL ALERT - PLEASE REPORT TO DOLL.LIA")
+            console.log("Offending Spell:")
+            console.log(data.spell)
         }
 
         // Apply the buff
