@@ -105,6 +105,8 @@ KinkyDungeonBuffDLSB_Spellweaver_e_cables,"Spellweaver?: Your next melee weapon 
 KinkyDungeonBuffDLSB_Spellweaver_e_cableshex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies hitech cables."
 KinkyDungeonBuffDLSB_Spellweaver_e_shadow,"Spellweaver?: Your next melee weapon attack deals an additional 20 shadow damage and applies shadow hands."
 KinkyDungeonBuffDLSB_Spellweaver_e_shadowhex,"Hexweaver?: Your next melee weapon attack deals an additional 25 shadow damage and applies shadow hands."
+KinkyDungeonBuffDLSB_Spellweaver_e_hairpin,"Spellweaver?: Your next melee weapon attack deals an additional 20 pain damage and blinds."
+KinkyDungeonBuffDLSB_Spellweaver_e_hairpinhex,"Hexweaver?: Your next melee weapon attack deals an additional 30 shadow damage and blinds."
 
 KinkyDungeonSpellDLSB_ArcaneSynergy,"Arcane Synergy"
 KinkyDungeonSpellDescriptionDLSB_ArcaneSynergy,"After making a melee weapon attack with Spellweaver, your next spell costs 25% less MP."

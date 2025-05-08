@@ -556,7 +556,7 @@ let DLSB_CHAOSWEAVER_HEXED_POWER_BIND       = 2.5
 let DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT    = 4
 
 let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "latex_solid", "summon", "physics", "metal", "leather", "rope", "knowledge", "stealth", "light", "shadow"]//, "telekinesis"]
-let DLSB_Chaos_Tags = ["e_asylum","e_magicbelt","e_zombieorb", "e_ropemithril", "e_ropecelestial", "e_rope_vine", "e_rope_magic", "e_wrapblessed", "e_rubberbullet", "e_shadow", "e_crystal", "e_cables"]
+let DLSB_Chaos_Tags = ["e_asylum","e_magicbelt","e_zombieorb", "e_ropemithril", "e_ropecelestial", "e_rope_vine", "e_rope_magic", "e_wrapblessed", "e_rubberbullet", "e_shadow", "e_crystal", "e_cables", "e_hairpin"]
 let DLSB_All_Possible_Tags = DLSB_Checked_Tags.concat(DLSB_Chaos_Tags)
 
 
@@ -1059,6 +1059,14 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaver_buffSprite      = "DLSB_Spellweaver_e_shadow";
             spellweaver_buffText        = "DLSB_Spellweaver_e_shadow";
             break;
+        case "e_hairpin":            // Hairpin (M.F. Parasol)
+            spellweaver_type            = "pain";
+            spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER_UTIL : DLSB_SPELLWEAVER_POWER_UTIL
+
+            spellweaver_color           = KDBaseLightGrey
+            spellweaver_buffSprite      = "DLSB_Spellweaver_e_hairpin";
+            spellweaver_buffText        = "DLSB_Spellweaver_e_hairpin";
+            break;
         default:                    // Default to Blast damage, and buffText saying to file a bug report.
             spellweaver_type            = "stun";
             spellweaverBuff_Power       = KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_SPELLWEAVER_HEXED_POWER : spellweaverBuff_Power
@@ -1266,6 +1274,9 @@ KDEventMapSpell.playerAttack["DLSB_Spellweaver"] = (e, spell, data) => {
                                 });
                             }
                         }
+                        break;
+                    case "e_hairpin":           // Blinds the target.
+                        KDBlindEnemy(data.enemy, 5);
                         break;
                 }
 
@@ -1672,7 +1683,7 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                 // TODO - Enemy Specific
                 // NOTE - Not really a spell, should it count?
                 else if(data.spell.name == "Hairpin"){
-                    spellTag = "DEFAULT";
+                    spellTag = "e_hairpin";
                     break;
                 }else{
                     spellTag = "leather";
