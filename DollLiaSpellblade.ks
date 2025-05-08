@@ -1628,7 +1628,7 @@ KDAddEvent(KDEventMapSpell, "toggleSpell", "DLSB_BladeTwirl", (e, spell, data) =
         KinkyDungeonSpellChoicesToggle[data.index] = false;
         // Cannot block without any willpower - the game gives you a -100% block penalty.
         // Block it outright, so the player doesn't waste MP/SP trying anyways.
-        if (KinkyDungeonStatWill < 1) {
+        if (!(KinkyDungeonStatWill > 0)) {
             KinkyDungeonSendTextMessage(5, TextGet("DLSB_BladeTwirlFail_NoWill"), KDBaseOrange, 10);
             return;
         }
