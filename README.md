@@ -35,6 +35,7 @@ The Spellweaver is a mobility focused class, and as such has tools to get in and
 This list isn't meant to be exhaustive, but the Spellweaver has additional spells to assist you in your blade and spell weaving efforts.
 * *Arcane Synergy* gives you a discount on your next spell after using a Spellweaver charge.
 * *Bound Weapon* lets you choose a weapon to bond with. It has reduced SP costs, plus the ability to strike while bound by using a Spellweaver charge.
+* *Blade Twirl* blocks all projectiles until the end of turn. If you do, you gain a Spellweaver charge of its type. This can potentially grant one that you cannot obtain normally.
 * Etc.
 
 ## License
