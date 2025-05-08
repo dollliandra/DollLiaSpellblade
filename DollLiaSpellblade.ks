@@ -563,7 +563,7 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
 
     // Randomly assign a spell tag if we are given "random"
     // This can include spell tags not normally accessible to the player. (Blade Twirl)
-    console.log(DLSB_All_Possible_Tags)
+    //console.log(DLSB_All_Possible_Tags)
     if(spellTag == "random"){
         spellTag = DLSB_All_Possible_Tags[Math.floor(KDRandom() * DLSB_All_Possible_Tags.length)];
     }
@@ -1322,14 +1322,152 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
 
         // TODO - How many possible spells can we get hit by?  Oh no.
 
-        // switch(data.spell.damage){
-        //     case "chain":
-        //         // Bind Type?
-        //         if(data.spell?.bindType){
+        switch(data.spell.damage){
+            case "fire":
+                spellTag = "fire";
+                break;
+            case "frost":
+                spellTag = "ice";
+                break;
+            case "ice":
+                spellTag = "ice";
+                break;
+            case "electric":
+                spellTag = "electric";
+                break;
+            case "soap":
+                spellTag = "water";
+                break;
+            // Unsure on this one.
+            case "blast":
+                spellTag = "air";
+                break;
+            case "pain":
+                // TODO - Enemy Specific
+                if(data.spell.name == "NurseSyringe"){
+                    spellTag = "leather";
+                }
+                // TODO - Enemy Specific
+                // NOTE - Not really a spell, should it count?
+                else if(data.spell.name == "Hairpin"){
+                    spellTag = "DEFAULT";
 
-        //         }
-        //         break;
-        // }
+                }else{
+                    spellTag = "leather";
+                    break;
+                }
+                break;
+            case "chain":
+                //TODO - Special Cases
+                switch(data.spell.name){
+                    case "NurseBola":
+                        spellTag = "leather";
+                        break;
+                    case "ZombieOrb":
+                        spellTag = "rope";
+                        break;
+                }
+                // If any special cases hit, break
+                if(spellTag != "DEFAULT"){break;}
+                // Bind Type?
+                if(data.spell?.bindType){
+                    switch(data.spell?.bindType){
+                        case "Leather":
+                            //TODO - Magical Belt
+                            if(data.spell.name == "MagicBelt"){
+                                spellTag = "leather";
+                                break;
+                            }else{
+                                spellTag = "leather";
+                                break;
+                            }
+                        case "Rope":
+                            spellTag = "rope";
+                            break;
+                        case "Metal":
+                            // TODO - Cables?
+                            if(data.spell.name == "RestrainingDevice"){
+                                spellTag = "metal";
+                                break;
+                            }else{
+                            spellTag = "metal";
+                            break;
+                            }
+                        // TODO - Enemy-Specific
+                        case "MagicRope":
+                            spellTag = "rope";
+                            break;
+                        case "Tape":
+                            spellTag = "rope";
+                            break;
+                        case "Vine":
+                            spellTag = "rope";
+                            break;
+                        case "Energy":
+                            spellTag = "metal";
+                            break;
+                        case "Magic":
+                            spellTag = "rope";
+                            break;
+                    }
+                }else{
+                    //????????????????????????
+                    console.log("WEIRD SPELL ALERT - PLEASE REPORT TO DOLL.LIA")
+                    spellTag = "leather";       // assume Leather I guess.
+                    break;
+                }
+                break;
+            case "glue":
+                // TODO - Capture Foam Spellweaver
+                if(data.spell.name == "RubberBullets"){
+                    spellTag = "latex"
+                    break;
+                }
+                if(data.spell?.bindType){
+                    switch(data.spell?.bindType){
+                        case "Latex":
+                            // TODO - SPECIAL SPELL TAG HERE
+                            spellTag = "latex";
+                            break;
+                        case "Slime":
+                            spellTag = "latex";
+                            break;
+                    }
+                }else{
+                    //????????????????????????
+                    console.log("WEIRD SPELL ALERT - PLEASE REPORT TO DOLL.LIA")
+                    spellTag = "latex";       // assume Slime I guess.
+                    break;
+                }
+                break;
+            case "holy":
+                // TODO - Celestial Rope
+                if(data.spell.name == "EnemyCoronaBeam"){
+                    spellTag = "light";
+                    break;
+                }else{
+                    spellTag = "light";
+                    break;
+                }
+                break;
+            // TODO - Shadow Hand Bolt
+            case "cold":
+                spellTag = "shadow";
+                break;
+            // Soul damage is EXTREMELY rare, and basically always special cases.
+            // TODO - Crystal Dragon Girl
+            // TODO - Mummy Bolt
+            case "soul":
+                spellTag = "DEFAULT";
+                break;
+            // If somehow NOTHING matches, uh.  Yeah.
+            default:
+                //????????????????????????
+                console.log("WEIRD SPELL ALERT - PLEASE REPORT TO DOLL.LIA")
+                console.log("Offending Spell:")
+                console.log(data.spell)
+                spellTag = "DEFAULT";
+        }
 
         // Apply the buff
         DLSB_Spellweaver_BuffType(null, spellTag)
