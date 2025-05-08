@@ -2,6 +2,11 @@ KDModButtonDLSBMCM,"Spellblade Class"
 
 KDModButtonDLSBMCM_Header_Meow,"Thanks for playing!  -Doll.Lia"
 KDModButtonDLSBMCM_Meow,"Placeholder - Does Nothing"
+KDModButtonDLSBMCM_Spacer,""
+KDModButtonDLSBMCM_Prep_ChaosChance,"Preparation Chaos Chance"
+KDModButtonDLSBMCM_Prep_ChaosChanceRow2,"Default: 35 "
+KDModButtonDLSBMCM_Prep_ChaosChanceDescRow1,"Chance that Preparation generates."
+KDModButtonDLSBMCM_Prep_ChaosChanceDescRow2," non-player Spellweaver charges."
 
 KinkyDungeonClassModeDLSB_Spellblade,Spellblade
 KinkyDungeonClassModeDescDLSB_Spellblade,"Start with 125 stamina and mana, plus Vault, deftly wielding both blade and spell."

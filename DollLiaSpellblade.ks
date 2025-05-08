@@ -26,6 +26,12 @@ let DLSB_VER = 0.1
 //region MCM
 if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
     KDEventMapGeneric['afterModSettingsLoad']["DLSBMCM"] = (e, data) => {
+
+        // By concatenating TextKeys, we can create TextKeys with line breaks in them.
+        // Necessary to format the MCM like I want to.
+        addTextKey("KDModButtonDLSBMCM_Prep_ChaosChanceDesc", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow2"))
+        addTextKey("KDModButtonDLSBMCM_Prep_ChaosChance", TextGet("KDModButtonDLSBMCM_Prep_ChaosChance") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow2"))
+
         // Sanity check to make sure KDModSettings is NOT null. 
         if (KDModSettings == null) { 
             KDModSettings = {} 
@@ -33,8 +39,29 @@ if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
         };
         if (KDModConfigs != undefined) {
             KDModConfigs["DLSBMCM"] = [
+                // Page 1 Col 1
                 {refvar: "DLSBMCM_Header_Meow", type: "text"},
-                {refvar: "DLSBMCM_Meow",       type: "boolean", default: true, block: undefined},
+
+                // How chaotic will Preparation be?
+                {
+                    refvar: "DLSBMCM_Prep_ChaosChance",
+                    type: "range",
+                    rangelow: 0,
+                    rangehigh: 100,
+                    stepcount: 5,
+                    default: 35,
+                    block: undefined
+                },
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+
+                // Page 1, Column 2
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Prep_ChaosChanceDesc", type: "text"},
             ]
         }
         let settingsobject = (KDModSettings.hasOwnProperty("DLSBMCM") == false) ? {} : Object.assign({}, KDModSettings["DLSBMCM"]);
