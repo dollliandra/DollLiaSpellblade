@@ -1321,7 +1321,6 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
         let spellTag = "DEFAULT"
 
         // TODO - How many possible spells can we get hit by?  Oh no.
-
         switch(data.spell.damage){
             case "fire":
                 spellTag = "fire";
@@ -1364,6 +1363,9 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                         spellTag = "leather";
                         break;
                     case "ZombieOrb":
+                        spellTag = "rope";
+                        break;
+                    case "ElfArrow":
                         spellTag = "rope";
                         break;
                 }
