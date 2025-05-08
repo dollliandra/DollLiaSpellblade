@@ -11,6 +11,7 @@ This mod adds the Spellblade class to the list of classes when creating a charac
 * Additionally, you can multiclass into a Spellblade when selecting perks.
 
 ### Core Feature - Spellweaver
+![Spellweaver1](/Buffs/buff/buffDLSB_Spellweaver_light.png)![Spellweaver2](/Buffs/buff/buffDLSB_Spellweaver_leather.png)![Spellweaver3](/Buffs/buff/buffDLSB_Spellweaver_knowledge.png)
 
 Whenever a Spellweaver casts a spell, they gain a Spellweaver charge. This grants additional damage to your next melee attack, the type of which depends upon the spell's school.
 * Elemental spells grant a charge that deals damage of that element. (Fire, Ice, etc.)
@@ -32,6 +33,8 @@ The Spellweaver is a mobility focused class, and as such has tools to get in and
 * *Displacement* lets you backflip away from a target as you strike them. With the Fancy Footwork upgrade, it also applies vulnerable if you target an attacking enemy.
 
 ### Other Features
+![Preparation](/Spells/DLSB_Preparation.png)![BladeTwirl](/Spells/DLSB_BladeTwirl.png)
+
 This list isn't meant to be exhaustive, but the Spellweaver has additional spells to assist you in your blade and spell weaving efforts.
 * *Arcane Synergy* gives you a discount on your next spell after using a Spellweaver charge.
 * *Bound Weapon* lets you choose a weapon to bond with. It has reduced SP costs, plus the ability to strike while bound by using a Spellweaver charge.
