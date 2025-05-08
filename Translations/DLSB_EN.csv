@@ -47,8 +47,6 @@ KinkyDungeonBuffDLSB_Spellweaver_shadow,"Spellweaver: Your next melee weapon att
 KinkyDungeonBuffDLSB_Spellweaver_stealth,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage."
 KinkyDungeonBuffDLSB_Spellweaver_knowledge,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage."
 
-KinkyDungeonBuffDLSB_Spellweaver_DEFAULT,"Spellweaver: Your next melee weapon attack deals an additional 30 blast damage."
-
 
 KinkyDungeonSpellDLSB_HexedBlade,"Hexed Blade"
 KinkyDungeonSpellDescriptionDLSB_HexedBlade,"You are capable of weaving more potent magics into your blade with Spellweaver, gaining bonus effects.|Bonus effect changes based upon the school of the cast spell.|Elements such as Fire will deal additional damage, while elements such as Ice can slow or freeze."
@@ -77,7 +75,9 @@ KinkyDungeonBuffDLSB_Spellweaver_shadowhex,"Hexweaver: Your next melee weapon at
 KinkyDungeonBuffDLSB_Spellweaver_stealthhex,"Hexweaver: Your next melee weapon attack deals an additional 30 blast damage and turns you invisible."
 KinkyDungeonBuffDLSB_Spellweaver_knowledgehex,"Hexweaver: Your next melee weapon attack deals an additional 20 blast damage and can super crit."
 
-KinkyDungeonBuffDLSB_Spellweaver_DEFAULThex,"Hexweaver: Your next melee weapon attack deals an additional 40 blast damage."
+
+KinkyDungeonBuffDLSB_Spellweaver_DEFAULT,"Spellweaver?: Your next melee weapon attack should be reported to DollLia - this is a bug. +30 blast damage."
+KinkyDungeonBuffDLSB_Spellweaver_DEFAULThex,"Hexweaver?: Your next melee weapon attack should be reported to DollLia - this is a bug. +40 blast damage."
 
 
 
@@ -87,6 +87,8 @@ KinkyDungeonBuffDLSB_Spellweaver_e_magicbelt,"Spellweaver?: Your next melee weap
 KinkyDungeonBuffDLSB_Spellweaver_e_magicbelthex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies magic belts."
 KinkyDungeonBuffDLSB_Spellweaver_e_wrapcharm,"Spellweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies magic charms."
 KinkyDungeonBuffDLSB_Spellweaver_e_wrapcharmhex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies magic charms."
+KinkyDungeonBuffDLSB_Spellweaver_e_wrapblessed,"Spellweaver?: Your next melee weapon attack deals an additional 20 psychic damage and applies blessed wrappings."
+KinkyDungeonBuffDLSB_Spellweaver_e_wrapblessedhex,"Hexweaver?: Your next melee weapon attack deals an additional 25 psychic damage and applies blessed wrappings."
 KinkyDungeonBuffDLSB_Spellweaver_e_mithril,"Spellweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies mithril ropes."
 KinkyDungeonBuffDLSB_Spellweaver_e_mithrilhex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies mithril ropes."
 KinkyDungeonBuffDLSB_Spellweaver_e_celestial,"Spellweaver?: Your next melee weapon attack deals an additional 20 chain damage and applies celestial ropes."
@@ -95,6 +97,9 @@ KinkyDungeonBuffDLSB_Spellweaver_e_magic,"Spellweaver?: Your next melee weapon a
 KinkyDungeonBuffDLSB_Spellweaver_e_magichex,"Hexweaver?: Your next melee weapon attack deals an additional 25 chain damage and applies magic ropes."
 KinkyDungeonBuffDLSB_Spellweaver_e_vine,"Spellweaver?: Your next melee weapon attack deals an additional 20 grope damage and applies vines."
 KinkyDungeonBuffDLSB_Spellweaver_e_vinehex,"Hexweaver?: Your next melee weapon attack deals an additional 25 grope damage and applies vines."
+
+KinkyDungeonBuffDLSB_Spellweaver_e_rubberbullet,"Spellweaver?: Your next melee weapon attack deals an additional 20 glue damage and applies capture foam."
+KinkyDungeonBuffDLSB_Spellweaver_e_rubberbullethex,"Hexweaver?: Your next melee weapon attack deals an additional 25 glue damage and applies capture foam."
 
 KinkyDungeonSpellDLSB_ArcaneSynergy,"Arcane Synergy"
 KinkyDungeonSpellDescriptionDLSB_ArcaneSynergy,"After making a melee weapon attack with Spellweaver, your next spell costs 25% less MP."

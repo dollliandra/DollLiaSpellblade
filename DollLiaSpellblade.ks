@@ -500,7 +500,7 @@ KDEventMapSpell.spellTrigger["DLSB_Spellweaver"] = (_e, _spell, data) => {
         //&& data.manacost > 0
     ) {
         // Use a helper function to determine the buff type.
-        DLSB_Spellweaver_BuffType(data);
+        DLSB_Spellweaver_BuffType(data, null);
 
         // Set a flag to prevent duplicating this event
         KinkyDungeonSetFlag("DLSB_Spellweaver", 1);
@@ -517,7 +517,7 @@ KDEventMapSpell.playerCast["DLSB_Spellweaver"] = (_e, _spell, data) => {
     ) {
         // NOTE - This is a clone of the body of the above "spellTrigger" event.
         // Use a helper function to determine the buff type.
-        DLSB_Spellweaver_BuffType(data);
+        DLSB_Spellweaver_BuffType(data, null);
 
         // Set a flag to prevent duplicating this event
         KinkyDungeonSetFlag("DLSB_Spellweaver", 1);
@@ -558,7 +558,7 @@ let DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT    = 4
 let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "latex_solid", "summon", "physics", "metal", "leather", "rope", "knowledge", "stealth", "light", "shadow"]//, "telekinesis"]
 
 // TODO - Expand this.
-let DLSB_Chaos_Tags = ["e_asylum","e_magicbelt","e_zombieorb", "e_ropemithril", "e_ropecelestial", "e_rope_vine", "e_rope_magic"]
+let DLSB_Chaos_Tags = ["e_asylum","e_magicbelt","e_zombieorb", "e_ropemithril", "e_ropecelestial", "e_rope_vine", "e_rope_magic", "e_wrapblessed", "e_rubberbullet"]
 let DLSB_All_Possible_Tags = DLSB_Checked_Tags.concat(DLSB_Chaos_Tags)
 
 
@@ -568,6 +568,8 @@ KDBindTypeTagLookup.DLSB_Asylum = ["nurseRestraints"]
 KDBindTypeTagLookup.DLSB_MagicBelt = ["beltRestraintsMagic"]
 KDBindTypeTagLookup.DLSB_RopeMithril = ["mithrilRope"]          // NOTE - No trailing 's' on Rope.
 KDBindTypeTagLookup.DLSB_RopeCelestial = ["celestialRopes"]
+KDBindTypeTagLookup.DLSB_BlessedWrappings = ["mummyRestraints"]
+KDBindTypeTagLookup.DLSB_CaptureFoam = ["captureFoam"]
 
 KDSpecialBondage["DLSB_Asylum"] = {
     priority: 10,               // What does this do?
@@ -602,7 +604,25 @@ KDSpecialBondage["DLSB_RopeCelestial"] = {
     mageStruggleBoost: 1.2,
     enemyBondageMult: 2.0,
 }
-
+KDSpecialBondage["DLSB_BlessedWrappings"] = {
+    priority: 14,
+    color: KDBaseMint,
+    struggleRate: 0.95,
+    powerStruggleBoost: 0.3,
+    healthStruggleBoost: 1.5,
+    mageStruggleBoost: 2.5,
+    enemyBondageMult: 1.0,
+}
+KDSpecialBondage["DLSB_CaptureFoam"] =  {
+    priority: -10,
+    color: "#404973",
+    struggleRate: 1,
+    powerStruggleBoost: 1.5,
+    healthStruggleBoost: 0.6,
+    enemyBondageMult: 1.25,
+    mageStruggleBoost: 0.2,
+    latex: true,
+}
 
 //#region Generate Spellweaver
 function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
@@ -733,7 +753,7 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaver_tileAoE         = 1.1;
             spellweaver_tileDur         = 7;
 
-            spellweaver_color           = "cc2f7b";       // Slime Pink
+            spellweaver_color           = "#cc2f7b";       // Slime Pink
             spellweaver_buffSprite      = "DLSB_Spellweaver_latex";
             spellweaver_buffText        = "DLSB_Spellweaver_latex";
             break;
@@ -893,6 +913,17 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaver_buffSprite      = "DLSB_Spellweaver_e_wrapcharm";
             spellweaver_buffText        = "DLSB_Spellweaver_e_wrapcharm";
             break;
+        case "e_wrapblessed":     // Blessed Wrappings (Mummy, etc.)
+            spellweaver_type            = "soul";
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BIND : DLSB_CHAOSWEAVER_POWER_BIND);
+            spellweaver_addBind         = true;
+            spellweaver_bindType        = "DLSB_BlessedWrappings";
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT : DLSB_CHAOSWEAVER_POWER_BINDAMT);
+
+            spellweaver_color           = KDBaseMint;
+            spellweaver_buffSprite      = "DLSB_Spellweaver_e_wrapblessed";
+            spellweaver_buffText        = "DLSB_Spellweaver_e_wrapblessed";
+            break;
         case "e_rope_magic":    // Mithril Rope (Elf Ranger)     
             spellweaver_type            = "chain";
             spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BIND : DLSB_CHAOSWEAVER_POWER_BIND);
@@ -952,6 +983,17 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
             spellweaver_color           = KDBaseYellow
             spellweaver_buffSprite      = "DLSB_Spellweaver_e_celestial";
             spellweaver_buffText        = "DLSB_Spellweaver_e_celestial";
+            break;
+        case "e_rubberbullet":
+            spellweaver_type            = "glue";
+            spellweaverBuff_Power       = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BIND : DLSB_CHAOSWEAVER_POWER_BIND);
+            spellweaver_addBind         = true;
+            spellweaver_bindType        = "DLSB_CaptureFoam";
+            spellweaver_bind            = (KinkyDungeonFlags.get("DLSB_HexedBlade") ? DLSB_CHAOSWEAVER_HEXED_POWER_BINDAMT : DLSB_CHAOSWEAVER_POWER_BINDAMT);
+
+            spellweaver_color           = "#e7cf1a";       // Yellow
+            spellweaver_buffSprite      = "DLSB_Spellweaver_e_rubberbullet";
+            spellweaver_buffText        = "DLSB_Spellweaver_e_rubberbullet";
             break;
             /// We should never hit this, but just in case, default to blast damage.
         default:
@@ -1625,7 +1667,7 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                             spellTag = "e_rope_magic";
                             break;
                         case "Tape":
-                            spellTag = "rope";
+                            spellTag = "rope";      // TODO - Tape (Can anything apply this though?)
                             break;
                         case "Vine":
                             spellTag = "e_rope_vine";
@@ -1646,8 +1688,8 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
                 break;
             case "glue":
                 // TODO - Capture Foam Spellweaver
-                if(data.spell.name == "RubberBullets"){
-                    spellTag = "latex"
+                if((data.spell.name == "RubberBullets") || (data.spell.name == "RubberSniper")){
+                    spellTag = "e_rubberbullet"
                     break;
                 }
                 if(data.spell?.bindType){
@@ -1680,11 +1722,15 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
             case "cold":
                 spellTag = "shadow";
                 break;
-            // Soul damage is EXTREMELY rare, and basically always special cases.
+            // Psychic (Soul) damage is very rare, and basically always special cases.
             // TODO - Crystal Dragon Girl
-            // TODO - Mummy Bolt
             case "soul":
-                spellTag = "DEFAULT";
+                switch(data.spell.name){
+                    case "MummyBolt":
+                        spellTag = "e_wrapblessed";
+                        break;
+                }
+                //spellTag = "DEFAULT";
                 break;
             // If somehow NOTHING matches, uh.  Yeah.
             default:
