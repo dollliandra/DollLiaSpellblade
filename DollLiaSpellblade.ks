@@ -43,6 +43,7 @@ if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
                 {refvar: "DLSBMCM_Header_Meow", type: "text"},
 
                 // How chaotic will Preparation be?
+                // Access value with:  KDModSettings["DLSBMCM"]["DLSBMCM_Prep_ChaosChance"]
                 {
                     refvar: "DLSBMCM_Prep_ChaosChance",
                     type: "range",
@@ -551,7 +552,8 @@ let DLSB_SPELLWEAVER_HEXED_POWER_BINDAMT    = 2.5   // Bondage schools
 let DLSB_Checked_Tags = ["fire", "ice", "earth", "electric", "air", "water", "latex", "summon", "physics", "metal", "leather", "rope", "knowledge", "stealth", "light", "shadow"]//, "telekinesis"]
 
 // TODO - Expand this.
-let DLSB_All_Possible_Tags = DLSB_Checked_Tags.concat([])
+let DLSB_Chaos_Tags = []
+let DLSB_All_Possible_Tags = DLSB_Checked_Tags.concat(DLSB_Chaos_Tags)
 
 
 function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
@@ -588,11 +590,14 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
         return
     }
 
-    // Randomly assign a spell tag if we are given "random"
+    // Randomly assign a spell tag if we are given "random" or "chaos"
     // This can include spell tags not normally accessible to the player. (Blade Twirl)
     //console.log(DLSB_All_Possible_Tags)
     if(spellTag == "random"){
-        spellTag = DLSB_All_Possible_Tags[Math.floor(KDRandom() * DLSB_All_Possible_Tags.length)];
+        spellTag = DLSB_Checked_Tags[Math.floor(KDRandom() * DLSB_Checked_Tags.length)];
+    }
+    else if(spellTag == "chaos"){
+        spellTag = DLSB_Chaos_Tags[Math.floor(KDRandom() * DLSB_Chaos_Tags.length)];
     }
 
     // Buff ID is entirely arbitrary. I'm just using an integer to make it unique.
@@ -1548,17 +1553,23 @@ KDAddEvent(KDEventMapSpell, "toggleSpell", "DLSB_Preparation", (e, spell, data) 
                 KinkyDungeonSetFlag("DLSB_Prepared", e.time);
                 // How many charges can we generate?
                 let totalCharges = (KinkyDungeonFlags.get("DLSB_SpellweaverQueue") ? 2 : 1)
-
+                let chaosHit = false;
                 // Generate that many random charges
                 for(let itr = 0; itr < totalCharges; itr++){
-                    DLSB_Spellweaver_BuffType(null, "random", DLSB_SPELLWEAVER_BUFFDUR + itr)
+                    // Roll Chaos chance. Set a boolean if any roll succeeds.
+                    if(KDRandom() < (KDModSettings["DLSBMCM"]["DLSBMCM_Prep_ChaosChance"] / 100)){
+                        DLSB_Spellweaver_BuffType(null, "chaos", DLSB_SPELLWEAVER_BUFFDUR + itr)
+                        chaosHit = true;
+                    }else{
+                        DLSB_Spellweaver_BuffType(null, "random", DLSB_SPELLWEAVER_BUFFDUR + itr)
+                    }
                 }
-
                 // Spend the Mana.
                 KDChangeMana(spell.name, "spell", "cast", -KinkyDungeonGetManaCost(spell, false, false));
 
-                // Display success message
-                KinkyDungeonSendTextMessage(5, TextGet("DLSB_PreparedSuccess"), "#e7cf1a", 10);
+                // Display success message depending upon if a chaotic element was infused.
+                if(chaosHit){KinkyDungeonSendTextMessage(5, TextGet("DLSB_PreparedSuccessChaos"), "#e7cf1a", 10);}
+                else{KinkyDungeonSendTextMessage(5, TextGet("DLSB_PreparedSuccess"), "#e7cf1a", 10);}
             }else{
                 KinkyDungeonSendTextMessage(5, TextGet("DLSB_PreparationFail_ManaCost"), KDBaseOrange, 10);
             }

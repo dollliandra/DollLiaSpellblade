@@ -107,6 +107,7 @@ KinkyDungeonSpellDescriptionDLSB_Preparation,"Generate as many random Spellweave
 DLSB_PreparationFail_ManaCost,You don't have enough mana.
 DLSB_PreparationFail_Prepared,"You are, in fact, prepared."
 DLSB_PreparedSuccess,"You steel yourself for a duel!"
+DLSB_PreparedSuccessChaos,"Your blade flashes with strange energy!"
 
 KinkyDungeonSpellDLSB_FancyFootwork,"Fancy Footwork"
 KinkyDungeonSpellDescriptionDLSB_FancyFootwork,"You have refined your form when making special attacks:|> Flèche can target an adjacent enemy to dash through them.|> Displacement makes the target vulnerable if it strikes them while they are attacking."
