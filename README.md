@@ -1,14 +1,13 @@
 # Spellblade
-This is a mod for the game [Kinky Dungeon](https://ada18980.itch.io/kinky-dungeon/), by Strait Laced Games LLC. [(Game GitHub Repo)](https://github.com/Ada18980/KinkiestDungeon/)
+This is a mod for the game [Kinky Dungeon](https://ada18980.itch.io/kinky-dungeon/), by Strait Laced Games LLC. [(GitHub Repo)](https://github.com/Ada18980/KinkiestDungeon/)
 
 The mod adds a new class to the game called the Spellblade, inspired by various concepts such as the Red Mage from Final Fantasy, the Sheen item from League of Legends, and the Warlock from D&D 5e.
 
 ## Mod Features
 
-This mod adds the Spellblade class to the list of classes when creating a character.
+This mod adds the Spellblade class to the list of classes when creating a character. It is also available as a multiclass option.
 * You start with 125 MP and SP, plus the upgrade Vault.
 * Starting Weapon - Foil
-* Additionally, you can multiclass into a Spellblade when selecting perks.
 
 ### Core Feature - Spellweaver
 ![Spellweaver1](/Buffs/buff/buffDLSB_Spellweaver_light.png)![Spellweaver2](/Buffs/buff/buffDLSB_Spellweaver_leather.png)![Spellweaver3](/Buffs/buff/buffDLSB_Spellweaver_knowledge.png)
@@ -36,14 +35,17 @@ The Spellweaver is a mobility focused class, and as such has tools to get in and
 ![Preparation](/Spells/DLSB_Preparation.png)![BladeTwirl](/Spells/DLSB_BladeTwirl.png)
 
 This list isn't meant to be exhaustive, but the Spellweaver has additional spells to assist you in your blade and spell weaving efforts.
-* *Arcane Synergy* gives you a discount on your next spell after using a Spellweaver charge.
+* *Arcane Synergy* gives you a discount on your next spell after successfully using a Spellweaver charge.
 * *Bound Weapon* lets you choose a weapon to bond with. It has reduced SP costs, plus the ability to strike while bound by using a Spellweaver charge.
 * *Blade Twirl* blocks all projectiles until the end of turn. If you do, you gain a Spellweaver charge of its type. This can potentially grant one that you cannot obtain normally.
-* Etc.
+* And more!
+
+## Credits
+* DollLia - Code, Spritework
 
 ## License
 * Code - You are free to use this mod's to help write your own mods for Kinky Dungeon, so long as you credit DollLia.
-* Sprites - You may NOT use the spritework contained in this mod for any other purpose.
+* Sprites - You do NOT have permission to use the spritework contained in this mod for any purpose, without asking.
 * Audio - The mod samples royalty-free audio, the details of which are listed in Readme.txt.
 
 ## Building Mod
