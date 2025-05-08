@@ -116,10 +116,11 @@ KinkyDungeonSpellCastDLSB_Displacement,
 KinkyDungeonSpellTargetDLSB_Displacement,Choose a target.
 
 KinkyDungeonSpellDLSB_BladeTwirl,"Blade Twirl"
-KinkyDungeonSpellDescriptionDLSB_BladeTwirl,"Swiftly twirl your weapon, deflecting most projectiles until the end of the turn.|Successfully deflecting a projectile grants you Spellweaver.|However, you cannot block melee attacks during this action."
+KinkyDungeonSpellDescriptionDLSB_BladeTwirl,"Swiftly twirl your weapon, blocking most projectiles until the end of the turn.|Successfully blocking a projectile grants you a Spellweaver charge of its type.|However, you cannot block melee attacks during this action."
 DLSB_BladeTwirlFail_NoWeapon,"You need to equip a weapon to twirl."
 DLSB_BladeTwirlFail_NoMana,You don't have enough mana.
 DLSB_BladeTwirlFail_NoStamina,You don't have enough stamina.
+DLSB_BladeTwirlFail_NoWill,You don't have the Willpower to block anything.
 DLSB_BladeTwirlSuccess,You twirl your blade!
 
 

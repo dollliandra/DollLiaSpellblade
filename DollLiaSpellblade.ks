@@ -1507,6 +1507,12 @@ KDPlayerCastConditions["DLSB_BladeTwirl"] = (player, x, y) => {
 KDAddEvent(KDEventMapSpell, "toggleSpell", "DLSB_BladeTwirl", (e, spell, data) => {
     if (data.spell?.name == spell?.name) {
         KinkyDungeonSpellChoicesToggle[data.index] = false;
+        // Cannot block without any willpower - the game gives you a -100% block penalty.
+        // Block it outright, so the player doesn't waste MP/SP trying anyways.
+        if (KinkyDungeonStatWill < 1) {
+            KinkyDungeonSendTextMessage(5, TextGet("DLSB_BladeTwirlFail_NoWill"), KDBaseOrange, 10);
+            return;
+        }
         // Check that the player has a weapon equipped.
         if(KinkyDungeonPlayerDamage?.name && (KinkyDungeonPlayerDamage.name != "Unarmed")){
             if(KinkyDungeonStatMana >= KinkyDungeonGetManaCost(spell, false, false)){
