@@ -38,9 +38,9 @@ KinkyDungeonBuffDLSB_Spellweaver_latex_solid,"Spellweaver: Your next melee weapo
 KinkyDungeonBuffDLSB_Spellweaver_metal,"Spellweaver: Your next melee weapon attack deals an additional 15 chain damage and applies metal restraints."
 KinkyDungeonBuffDLSB_Spellweaver_leather,"Spellweaver: Your next melee weapon attack deals an additional 15 pain damage and applies belts."
 KinkyDungeonBuffDLSB_Spellweaver_rope,"Spellweaver: Your next melee weapon attack deals an additional 15 chain damage and applies ropes."
-KinkyDungeonBuffDLSB_Spellweaver_summon,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage."
+KinkyDungeonBuffDLSB_Spellweaver_summon,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage and summons a temporary familiar."
 KinkyDungeonBuffDLSB_Spellweaver_physics,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage."
-KinkyDungeonBuffDLSB_Spellweaver_telekinesis,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage."
+KinkyDungeonBuffDLSB_Spellweaver_telekinesis,"Spellweaver: Your next melee weapon attack deals an additional 20 blast damage "
 
 KinkyDungeonBuffDLSB_Spellweaver_light,"Spellweaver: Your next melee weapon attack deals an additional 30 holy damage."
 KinkyDungeonBuffDLSB_Spellweaver_shadow,"Spellweaver: Your next melee weapon attack deals an additional 30 shadow damage."
@@ -64,7 +64,9 @@ KinkyDungeonBuffDLSB_Spellweaver_metalhex,"Hexweaver: Your next melee weapon att
 KinkyDungeonBuffDLSB_Spellweaver_leatherhex,"Hexweaver: Your next melee weapon attack deals an additional 20 pain damage and applies belts."
 KinkyDungeonBuffDLSB_Spellweaver_ropehex,"Hexweaver: Your next melee weapon attack deals an additional 20 chain damage and applies ropes."
 
-KinkyDungeonBuffDLSB_Spellweaver_summonhex,"Hexweaver: Your next melee weapon attack deals an additional 20 blast damage and summons a familiar."
+KinkyDungeonBuffDLSB_Spellweaver_summonhex,"Hexweaver: Your next melee weapon attack deals an additional 20 blast damage and summons a fancy familiar."
+NameDLSB_SpellweaverAlly,Spellwoven Familiar
+KillDLSB_SpellweaverAlly,"The familiar dissolves into spectral ash."
 NameDLSB_HexedAlly,Hexblade's Familiar
 KillDLSB_HexedAlly,"The familiar dissolves into spectral ash."
 KinkyDungeonBuffDLSB_Spellweaver_physicshex,"Hexweaver: Your next melee weapon attack deals an additional 20 blast damage and grants Quickness."

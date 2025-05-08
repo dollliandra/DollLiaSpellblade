@@ -12,7 +12,7 @@
 // NOTE TO SELF:
 // Please remember to increment this when you update your own mod!
 // -Doll.Lia
-let DLSB_VER = 0.1
+let DLSB_VER = 0.5
 
 /**************************************************************
  * DLSB - Mod Configuration Menu
@@ -340,6 +340,15 @@ KDAddEvent(KDEventMapSpell, "duringCrit", "DLSB_HexedBlade", (e, spell, data) =>
     }
 });
     
+KinkyDungeonEnemies.push({
+    name: "DLSB_SpellweaverAlly", tags: KDMapInit(["ghost", "flying", "silenceimmune", "blindimmune", "player", "melee"]), keepLevel: true, allied: true, armor: 0, followRange: 1, AI: "hunt", evasion: 0.33, accuracy: 1.5,
+    visionRadius: 20, playerBlindSight: 100, maxhp: 8, minLevel:0, weight:-1000, movePoints: 1, attackPoints: 1, attack: "MeleeWill", attackRange: 1, attackWidth: 3, power: 1, dmgType: "pierce", CountLimit: false,
+    stamina: 4,
+    maxblock: 0,
+    maxdodge: 2,
+    nonDirectional: true,
+    terrainTags: {}, floors:KDMapInit([])
+});
 
 // Clone of Familiar, but doesn't count towards summons.
 // Has a cool hat though!
@@ -1276,6 +1285,25 @@ KDEventMapSpell.playerAttack["DLSB_Spellweaver"] = (e, spell, data) => {
                             let point = KinkyDungeonGetNearbyPoint(data.enemy.x, data.enemy.y, true, undefined, true);
                             if (point) {
                                 let Enemy = KinkyDungeonGetEnemyByName("DLSB_HexedAlly");
+                                KDAddEntity({
+                                    summoned: true,
+                                    rage: Enemy.summonRage ? 9999 : undefined,
+                                    Enemy: Enemy,
+                                    id: KinkyDungeonGetEnemyID(),
+                                    x: point.x,
+                                    y: point.y,
+                                    hp: (Enemy.startinghp) ? Enemy.startinghp : Enemy.maxhp,
+                                    movePoints: 0,
+                                    attackPoints: 0,
+                                    lifetime: 20,
+                                    maxlifetime: 20,
+                                });
+                            }
+                        // Summon a basic friend, no cool hat. :c
+                        }else{
+                            let point = KinkyDungeonGetNearbyPoint(data.enemy.x, data.enemy.y, true, undefined, true);
+                            if (point) {
+                                let Enemy = KinkyDungeonGetEnemyByName("DLSB_SpellweaverAlly");
                                 KDAddEntity({
                                     summoned: true,
                                     rage: Enemy.summonRage ? 9999 : undefined,
