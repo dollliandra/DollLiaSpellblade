@@ -98,7 +98,7 @@ DLSB_BladeTwirlSuccess,You twirl your blade!
 
 
 KinkyDungeonSpellDLSB_Preparation,"Preparation"
-KinkyDungeonSpellDescriptionDLSB_Preparation,"Generate as many random Spellweaver charges as possible.|These Spellweaver charges can have effects from spells you don't know, or even effects that are unique to enemy spells."
+KinkyDungeonSpellDescriptionDLSB_Preparation,"Generate as many random Spellweaver charges as possible.|Has a 100-turn cooldown.|These Spellweaver charges can have effects from spells you don't know, or even effects that are unique to enemy spells."
 DLSB_PreparationFail_ManaCost,You don't have enough mana.
 DLSB_PreparationFail_Prepared,"You are, in fact, prepared."
 DLSB_PreparedSuccess,"You steel yourself for a duel!"

@@ -1488,9 +1488,10 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
  * Spell - Preparation
  * 
  * Generate two random Spellweaver charges.
+ * 100-turn cooldown, because it's PRETTY GOOD.
  ***********************************************/
 let DLSB_Preparation = {name: "DLSB_Preparation", tags: ["utility", "defense"], prerequisite: "DLSB_Spellweaver", classSpecific: "DLSB_Spellblade", hideWithout: "DLSB_Spellweaver", school: "Special",
-    staminacost: 0, manacost: 1, components: [], defaultOff: true, level:1, type:"passive", onhit:"", time: 0, delay: 0, range: 0, lifetime: 0, power: 0, damage: "inert",
+    staminacost: 0, manacost: 2, components: [], defaultOff: true, level:1, type:"passive", onhit:"", time: 0, delay: 0, range: 0, lifetime: 0, power: 0, damage: "inert",
     events: [
         {type: "DLSB_Preparation", trigger: "toggleSpell", time: 100},
     ],
