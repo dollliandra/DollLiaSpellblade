@@ -3,6 +3,8 @@ This is a mod for the game [Kinky Dungeon](https://ada18980.itch.io/kinky-dungeo
 
 The mod adds a new class to the game called the Spellblade, inspired by various concepts such as the Red Mage from Final Fantasy, the Sheen item from League of Legends, and the Warlock from D&D 5e.
 
+[Download the Spellblade Mod Here](https://github.com/dollliandra/DollLiaSpellblade/releases)
+
 ## Mod Features
 
 This mod adds the Spellblade class to the list of classes when creating a character. It is also available as a multiclass option.
