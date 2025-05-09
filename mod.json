@@ -7,6 +7,6 @@
     "gameminor":        4,
     "gamepatch_min":    -1,
     "gamepatch_max":    -1,
-    "priority":         100,
+    "priority":         0,
     "fileorder":        []
 }
