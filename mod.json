@@ -1,12 +1,12 @@
 {
-    "modname": "DollLiaSpellblade",
-    "moddesc": "Spellblade Class",
-    "author": "DollLia",
-    "modbuild": 0.5,
-    "gamemajor": 5,
-    "gameminor": 4,
-    "gamepatch_min": -1,
-    "gamepatch_max": -1,
-    "priority": 0,
-    "fileorder": []
+    "modname":          "DollLiaSpellblade",
+    "moddesc":          "Spellblade Class",
+    "author":           "DollLia",
+    "modbuild":         0.51,
+    "gamemajor":        5,
+    "gameminor":        4,
+    "gamepatch_min":    -1,
+    "gamepatch_max":    -1,
+    "priority":         100,
+    "fileorder":        []
 }

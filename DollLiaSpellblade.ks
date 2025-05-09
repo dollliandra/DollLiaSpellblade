@@ -2,7 +2,7 @@
 
 //////////////////////////////////////////////////////
 // DLSB - Doll.Lia's Spellblade Class               //
-//  Version 0.1a                                    //
+//  Version 0.51                                    //
 // Use DLSB_ as the prefix for any new content.     //
 //////////////////////////////////////////////////////
 
@@ -12,7 +12,7 @@
 // NOTE TO SELF:
 // Please remember to increment this when you update your own mod!
 // -Doll.Lia
-let DLSB_VER = 0.5
+let DLSB_VER = 0.51
 
 /**************************************************************
  * DLSB - Mod Configuration Menu
@@ -30,7 +30,8 @@ if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
         // By concatenating TextKeys, we can create TextKeys with line breaks in them.
         // Necessary to format the MCM like I want to.
         addTextKey("KDModButtonDLSBMCM_Prep_ChaosChanceDesc", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow2"))
-        addTextKey("KDModButtonDLSBMCM_Prep_ChaosChance", TextGet("KDModButtonDLSBMCM_Prep_ChaosChance") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow2"))
+        addTextKey("KDModButtonDLSBMCM_Prep_ChaosChance", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow2"))
+        addTextKey("KDModButtonDLSBMCM_ModCompatHeader", TextGet("KDModButtonDLSBMCM_ModCompatHeaderRow1"))
         addTextKey("KDModButtonDLSBMCM_TestSpellHitsDesc", TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow2")  + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow3"))
 
         // Sanity check to make sure KDModSettings is NOT null. 
@@ -44,6 +45,7 @@ if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
 
                 // How chaotic will Preparation be?
                 // Access value with:  KDModSettings["DLSBMCM"]["DLSBMCM_Prep_ChaosChance"]
+                {refvar: "DLSBMCM_Header_Spellblade", type: "text"},
                 {
                     refvar: "DLSBMCM_Prep_ChaosChance",
                     type: "range",
@@ -53,20 +55,19 @@ if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
                     default: 35,
                     block: undefined
                 },
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_ModCompatHeader", type: "text"},
                 {refvar: "DLSBMCM_TestSpellHits",  type: "boolean", default: true, block: undefined},
-                {refvar: "DLSBMCM_Spacer", type: "text"},
-                {refvar: "DLSBMCM_Spacer", type: "text"},
-                {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
 
                 // Page 1, Column 2
+                {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Prep_ChaosChanceDesc", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_TestSpellHitsDesc", type: "text"},
-                {refvar: "DLSBMCM_Spacer", type: "text"},
-                {refvar: "DLSBMCM_Spacer", type: "text"},
-                {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Header_Meow", type: "text"},
@@ -105,12 +106,14 @@ function DLSB_MCM_Config(){
             DLSB_KDTestSpellHits_Backup = KDTestSpellHits;
         }
         KDTestSpellHits = DLSB_BladeTwirl_KDTestSpellHits;      // Overwrite the function
+        addTextKey("KinkyDungeonSpellDescriptionDLSB_BladeTwirl", TextGet("KinkyDungeonSpellDescriptionDLSB_BladeTwirl_Ideal"));
         DLSB_KDTestSpellHits_Overridden = true;                 // Note that we did so.
     }
     // Revert if overwritten.
     else if(!KDModSettings["DLSBMCM"]["DLSBMCM_TestSpellHits"] && DLSB_KDTestSpellHits_Overridden){
         // TODO
         KDTestSpellHits = DLSB_KDTestSpellHits_Backup;          // Restore the function.
+        addTextKey("KinkyDungeonSpellDescriptionDLSB_BladeTwirl", TextGet("KinkyDungeonSpellDescriptionDLSB_BladeTwirl_Legacy"));
         DLSB_KDTestSpellHits_Overridden = false;                // Note that we did so.
     }
 
@@ -150,6 +153,21 @@ function DLSB_Init_SpellbladeSave(){
             spellsWoven:        0,                  // Running total ID just to make sure buff IDs are unique.
         }
     }else{
+        // Verify Mod Version
+        if(KDGameData.DollLia.Spellblade.modVer < DLSB_VER){
+            console.log("Updating Mod Version from " + String(KDGameData.DollLia.Spellblade.modVer) + " to " + String(DLSB_VER))
+
+
+            // TODO - Any version to version changes.  Nothing yet!
+
+
+            // Update the number.
+            KDGameData.DollLia.Spellblade.modVer = DLSB_VER;
+        // This should NEVER happen.
+        }else if(KDGameData.DollLia.Spellblade.modVer > DLSB_VER){
+            console.log("ERROR: Game save is from a later version of DollLiaSpellblade, please update!");
+        }
+
         // Verify spellweaver queue is clean.  Blank it if we find a buff that the player does not have.
         for(let itr = 0; itr < KDGameData.DollLia.Spellblade.spellweaver.length; itr++){
             if(!KDEntityGetBuff(KinkyDungeonPlayerEntity, KDGameData.DollLia.Spellblade.spellweaver[itr])){
@@ -1911,11 +1929,14 @@ let DLSB_BladeTwirl_KDTestSpellHits = (spell, allowEvade, allowBlock) => {
     // New addition - event.
     // Pack everything potentially useful into the data
     let data = {
-        spell: spell,
-        allowEvade: allowEvade,
-        allowBlock: allowBlock,
-        missed: missed,
-        blockedAtk: blockedAtk,
+        player:         player,
+        spell:          spell,
+        allowEvade:     allowEvade,
+        allowBlock:     allowBlock,
+        playerEvasion:  playerEvasion,
+        playerBlock:    playerBlock,
+        missed:         missed,
+        blockedAtk:     blockedAtk,
     }
     KinkyDungeonSendEvent("DLSB_postTestBlock", data);  // Send the event with packaged data.
     ///////////////////////////////////////////////////////
@@ -1944,11 +1965,27 @@ let DLSB_BladeTwirl_KDTestSpellHits = (spell, allowEvade, allowBlock) => {
 }
 
 KDAddEvent(KDEventMapSpell, "DLSB_postTestBlock", "DLSB_BladeTwirl_Invis", (e, spell, data) => {
-    // console.log("Event fired!  Yay!");
-    // console.log(data)
-    // console.log(KinkyDungeonFlags.get("DLSB_BladeTwirling"))
+    // Are we blade twirling?
     if(KinkyDungeonFlags.get("DLSB_BladeTwirling")){
-        data.blockedAtk = true;
+        // console.log("Incoming Attack");
+        // console.log(data)
+        // Only block projectiles that are blockable. Do not block ground AoEs or unblockables.
+        if(data.allowBlock && data.spell?.projectileTargeting){
+            // If we did already blocked, no need to do anything.
+            if(!data.blockedAtk){
+                // If you have 50%+ to block, guarantee the block.
+                if(data.allowBlock > 0.5){
+                    data.missed = false;        // Block it, don't dodge it. Else, no Spellweaver.
+                    data.blockedAtk = true;     // Force the attack to be blocked.
+                // Roll a 50% chance to block.
+                }else{
+                    data.blockedAtk = (KDRandom() < 0.5);
+                    if(data.blockedAtk){
+                        data.missed = false;
+                    }
+                }
+            }
+        }
     }
 });
 

@@ -3,11 +3,13 @@ KDModButtonDLSBMCM,"Spellblade Class"
 KDModButtonDLSBMCM_Header_Meow,"Thanks for playing!  -Doll.Lia"
 KDModButtonDLSBMCM_Meow,"Placeholder - Does Nothing"
 KDModButtonDLSBMCM_Spacer,""
+KDModButtonDLSBMCM_Header_Spellblade,"Spellblade Tweaks:"
+KDModButtonDLSBMCM_ModCompatHeaderRow1,"Options for Mod Compatibility:"
 KDModButtonDLSBMCM_TestSpellHits,"Override KDTestSpellHits()"
-KDModButtonDLSBMCM_TestSpellHitsDescRow1,"Blade Twirl overwrites this function to work correctly."
-KDModButtonDLSBMCM_TestSpellHitsDescRow2,"Disable this for mod compatibility purposes."
-KDModButtonDLSBMCM_TestSpellHitsDescRow3,"Blade Twirl will function slightly different."
-KDModButtonDLSBMCM_Prep_ChaosChance,"Preparation Chaos Chance"
+KDModButtonDLSBMCM_TestSpellHitsDescRow1,"Blade Twirl overrides this function to work."
+KDModButtonDLSBMCM_TestSpellHitsDescRow2," Disable this for mod compatibility purposes."
+KDModButtonDLSBMCM_TestSpellHitsDescRow3," Blade Twirl will still work, but not as well."
+KDModButtonDLSBMCM_Prep_ChaosChanceRow1,"Preparation Chaos Chance"
 KDModButtonDLSBMCM_Prep_ChaosChanceRow2,"Default: 35 "
 KDModButtonDLSBMCM_Prep_ChaosChanceDescRow1,"Chance that Preparation generates"
 KDModButtonDLSBMCM_Prep_ChaosChanceDescRow2," non-player Spellweaver charges."
@@ -129,7 +131,8 @@ KinkyDungeonSpellCastDLSB_Displacement,
 KinkyDungeonSpellTargetDLSB_Displacement,Choose a target.
 
 KinkyDungeonSpellDLSB_BladeTwirl,"Blade Twirl"
-KinkyDungeonSpellDescriptionDLSB_BladeTwirl,"Swiftly twirl your weapon, blocking most projectiles until the end of the turn.|Successfully blocking a projectile grants you a Spellweaver charge of its type.|However, you cannot block melee attacks during this action."
+KinkyDungeonSpellDescriptionDLSB_BladeTwirl_Ideal,"Swiftly twirl your weapon, blocking most projectiles until the end of the turn.|Successfully blocking a projectile grants you a Spellweaver charge of its type.|> Some projectiles are unblockable, and you only have a 50% chance to block guns and slime."
+KinkyDungeonSpellDescriptionDLSB_BladeTwirl_Legacy,"Swiftly twirl your weapon, blocking most projectiles until the end of the turn.|Successfully blocking a projectile grants you a Spellweaver charge of its type.|However, you cannot block melee attacks during this action."
 DLSB_BladeTwirlFail_NoWeapon,"You need to equip a weapon to twirl."
 DLSB_BladeTwirlFail_NoMana,You don't have enough mana.
 DLSB_BladeTwirlFail_NoStamina,You don't have enough stamina.
