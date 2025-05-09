@@ -31,6 +31,7 @@ if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
         // Necessary to format the MCM like I want to.
         addTextKey("KDModButtonDLSBMCM_Prep_ChaosChanceDesc", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow2"))
         addTextKey("KDModButtonDLSBMCM_Prep_ChaosChance", TextGet("KDModButtonDLSBMCM_Prep_ChaosChance") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow2"))
+        addTextKey("KDModButtonDLSBMCM_TestSpellHitsDesc", TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow2")  + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow3"))
 
         // Sanity check to make sure KDModSettings is NOT null. 
         if (KDModSettings == null) { 
@@ -52,7 +53,7 @@ if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
                     default: 35,
                     block: undefined
                 },
-                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_TestSpellHits",  type: "boolean", default: true, block: undefined},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
@@ -62,7 +63,7 @@ if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
 
                 // Page 1, Column 2
                 {refvar: "DLSBMCM_Prep_ChaosChanceDesc", type: "text"},
-                {refvar: "DLSBMCM_Spacer", type: "text"},
+                {refvar: "DLSBMCM_TestSpellHitsDesc", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
                 {refvar: "DLSBMCM_Spacer", type: "text"},
@@ -92,9 +93,26 @@ if (KDEventMapGeneric['afterModConfig'] != undefined) {
 
 // Run all helper functions on game load OR post-MCM config.
 ////////////////////////////////////////////////////////////
+let DLSB_KDTestSpellHits_Overridden = false;
+let DLSB_KDTestSpellHits_Backup = null;
 function DLSB_MCM_Config(){
 
-    // TBD
+    // Overwrite KDTestSpellHits
+    if(KDModSettings["DLSBMCM"]["DLSBMCM_TestSpellHits"] && !DLSB_KDTestSpellHits_Overridden){
+        // Back up the function if necessary.
+        // Might be able to catch another mod's changes with this.
+        if(!DLSB_KDTestSpellHits_Backup){
+            DLSB_KDTestSpellHits_Backup = KDTestSpellHits;
+        }
+        KDTestSpellHits = DLSB_BladeTwirl_KDTestSpellHits;      // Overwrite the function
+        DLSB_KDTestSpellHits_Overridden = true;                 // Note that we did so.
+    }
+    // Revert if overwritten.
+    else if(!KDModSettings["DLSBMCM"]["DLSBMCM_TestSpellHits"] && DLSB_KDTestSpellHits_Overridden){
+        // TODO
+        KDTestSpellHits = DLSB_KDTestSpellHits_Backup;          // Restore the function.
+        DLSB_KDTestSpellHits_Overridden = false;                // Note that we did so.
+    }
 
     KDLoadPerks();              // Refresh the perks list so that things show up.
     KDRefreshSpellCache = true;
@@ -1604,11 +1622,11 @@ let DLSB_BladeTwirl_Invis = {
     events: [
         {type: "DLSB_BladeTwirl_Invis", trigger: "beforeAttackCalculation"},
         {type: "DLSB_BladeTwirl_Invis", trigger: "blockPlayerSpell"},
+        {type: "DLSB_BladeTwirl_Invis", trigger: "DLSB_postTestBlock"},
     ]
 }
 
 KDCustomCost["DLSB_BladeTwirl"] = (data) => {
-    //console.log(data)
     data.cost = Math.round(10 * data.spell.manacost) + "MP+" + Math.round(10 * data.spell.staminacost) + "SP";
     data.color = "#d0dcff"//KDBaseWhite;//KDBaseMint;
 }
@@ -1641,16 +1659,32 @@ KDAddEvent(KDEventMapSpell, "toggleSpell", "DLSB_BladeTwirl", (e, spell, data) =
                         KinkyDungeonExpireBuff(KinkyDungeonPlayerEntity, "DLSB_BladeTwirl");
                     }
                     KinkyDungeonPlaySound(KinkyDungeonRootDirectory + "Audio/DLSB_Twirl.ogg", undefined, 0.3);
-                    // Buff that will never be seen by the player, as it lasts no time.
-                    KinkyDungeonApplyBuffToEntity(KinkyDungeonPlayerEntity, {
-                        id: "DLSB_BladeTwirl",
-                        type: "Block",
-                        aura: "#ffaa44",
-                        //buffSprite: true,
-                        power: 9999,                // Arbitrarily large block.  Power is multiplied by 100.
-                        duration: e.time,
-                        //tags: ["attack"],
-                    });
+
+
+                    ///////////////////////////////
+                    // KDTestSpellHits() Version //
+                    ///////////////////////////////
+                    if(KDModSettings["DLSBMCM"]["DLSBMCM_TestSpellHits"]){
+                        // Set flag that you are blade twirling.
+                        KinkyDungeonSetFlag("DLSB_BladeTwirling", 1);
+                    }
+                    ///////////////////////////////
+                    // Mod Compatibility Version //
+                    ///////////////////////////////
+                    // Legacy code from an old implementation of Blade Twirl.
+                    else{
+                        // Buff that will never be seen by the player, as it lasts no time.
+                        KinkyDungeonApplyBuffToEntity(KinkyDungeonPlayerEntity, {
+                            id: "DLSB_BladeTwirl",
+                            type: "Block",
+                            aura: "#ffaa44",
+                            //buffSprite: true,
+                            power: 9999,                // Arbitrarily large block.  Power is multiplied by 100.
+                            duration: e.time,
+                            //tags: ["attack"],
+                        });
+                    }
+                    // Handle spending costs, etc.
                     KDChangeMana(spell.name, "spell", "cast", -KinkyDungeonGetManaCost(spell, false, false));
                     KDChangeStamina(spell.name, "spell", "cast", -KinkyDungeonGetStaminaCost(spell, false, false));
                     KinkyDungeonSendTextMessage(5, TextGet("DLSB_BladeTwirlSuccess"), KDBaseOrange, 10);
@@ -1680,12 +1714,15 @@ KDAddEvent(KDEventMapSpell, "toggleSpell", "DLSB_BladeTwirl", (e, spell, data) =
  *  FROM THE PLAYER if they are attacked in melee whilst twirling their blade.
  ************************************************************************/
 KDAddEvent(KDEventMapSpell, "beforeAttackCalculation", "DLSB_BladeTwirl_Invis", (e, spell, data) => {
-    if (data.target?.player && data.attacker) {
-        let player = KinkyDungeonPlayerEntity;
-        let buff = KDEntityGetBuff(player, "DLSB_BladeTwirl");
-        if(buff){
-            // Set playerBlock to a very high number, so you can never block.
-            data.playerBlock = 2;
+    // Don't do anything if not using legacy code.
+    if(!KDModSettings["DLSBMCM"]["DLSBMCM_TestSpellHits"]){
+        if (data.target?.player && data.attacker) {
+            let player = KinkyDungeonPlayerEntity;
+            let buff = KDEntityGetBuff(player, "DLSB_BladeTwirl");
+            if(buff){
+                // Set playerBlock to a very high number, so you can never block.
+                data.playerBlock = 2;
+            }
         }
     }
 });
@@ -1860,6 +1897,68 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
         }
     }
 });
+
+
+// Actual Code
+let DLSB_BladeTwirl_KDTestSpellHits = (spell, allowEvade, allowBlock) => {
+	let player = KinkyDungeonPlayerEntity;
+	let playerEvasion = allowEvade ? KinkyDungeonPlayerEvasion() : 0;
+	let playerBlock = allowBlock ? KinkyDungeonPlayerBlock() : 0;
+	let missed = allowEvade && KDRandom() * AIData.accuracy < (1 - playerEvasion) * allowEvade;
+	let blockedAtk = allowBlock && (KDRandom() * AIData.accuracy < (1 - playerBlock) * allowBlock);
+
+    //////////////////////////////////////////////////////
+    // New addition - event.
+    // Pack everything potentially useful into the data
+    let data = {
+        spell: spell,
+        allowEvade: allowEvade,
+        allowBlock: allowBlock,
+        missed: missed,
+        blockedAtk: blockedAtk,
+    }
+    KinkyDungeonSendEvent("DLSB_postTestBlock", data);  // Send the event with packaged data.
+    ///////////////////////////////////////////////////////
+
+    // Added data. prefix
+	if (!data.missed && !data.blockedAtk) {
+		return true;
+	} else {
+        // Added data. prefix
+		if (data.missed) {
+			if (spell) {
+				KinkyDungeonSendEvent("missPlayerSpell", {spell: spell, player: player});
+				KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonSpellBindMiss").replace("EnemyName", TextGet("KinkyDungeonSpell" + (spell.name || ""))), KDBaseLightGreen, 1);
+			}
+			KDDamageQueue.push({floater: TextGet("KDMissed"), Entity: {x: player.x - 0.5, y: player.y - 0.5}, Color: KDBaseMint, Time: 2, Delay: 0});
+        // Added data. prefix
+        } else if (data.blockedAtk) {
+			if (spell) {
+				KinkyDungeonSendEvent("blockPlayerSpell", {spell: spell, player: player});
+				KinkyDungeonSendTextMessage(2, TextGet("KinkyDungeonSpellBindBlock").replace("EnemyName", TextGet("KinkyDungeonSpell" + (spell.name || ""))), KDBaseLightGreen, 1);
+			}
+			KDDamageQueue.push({floater: TextGet("KDBlocked"), Entity: {x: player.x - 0.5, y: player.y - 0.5}, Color: KDBaseMint, Time: 2, Delay: 0});
+		}
+		return false;
+	}
+}
+
+KDAddEvent(KDEventMapSpell, "DLSB_postTestBlock", "DLSB_BladeTwirl_Invis", (e, spell, data) => {
+    // console.log("Event fired!  Yay!");
+    // console.log(data)
+    // console.log(KinkyDungeonFlags.get("DLSB_BladeTwirling"))
+    if(KinkyDungeonFlags.get("DLSB_BladeTwirling")){
+        data.blockedAtk = true;
+    }
+});
+
+
+
+
+
+
+
+
 
 
 
