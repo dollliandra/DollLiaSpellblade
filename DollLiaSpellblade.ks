@@ -1640,7 +1640,7 @@ let DLSB_BladeTwirl_Invis = {
     events: [
         {type: "DLSB_BladeTwirl_Invis", trigger: "beforeAttackCalculation"},
         {type: "DLSB_BladeTwirl_Invis", trigger: "blockPlayerSpell"},
-        {type: "DLSB_BladeTwirl_Invis", trigger: "DLSB_postTestBlock"},
+        {type: "DLSB_BladeTwirl_Invis", trigger: "DLSB_calcPlayerSpellHit"},
     ]
 }
 
@@ -1919,27 +1919,22 @@ KDAddEvent(KDEventMapSpell, "blockPlayerSpell", "DLSB_BladeTwirl_Invis", (e, spe
 
 // Actual Code
 let DLSB_BladeTwirl_KDTestSpellHits = (spell, allowEvade, allowBlock) => {
-	let player = KinkyDungeonPlayerEntity;
-	let playerEvasion = allowEvade ? KinkyDungeonPlayerEvasion() : 0;
-	let playerBlock = allowBlock ? KinkyDungeonPlayerBlock() : 0;
-	let missed = allowEvade && KDRandom() * AIData.accuracy < (1 - playerEvasion) * allowEvade;
-	let blockedAtk = allowBlock && (KDRandom() * AIData.accuracy < (1 - playerBlock) * allowBlock);
-
-    //////////////////////////////////////////////////////
-    // New addition - event.
-    // Pack everything potentially useful into the data
+    let player = KinkyDungeonPlayerEntity;
     let data = {
         player:         player,
         spell:          spell,
         allowEvade:     allowEvade,
         allowBlock:     allowBlock,
-        playerEvasion:  playerEvasion,
-        playerBlock:    playerBlock,
-        missed:         missed,
-        blockedAtk:     blockedAtk,
     }
-    KinkyDungeonSendEvent("DLSB_postTestBlock", data);  // Send the event with packaged data.
-    ///////////////////////////////////////////////////////
+    
+    KinkyDungeonSendEvent("DLSB_beforeCalcPlayerSpellHit", data);       // Event to affect allowEvade/allowBlock before calculation
+
+    data.playerEvasion = allowEvade ? KinkyDungeonPlayerEvasion() : 0;
+    data.playerBlock = allowBlock ? KinkyDungeonPlayerBlock() : 0;
+	data.missed = data.allowEvade && KDRandom() * AIData.accuracy < (1 - data.playerEvasion) * data.allowEvade;
+	data.blockedAtk = data.allowBlock && (KDRandom() * AIData.accuracy < (1 - data.playerBlock) * data.allowBlock);
+
+    KinkyDungeonSendEvent("DLSB_calcPlayerSpellHit", data);             // Event to affect final result
 
     // Added data. prefix
 	if (!data.missed && !data.blockedAtk) {
@@ -1964,7 +1959,7 @@ let DLSB_BladeTwirl_KDTestSpellHits = (spell, allowEvade, allowBlock) => {
 	}
 }
 
-KDAddEvent(KDEventMapSpell, "DLSB_postTestBlock", "DLSB_BladeTwirl_Invis", (e, spell, data) => {
+KDAddEvent(KDEventMapSpell, "DLSB_calcPlayerSpellHit", "DLSB_BladeTwirl_Invis", (e, spell, data) => {
     // Are we blade twirling?
     if(KinkyDungeonFlags.get("DLSB_BladeTwirling")){
         // console.log("Incoming Attack");
