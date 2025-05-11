@@ -21,19 +21,22 @@ let DLSB_VER = 0.51
  *  > Return can be a boolean, range, etc. depending upon the type.
  * 
  * Names are handled in CSV with the prefix KDModButton
- **************************************************************/                
+ **************************************************************/           
+
+// By concatenating TextKeys, we can create TextKeys with line breaks in them.
+// Necessary to format the MCM like I want to.
 
 //region MCM
 if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
     KDEventMapGeneric['afterModSettingsLoad']["DLSBMCM"] = (e, data) => {
 
-        // By concatenating TextKeys, we can create TextKeys with line breaks in them.
-        // Necessary to format the MCM like I want to.
-        addTextKey("KDModButtonDLSBMCM_Prep_ChaosChanceDesc", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow2"))
-        addTextKey("KDModButtonDLSBMCM_Prep_ChaosChance", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow2"))
-        addTextKey("KDModButtonDLSBMCM_ModCompatHeader", TextGet("KDModButtonDLSBMCM_ModCompatHeaderRow1"))
-        addTextKey("KDModButtonDLSBMCM_TestSpellHitsDesc", TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow2")  + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow3"))
+        // addTextKey("KDModButtonDLSBMCM_Prep_ChaosChanceDesc", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow2"))
+        // addTextKey("KDModButtonDLSBMCM_Prep_ChaosChance", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow2"))
+        // addTextKey("KDModButtonDLSBMCM_ModCompatHeader", TextGet("KDModButtonDLSBMCM_ModCompatHeaderRow1"))
+        // addTextKey("KDModButtonDLSBMCM_TestSpellHitsDesc", TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow2")  + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow3"))
+        // addTextKey("KDModButtonDLSBMCM_TestSpellHits", TextGet("KDModButtonDLSBMCM_TestSpellHitsRow1") + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsRow2"));
 
+        
         // Sanity check to make sure KDModSettings is NOT null. 
         if (KDModSettings == null) { 
             KDModSettings = {} 
@@ -99,22 +102,30 @@ let DLSB_KDTestSpellHits_Backup = null;
 function DLSB_MCM_Config(){
 
     // Overwrite KDTestSpellHits
-    if(KDModSettings["DLSBMCM"]["DLSBMCM_TestSpellHits"] && !DLSB_KDTestSpellHits_Overridden){
+    if(KDModSettings["DLSBMCM"]["DLSBMCM_TestSpellHits"]){
+        console.log("Blade Twirl++")
         // Back up the function if necessary.
         // Might be able to catch another mod's changes with this.
         if(!DLSB_KDTestSpellHits_Backup){
             DLSB_KDTestSpellHits_Backup = KDTestSpellHits;
         }
-        KDTestSpellHits = DLSB_BladeTwirl_KDTestSpellHits;      // Overwrite the function
-        addTextKey("KinkyDungeonSpellDescriptionDLSB_BladeTwirl", TextGet("KinkyDungeonSpellDescriptionDLSB_BladeTwirl_Ideal"));
-        DLSB_KDTestSpellHits_Overridden = true;                 // Note that we did so.
+        // Overwrite Text Key
+        //addTextKey("KinkyDungeonSpellDescriptionDLSB_BladeTwirl", TextGet("KinkyDungeonSpellDescriptionDLSB_BladeTwirl_Ideal"));
+        if(!DLSB_KDTestSpellHits_Overridden){
+            KDTestSpellHits = DLSB_BladeTwirl_KDTestSpellHits;      // Overwrite the function
+            DLSB_KDTestSpellHits_Overridden = true;                 // Note that we did so.
+        }
     }
     // Revert if overwritten.
-    else if(!KDModSettings["DLSBMCM"]["DLSBMCM_TestSpellHits"] && DLSB_KDTestSpellHits_Overridden){
-        // TODO
-        KDTestSpellHits = DLSB_KDTestSpellHits_Backup;          // Restore the function.
-        addTextKey("KinkyDungeonSpellDescriptionDLSB_BladeTwirl", TextGet("KinkyDungeonSpellDescriptionDLSB_BladeTwirl_Legacy"));
-        DLSB_KDTestSpellHits_Overridden = false;                // Note that we did so.
+    else if(!KDModSettings["DLSBMCM"]["DLSBMCM_TestSpellHits"]){
+        console.log("Blade Twirl--")
+        // Always update the Text Key
+        //addTextKey("KinkyDungeonSpellDescriptionDLSB_BladeTwirl", TextGet("KinkyDungeonSpellDescriptionDLSB_BladeTwirl_Legacy"));
+        // Update TestSpellHits
+        if(DLSB_KDTestSpellHits_Overridden){
+            KDTestSpellHits = DLSB_KDTestSpellHits_Backup;          // Restore the function.
+            DLSB_KDTestSpellHits_Overridden = false;                // Note that we did so.
+        }
     }
 
     KDLoadPerks();              // Refresh the perks list so that things show up.
@@ -138,6 +149,7 @@ KDAddEvent(KDEventMapGeneric, "afterLoadGame", "DLSB_SaveData", (e, data) => {
 });
 
 function DLSB_Init_SpellbladeSave(){
+
     // Initialize the GameData portion for DollLia's mods.
     if(!KDGameData?.DollLia){
         console.log("Created DollLia base gamedata.")
