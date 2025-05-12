@@ -751,7 +751,10 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
         // Force certain overrides.
         if(data.spell.name == "TrueSteel"){spellTag = "knowledge"}
         else{
-            spellTag = data.spell.tags.find((spelltag) => DLSB_Checked_Tags.includes(spelltag))
+            // If a spell has no tags, this breaks. Notably occurs whenever you use a weapon's special.
+            if(data.spell?.tags){
+                spellTag = data.spell.tags.find((spelltag) => DLSB_Checked_Tags.includes(spelltag))
+            }
         }
         if(spellTag == "latex" && data.spell.prerequisite == "SlimeToLatex"){
             spellTag = "latex_solid"
