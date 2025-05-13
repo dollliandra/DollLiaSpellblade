@@ -12,7 +12,7 @@
 // NOTE TO SELF:
 // Please remember to increment this when you update your own mod!
 // -Doll.Lia
-let DLSB_VER = 0.53
+let DLSB_VER = 0.54
 
 /**************************************************************
  * DLSB - Mod Configuration Menu
@@ -558,8 +558,39 @@ let DLSB_Spellblade_CorePassive = {name: "DLSB_Spellweaver", tags: ["utility"], 
 
         // Events to handle consuming the buff on attack:
         {type: "DLSB_Spellweaver", power: 3, trigger: "playerAttack", },//prereq: "wepDamageType", kind: "melee",},
+
+
+        // Event to handle Fleche. It can go here, it's FINE:tm:
+        {type: "DLSB_Spellweaver", trigger: "beforePlayerAttack"},
     ]
 }
+
+
+// Event to make Thrusting Swords work with Fleche/Displacement.
+KDAddEvent(KDEventMapSpell, "beforePlayerAttack", "DLSB_Spellweaver", (e, _weapon, data) => {
+    //console.log(data)
+    if(KinkyDungeonFlags.get("DLSB_PerformingFlecheDisplacement")){
+        if (data.enemy && !data.miss && !data.disarm && !KDHelpless(data.enemy) && data.Damage && data.Damage.damage > 0) {
+            if (data.enemy && (!e.requiredTag || data.enemy.Enemy.tags[e.requiredTag]) && (!e.chance || KDRandom() < e.chance) && data.enemy.hp > 0) {
+                // Balancing - Don't let this work for sneak attacking, since this bypasses vulnerable check.
+                // Don't do anything if the enemy is vulnerable, that's redundant.
+                if (data.enemy.aware && !data.enemy.vulnerable) {
+                    // Take the event data from the ChangeDamageVulnerable event.
+                    if(data.weapon.events){
+                        let event = data.weapon.events.find((someEvent) => someEvent.type == "ChangeDamageVulnerable");
+                        if(event){
+                            data.Damage.damage = event.power;
+                            data.Damage.type = event.damage;
+                            data.Damage.time = event.time;
+                            data.Damage.bind = event.bind;
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+
 
 KDEventMapSpell.spellTrigger["DLSB_Spellweaver"] = (_e, _spell, data) => {
     if (!data.spell) return;
@@ -1519,6 +1550,7 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
             }
             if (space) {
                 if (_miscast) return "Miscast";
+                KinkyDungeonSetFlag("DLSB_PerformingFlecheDisplacement", 1);         // Set a flag for changing damage of Thrusting Swords
                 let result = KinkyDungeonLaunchAttack(en, 1);
                 if (result == "confirm" || result == "dialogue") return "Fail";
                 if (result == "hit" || result == "capture") {
@@ -1600,6 +1632,7 @@ KinkyDungeonSpellSpecials["DLSB_Displacement"] = (spell, _data, targetX, targetY
 
             if (space) {
                 if (_miscast) return "Miscast";
+                KinkyDungeonSetFlag("DLSB_PerformingFlecheDisplacement", 1);         // Set a flag for changing damage of Thrusting Swords
                 let result = KinkyDungeonLaunchAttack(en, 1);
                 if (result == "confirm" || result == "dialogue") return "Fail";
                 if (result == "hit" || result == "capture") {

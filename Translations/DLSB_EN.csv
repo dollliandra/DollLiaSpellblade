@@ -128,12 +128,12 @@ KinkyDungeonSpellDescriptionDLSB_ArcaneSynergy,"After making a melee weapon atta
 KinkyDungeonBuffDLSB_ArcaneSynergy,"Arcane Synergy: Your next spell costs 25% less MP."
 
 KinkyDungeonSpellDLSB_Fleche,"Flèche"
-KinkyDungeonSpellDescriptionDLSB_Fleche,"Dash and make an attack against a target within 3 tiles. If the attack misses, you still dash. Costs stamina equal to your sprint cost plus your attack cost."
+KinkyDungeonSpellDescriptionDLSB_Fleche,"Dash and make an attack against a target within 3 tiles. If the attack misses, you still dash.|Thrusting swords treat the target as being vulnerable if they are aware.|Costs stamina equal to your sprint cost plus your attack cost."
 KinkyDungeonSpellCastDLSB_Fleche,
 KinkyDungeonSpellTargetDLSB_Fleche,Choose a target.
 
 KinkyDungeonSpellDLSB_Displacement,"Displacement"
-KinkyDungeonSpellDescriptionDLSB_Displacement,"Dramatically backflip away up to 2 tiles from an adjacent target as you melee attack. If the attack misses, you still backflip. Costs stamina equal to twice your sprint cost plus your attack cost."
+KinkyDungeonSpellDescriptionDLSB_Displacement,"Dramatically backflip away up to 2 tiles from an adjacent target as you melee attack.|Thrusting swords treat the target as being vulnerable if they are aware.|Costs stamina equal to twice your sprint cost plus your attack cost."
 KinkyDungeonSpellCastDLSB_Displacement,
 KinkyDungeonSpellTargetDLSB_Displacement,Choose a target.
 
