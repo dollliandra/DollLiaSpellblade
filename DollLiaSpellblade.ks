@@ -1470,7 +1470,7 @@ KDEventMapSpell.playerAttack["DLSB_Spellweaver"] = (e, spell, data) => {
 //      Spellblade - Movement Spells        // 
 //////////////////////////////////////////////
 
-let DLSB_Spellblade_Fleche = {name: "DLSB_Fleche", tags: ["stamina", "utility", "offense"], school: "Special", prerequisite: "DLSB_Spellweaver", classSpecific: "DLSB_Spellblade", hideWithout: "DLSB_Spellweaver", manacost: 0, customCost: "SprintPlusAttack", components: [], level:1,
+let DLSB_Spellblade_Fleche = {name: "DLSB_Fleche", tags: ["stamina", "utility", "offense"], school: "Special", prerequisite: "DLSB_Spellweaver", classSpecific: "DLSB_Spellblade", hideWithout: "DLSB_Spellweaver", manacost: 0, customCost: "DLSB_Fleche", components: [], level:1,
     type:"special", special: "DLSB_Fleche", noMiscast: true,
     onhit:"", time:25, power: 0, 
     //minRange: 1.99, 
@@ -1478,14 +1478,29 @@ let DLSB_Spellblade_Fleche = {name: "DLSB_Fleche", tags: ["stamina", "utility", 
     range: 3.99, size: 1, damage: ""
 }
 
-let DLSB_Spellblade_Displacement = {name: "DLSB_Displacement", tags: ["stamina", "utility", "offense"], school: "Special", prerequisite: "DLSB_Fleche", classSpecific: "DLSB_Spellblade", hideWithout: "DLSB_Spellweaver", manacost: 0, customCost: "DLSB_DoubleSprintPlusAttack", components: [], level:1,
+let DLSB_Spellblade_Displacement = {name: "DLSB_Displacement", tags: ["stamina", "utility", "offense"], school: "Special", prerequisite: "DLSB_Fleche", classSpecific: "DLSB_Spellblade", hideWithout: "DLSB_Spellweaver", manacost: 0, customCost: "DLSB_Displacement", components: [], level:1,
     type:"special", special: "DLSB_Displacement", noMiscast: true,
     onhit:"", time:25, power: 0, range: 1.5, size: 1, damage: ""
 }
 
-KDCustomCost["DLSB_DoubleSprintPlusAttack"] = (data) => {
-    data.cost = Math.round(10 * -(KDAttackCost().attackCost + 2*KDSprintCost())) + "SP";
-    data.color = KDBaseMint;
+
+KDCustomCost["DLSB_Fleche"] = (data) => {
+    if(KinkyDungeonSlowLevel < KinkyDungeonStatsChoice.get("HeelWalker") ? 3 : 2){
+        data.cost = Math.round(10 * -(KDAttackCost().attackCost + KDSprintCost())) + "SP";
+        data.color = KDBaseMint;
+    }else{
+        data.cost = "BOUND!";
+        data.color = KDBaseOrange;
+    }
+}
+KDCustomCost["DLSB_Displacement"] = (data) => {
+    if(KinkyDungeonSlowLevel < KinkyDungeonStatsChoice.get("HeelWalker") ? 3 : 2){
+        data.cost = Math.round(10 * -(KDAttackCost().attackCost + 2*KDSprintCost())) + "SP";
+        data.color = KDBaseMint;
+    }else{
+        data.cost = "BOUND!";
+        data.color = KDBaseOrange;
+    }
 }
 
 // CastCond
@@ -1528,10 +1543,10 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
         return "Fail";
     }
     // Need legs to cast.
-    // if(KinkyDungeoCheckComponents({components: ["Legs"]}).failed.length > 0){
-    //     KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_NoLegs"), KDBaseRed, 1, true);
-    //     return "Fail";
-    // }
+    if(KinkyDungeoCheckComponents({components: ["Legs"]}).failed.length > 0){
+        KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_NoLegs"), KDBaseRed, 1, true);
+        return "Fail";
+    }
     let cost = KDAttackCost().attackCost + KDSprintCost();
     let en = KinkyDungeonEntityAt(targetX, targetY);
     let space = false;
@@ -1614,6 +1629,11 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
 KinkyDungeonSpellSpecials["DLSB_Displacement"] = (spell, _data, targetX, targetY, _tX, _tY, entity, _enemy, _moveDirection, _bullet, _miscast, _faction, _cast, _selfCast) => {
     if(KinkyDungeonPlayerDamage?.name && (KinkyDungeonPlayerDamage.name == "Unarmed")){
         KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_NoWeapon"), KDBaseRed, 1, true);
+        return "Fail";
+    }
+    // Need legs to cast.
+    if(KinkyDungeoCheckComponents({components: ["Legs"]}).failed.length > 0){
+        KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_DisplacementFail_NoLegs"), KDBaseRed, 1, true);
         return "Fail";
     }
     let cost = KDAttackCost().attackCost + 2*KDSprintCost();
