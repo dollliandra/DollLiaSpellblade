@@ -1485,20 +1485,20 @@ let DLSB_Spellblade_Displacement = {name: "DLSB_Displacement", tags: ["stamina",
 
 
 KDCustomCost["DLSB_Fleche"] = (data) => {
-    if(KinkyDungeonSlowLevel < KinkyDungeonStatsChoice.get("HeelWalker") ? 3 : 2){
+    if(KinkyDungeonSlowLevel < (KinkyDungeonStatsChoice.get("HeelWalker") ? 3 : 2)){
         data.cost = Math.round(10 * -(KDAttackCost().attackCost + KDSprintCost())) + "SP";
         data.color = KDBaseMint;
     }else{
-        data.cost = "BOUND!";
+        data.cost = "999SP";//"BOUND!";
         data.color = KDBaseOrange;
     }
 }
 KDCustomCost["DLSB_Displacement"] = (data) => {
-    if(KinkyDungeonSlowLevel < KinkyDungeonStatsChoice.get("HeelWalker") ? 3 : 2){
+    if(KinkyDungeonSlowLevel < (KinkyDungeonStatsChoice.get("HeelWalker") ? 3 : 2)){
         data.cost = Math.round(10 * -(KDAttackCost().attackCost + 2*KDSprintCost())) + "SP";
         data.color = KDBaseMint;
     }else{
-        data.cost = "BOUND!";
+        data.cost = "999SP";//"BOUND!";
         data.color = KDBaseOrange;
     }
 }
@@ -1517,22 +1517,23 @@ KDPlayerCastConditions["DLSB_Fleche"] = (player, x, y) => {
 // Handle partial components without attaching components to Fleche/Displacement
 // I THINK this prevents you from being teased for casting these in melee.
 // Unfortunate side-effect is generic spellcast fail messages, BUT this shows that you cannot "cast".
-// KDAddEvent(KDEventMapGeneric, "calcCompPartial", "DLSB_Flecheplacement", (e, data) => {
-//     //console.log("calculating")
-//     //console.log(data)
-//     if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
-//         if(KinkyDungeoCheckComponentsPartial( {components: ["Legs"]} ).includes("Legs")){
-//             data.partial.push("Legs")
-//         }
-//     }
-// });
-// KDAddEvent(KDEventMapGeneric, "beforeCalcComp", "DLSB_Flecheplacement", (e, data) => {
-//     //console.log("calculating")
-//     //console.log(data)
-//     if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
-//         data.components.push("Legs")
-//     }
-// });
+// Unfortunate side-effect is MASSIVE COMPONENT SPAM IN THE SPELL'S PAGE AAAAAA
+KDAddEvent(KDEventMapGeneric, "calcCompPartial", "DLSB_Flecheplacement", (e, data) => {
+    //console.log("calculating")
+    //console.log(data)
+    if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
+        if(KinkyDungeoCheckComponentsPartial( {components: ["Legs"]} ).includes("Legs")){
+            data.partial = ["Legs"];
+        }
+    }
+});
+KDAddEvent(KDEventMapGeneric, "beforeCalcComp", "DLSB_Flecheplacement", (e, data) => {
+    //console.log("calculating")
+    //console.log(data)
+    if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
+        data.components = ["Legs"]
+    }
+});
 
 
 
