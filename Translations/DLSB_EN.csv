@@ -168,6 +168,7 @@ KDDLSB_FlecheFail_NoStamina,You don't have enough stamina.
 KDDLSB_FlecheFail_NoSprint,You need to be able to sprint.
 KDDLSB_FlecheFail_NoAttack,You need to be able to attack.
 KDDLSB_FlecheFail_NoSpace,There is no room to dash!
+KDDLSB_FlecheFail_NoLegs,Your legs are too bound to Flèche!
 KDDLSB_FlecheFail_AttackMiss,You missed!
 KDDLSB_DisplacementFail_Backflip,There is no room to backflip to.
 KDDLSB_FlecheSuccess,You dash at the target!

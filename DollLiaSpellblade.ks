@@ -1498,12 +1498,39 @@ KDPlayerCastConditions["DLSB_Fleche"] = (player, x, y) => {
     )
 }
 
+// Handle partial components without attaching components to Fleche/Displacement
+// I THINK this prevents you from being teased for casting these in melee.
+// Unfortunate side-effect is generic spellcast fail messages, BUT this shows that you cannot "cast".
+KDAddEvent(KDEventMapGeneric, "calcCompPartial", "DLSB_Flecheplacement", (e, data) => {
+    console.log("calculating")
+    console.log(data)
+    if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
+        if(KinkyDungeoCheckComponentsPartial( {components: ["Legs"]} ).includes("Legs")){
+            data.partial.push("Legs")
+        }
+    }
+});
+KDAddEvent(KDEventMapGeneric, "beforeCalcComp", "DLSB_Flecheplacement", (e, data) => {
+    console.log("calculating")
+    console.log(data)
+    if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
+        data.components.push("Legs")
+    }
+});
+
+
+
 // SpellSpecial for Fleche
 KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX, _tY, entity, _enemy, _moveDirection, _bullet, _miscast, _faction, _cast, _selfCast) => {
     if(KinkyDungeonPlayerDamage?.name && (KinkyDungeonPlayerDamage.name == "Unarmed")){
         KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_NoWeapon"), KDBaseRed, 1, true);
         return "Fail";
     }
+    // Need legs to cast.
+    // if(KinkyDungeoCheckComponents({components: ["Legs"]}).failed.length > 0){
+    //     KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_NoLegs"), KDBaseRed, 1, true);
+    //     return "Fail";
+    // }
     let cost = KDAttackCost().attackCost + KDSprintCost();
     let en = KinkyDungeonEntityAt(targetX, targetY);
     let space = false;
