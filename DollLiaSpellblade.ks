@@ -1490,11 +1490,16 @@ KDCustomCost["DLSB_DoubleSprintPlusAttack"] = (data) => {
 
 // CastCond
 KDPlayerCastConditions["DLSB_Fleche"] = (player, x, y) => {
+    let dist = KDistChebyshev(x - player.x, y - player.y);
     return (
         // If you have FF, return 1
         //(KDHasSpell("DLSB_FancyFootwork"))
         // Or distance > 1
-        KinkyDungeonFlags.get("DLSB_FancyFootwork") || (KDistChebyshev(x - player.x, y - player.y) > 1.5)
+
+        // Do not allow casting at range 1 without Fancy Footwork
+        (KinkyDungeonFlags.get("DLSB_FancyFootwork") || (dist > 1.5))
+        // Do not allow casting at range 3 with partially bound legs.
+        && (!KinkyDungeoCheckComponentsPartial({components: ["Legs"]}).includes("Legs") || dist < 2.5)
     )
 }
 
