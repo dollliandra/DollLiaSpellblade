@@ -1510,7 +1510,10 @@ KDPlayerCastConditions["DLSB_Fleche"] = (player, x, y) => {
         // Do not allow casting at range 1 without Fancy Footwork
         (KinkyDungeonFlags.get("DLSB_FancyFootwork") || (dist > 1.5))
         // Do not allow casting at range 3 with partially bound legs.
-        && (!KinkyDungeoCheckComponentsPartial({components: ["Legs"]}).includes("Legs") || dist < 2.5)
+        && (
+            (KinkyDungeonSlowLevel < (KinkyDungeonStatsChoice.get("HeelWalker") ? 2 : 1))//!KinkyDungeoCheckComponentsPartial({components: ["Legs"]}).includes("Legs")
+            || dist < 2.5
+        )
     )
 }
 
@@ -1625,6 +1628,7 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
     return "Fail";
 }
 
+//#region Displacement
 // SpellSpecial for Displacement
 // Make a weapon attack at a target, then move up to two spaces away.
 KinkyDungeonSpellSpecials["DLSB_Displacement"] = (spell, _data, targetX, targetY, _tX, _tY, entity, _enemy, _moveDirection, _bullet, _miscast, _faction, _cast, _selfCast) => {

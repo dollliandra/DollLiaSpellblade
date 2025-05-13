@@ -28,7 +28,35 @@ Mod Configuration Menu is included.
 #====    Potential Mod Conflicts     ====#
 #========================================#
 
-Currently, this mod does not override any core functions in KD.
+KDTestSpellHits() - If another mod overrides this function, disable this feature in the MCM.
+
+
+
+
+#=========================================#
+#==             Changelog               ==#
+#=========================================#
+
+v0.54:
+* Added a Changelog!  Oops.
+* Fleche sprite update.
+* Fleche & Displacement apply full Thrusting Sword damage if you're not sneak attacking.
+* Fleche & Displacement now require Legs.
+* Fleche loses 1 range if you are slowed.
+
+v0.53:
+* BUGFIX - Using the ranged attack of Spears no longer cause a crash log on Spellblade.
+
+v0.52:
+* BUGFIX - MCM menu text is now functional on Stable.
+* BUGFIX - Blade Twirl is set correctly if you reboot the game with the KDTestSpellHits() override disabled.
+
+v0.51:
+* BUGFIX - Blade Twirl blocks projectiles consistently.
+* BUGFIX - Blade Twirl no longer blocks ground-targeted AoEs.
+* Mod Configuration Menu
+
+
 
 
 
