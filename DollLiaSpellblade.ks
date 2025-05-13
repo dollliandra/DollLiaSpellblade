@@ -169,15 +169,32 @@ function DLSB_Init_SpellbladeSave(){
         if(KDGameData.DollLia.Spellblade.modVer < DLSB_VER){
             console.log("Updating Mod Version from " + String(KDGameData.DollLia.Spellblade.modVer) + " to " + String(DLSB_VER))
 
+            ////////////////////////////////////////////////////////////
+            // If updating to 0.54, refund the SP spent on Fleche, then remove Vault from the player.
+            ////////////////////////////////////////////////////////////
+            if(KDGameData.DollLia.Spellblade.modVer < 0.54){
+                if(KDGameData.Class == "DLSB_Spellblade"){                     // If the player is a Spellblade
+                    if(KDHasSpell("DLSB_Fleche")){
+                        KinkyDungeonSpellPoints += 1;                           // Refund the spell point spent on Fleche.
+                        KinkyDungeonSendTextMessage(10, "Refunded +1 SP spent on Flèche!", KDBaseCyan, 10);
+                    }
+                    if(!KDHasSpell("Evasive1") && KDHasSpell("Vault")){         // If the player got Vault from Spellblade
+                        KinkyDungeonSpellRemove("Vault")
+                        KinkyDungeonSendTextMessage(10, "Removed Vault!", KDBaseCyan, 10);
+                        KDRefreshSpellCache = true;
+                    }
+                }
+            }
 
-            // TODO - Any version to version changes.  Nothing yet!
-
+            // Hopefully not too many of these
 
             // Update the number.
+            KinkyDungeonSendTextMessage(10, "Updated Spellblade from v" + String(KDGameData.DollLia.Spellblade.modVer) + " to v" + String(DLSB_VER) + "!", KDBaseCyan, 10);
             KDGameData.DollLia.Spellblade.modVer = DLSB_VER;
         // This should NEVER happen.
         }else if(KDGameData.DollLia.Spellblade.modVer > DLSB_VER){
             console.log("ERROR: Game save is from a later version of DollLiaSpellblade, please update!");
+            KinkyDungeonSendTextMessage(10, "ERROR: Game save is from a later version of Spellblade, please update the mod!", KDBaseRed, 10);
         }
 
         // Verify spellweaver queue is clean.  Blank it if we find a buff that the player does not have.
@@ -213,7 +230,8 @@ KDClassStart["DLSB_Spellblade"] = () => {
     KDPushSpell(KinkyDungeonFindSpell("DLSB_Spellweaver"));
 
     // Class-specific free passive.
-    KDPushSpell(KinkyDungeonFindSpell("Vault"));
+    KDPushSpell(KinkyDungeonFindSpell("DLSB_Fleche"));
+    KinkyDungeonSpellChoices.push(KinkyDungeonSpells.length - 1);
 
     // Starting spells
     KDPushSpell(KinkyDungeonFindSpell("Bondage"));
@@ -1486,7 +1504,7 @@ let DLSB_Spellblade_Displacement = {name: "DLSB_Displacement", tags: ["stamina",
 
 KDCustomCost["DLSB_Fleche"] = (data) => {
     if(KinkyDungeonSlowLevel < (KinkyDungeonStatsChoice.get("HeelWalker") ? 3 : 2)){
-        data.cost = Math.round(10 * -(KDAttackCost().attackCost + KDSprintCost())) + "SP";
+        data.cost = Math.round(10 * -(KDAttackCost().attackCost + KDSprintCost())) + "SP+SWVR";
         data.color = KDBaseMint;
     }else{
         data.cost = "999SP";//"BOUND!";
@@ -1504,7 +1522,17 @@ KDCustomCost["DLSB_Displacement"] = (data) => {
 }
 
 // CastCond
-KDPlayerCastConditions["DLSB_Fleche"] = (player, x, y) => {
+let DLSB_CastCondNerfedFleche = (player, x, y) => {
+    let dist = KDistChebyshev(x - player.x, y - player.y);
+    return (
+        (dist > 1.5) &&                                                     // Do not allow casting on adjacent target.
+        (KinkyDungeonFlags.get("DLSB_FancyFootwork") || (dist < 2.5))       // Do not allow casting at range 3 without Fancy Footwork.
+        // Do not allow casting at range 3 if slowed.
+        && ((KinkyDungeonSlowLevel < (KinkyDungeonStatsChoice.get("HeelWalker") ? 2 : 1)) || dist < 2.5)
+    )
+}
+// Keeping this here, posthumously.
+let DLSB_CastCondUnnerfedFleche = (player, x, y) => {
     let dist = KDistChebyshev(x - player.x, y - player.y);
     return (
         // Do not allow casting at range 1 without Fancy Footwork
@@ -1516,6 +1544,8 @@ KDPlayerCastConditions["DLSB_Fleche"] = (player, x, y) => {
         )
     )
 }
+
+KDPlayerCastConditions["DLSB_Fleche"] = DLSB_CastCondUnnerfedFleche;
 
 // Handle partial components without attaching components to Fleche/Displacement
 // I THINK this prevents you from being teased for casting these in melee.
@@ -1549,6 +1579,10 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
     // Need legs to cast.
     if(KinkyDungeoCheckComponents({components: ["Legs"]}).failed.length > 0){
         KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_NoLegs"), KDBaseRed, 1, true);
+        return "Fail";
+    }
+    if(!KDGameData.DollLia.Spellblade?.spellweaver[0]){
+        KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_NoSpellweaver"), KDBaseRed, 1, true);
         return "Fail";
     }
     let cost = KDAttackCost().attackCost + KDSprintCost();
@@ -1604,13 +1638,15 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
                     KinkyDungeonTrapMoved = true;  // Suffer
                     if (KinkyDungeonNoEnemy(dash_x, dash_y) && KDIsMovable(dash_x, dash_y)) {
                         KDMovePlayer(dash_x, dash_y, true, true);
+                        KDChangeStamina(spell.name, "spell", "cast", KDSprintCost());
                     }
+                    
                     KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheSuccess"), "#e7cf1a", 1, false);
-                    KDChangeStamina(spell.name, "spell", "cast", KDSprintCost());
                 } else if (result == "miss") {
                     KinkyDungeonTrapMoved = true;  // Suffer
                     if (KinkyDungeonNoEnemy(dash_x, dash_y) && KDIsMovable(dash_x, dash_y)) {
                         KDMovePlayer(dash_x, dash_y, true, true);
+                        KDChangeStamina(spell.name, "spell", "cast", KDSprintCost());
                     }
                     KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_AttackMiss"), KDBaseRed, 1, true);
                 }

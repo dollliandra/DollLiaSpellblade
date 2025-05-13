@@ -128,12 +128,13 @@ KinkyDungeonSpellDescriptionDLSB_ArcaneSynergy,"After making a melee weapon atta
 KinkyDungeonBuffDLSB_ArcaneSynergy,"Arcane Synergy: Your next spell costs 25% less MP."
 
 KinkyDungeonSpellDLSB_Fleche,"Flèche"
-KinkyDungeonSpellDescriptionDLSB_Fleche,"Dash and make an attack against a target within 3 tiles, or 2 tiles if you are slowed.|Thrusting swords treat the target as being vulnerable if they are aware of you.|Costs stamina equal to your sprint cost plus your attack cost."
+KinkyDungeonSpellDescriptionDLSB_Fleche,"Use Spellweaver to dash and make an attack against a target within 3 tiles, or 2 tiles if you are slowed.|Thrusting swords treat the target as being vulnerable.|Costs stamina equal to your sprint cost plus your attack cost."
+KinkyDungeonSpellDescriptionDLSB_Fleche_Legacy,"Dash and make an attack against a target within 3 tiles, or 2 tiles if you are slowed.|Thrusting swords treat the target as being vulnerable.|Costs stamina equal to your sprint cost plus your attack cost."
 KinkyDungeonSpellCastDLSB_Fleche,
 KinkyDungeonSpellTargetDLSB_Fleche,Choose a target.
 
 KinkyDungeonSpellDLSB_Displacement,"Displacement"
-KinkyDungeonSpellDescriptionDLSB_Displacement,"Dramatically backflip away up to 2 tiles from an adjacent target as you melee attack.|Thrusting swords treat the target as being vulnerable if they are aware of you.|Costs stamina equal to twice your sprint cost plus your attack cost."
+KinkyDungeonSpellDescriptionDLSB_Displacement,"Dramatically backflip away up to 2 tiles from an adjacent target as you melee attack.|Thrusting swords treat the target as being vulnerable.|Costs stamina equal to twice your sprint cost plus your attack cost."
 KinkyDungeonSpellCastDLSB_Displacement,
 KinkyDungeonSpellTargetDLSB_Displacement,Choose a target.
 
@@ -155,7 +156,8 @@ DLSB_PreparedSuccess,"You steel yourself for a duel!"
 DLSB_PreparedSuccessChaos,"Your blade flashes with strange energy!"
 
 KinkyDungeonSpellDLSB_FancyFootwork,"Fancy Footwork"
-KinkyDungeonSpellDescriptionDLSB_FancyFootwork,"You have refined your form when making special attacks:|> Flèche can target an adjacent enemy to dash through them.|> Displacement makes the target vulnerable if it strikes them while they are attacking."
+KinkyDungeonSpellDescriptionDLSB_FancyFootwork,"You have refined your form when making special attacks:|> Flèche can now strike a target up to 3 tiles away if you aren't slowed.|> Displacement makes the target vulnerable if it strikes them while they are attacking."
+KinkyDungeonSpellDescriptionDLSB_FancyFootwork_Legacy,"You have refined your form when making special attacks:|> Flèche can target an adjacent enemy to dash through them.|> Displacement makes the target vulnerable if it strikes them while they are attacking."
 
 KinkyDungeonSpellDLSB_Mageblade,"Bound Weapon"
 KinkyDungeonSpellDescriptionDLSB_Mageblade,"Ritualistically bind yourself to a weapon over 5 turns, empowering it:|> The weapon's stamina cost is reduced by 1% per 10 Max MP, up to a max of 30%.|> The weapon can be wielded without arms while you have a Spellweaver charge, but with reduced accuracy."
@@ -164,6 +166,7 @@ KDBindWeapon,Bound Weapon
 
 KDDLSB_FlecheFail_NoTarget,You need to target an enemy.
 KDDLSB_FlecheFail_NoWeapon,You need to have a weapon equipped.
+KDDLSB_FlecheFail_NoSpellweaver,You need Spellweaver to perform this action.
 KDDLSB_FlecheFail_NoStamina,You don't have enough stamina.
 KDDLSB_FlecheFail_NoSprint,You need to be able to sprint.
 KDDLSB_FlecheFail_NoAttack,You need to be able to attack.

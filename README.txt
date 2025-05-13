@@ -97,7 +97,8 @@ NOTE:
 
 Thank you to the KD Community for being super helpful~
 
-* Ada18980 - Help with enemy attack detection code.
+* Ada18980      - Help with enemy attack detection code & sprite nearest neighbor fix.
+* Enraa         - MCM base code.
 
 
 #=================================#
