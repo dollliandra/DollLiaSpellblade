@@ -1492,10 +1492,6 @@ KDCustomCost["DLSB_DoubleSprintPlusAttack"] = (data) => {
 KDPlayerCastConditions["DLSB_Fleche"] = (player, x, y) => {
     let dist = KDistChebyshev(x - player.x, y - player.y);
     return (
-        // If you have FF, return 1
-        //(KDHasSpell("DLSB_FancyFootwork"))
-        // Or distance > 1
-
         // Do not allow casting at range 1 without Fancy Footwork
         (KinkyDungeonFlags.get("DLSB_FancyFootwork") || (dist > 1.5))
         // Do not allow casting at range 3 with partially bound legs.
@@ -1506,22 +1502,22 @@ KDPlayerCastConditions["DLSB_Fleche"] = (player, x, y) => {
 // Handle partial components without attaching components to Fleche/Displacement
 // I THINK this prevents you from being teased for casting these in melee.
 // Unfortunate side-effect is generic spellcast fail messages, BUT this shows that you cannot "cast".
-KDAddEvent(KDEventMapGeneric, "calcCompPartial", "DLSB_Flecheplacement", (e, data) => {
-    console.log("calculating")
-    console.log(data)
-    if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
-        if(KinkyDungeoCheckComponentsPartial( {components: ["Legs"]} ).includes("Legs")){
-            data.partial.push("Legs")
-        }
-    }
-});
-KDAddEvent(KDEventMapGeneric, "beforeCalcComp", "DLSB_Flecheplacement", (e, data) => {
-    console.log("calculating")
-    console.log(data)
-    if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
-        data.components.push("Legs")
-    }
-});
+// KDAddEvent(KDEventMapGeneric, "calcCompPartial", "DLSB_Flecheplacement", (e, data) => {
+//     //console.log("calculating")
+//     //console.log(data)
+//     if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
+//         if(KinkyDungeoCheckComponentsPartial( {components: ["Legs"]} ).includes("Legs")){
+//             data.partial.push("Legs")
+//         }
+//     }
+// });
+// KDAddEvent(KDEventMapGeneric, "beforeCalcComp", "DLSB_Flecheplacement", (e, data) => {
+//     //console.log("calculating")
+//     //console.log(data)
+//     if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
+//         data.components.push("Legs")
+//     }
+// });
 
 
 
@@ -1539,8 +1535,8 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
     let cost = KDAttackCost().attackCost + KDSprintCost();
     let en = KinkyDungeonEntityAt(targetX, targetY);
     let space = false;
-    let dash_x = targetX;
-    let dash_y = targetY;
+    let dash_x = null;
+    let dash_y = null;
     //console.log(en)
     if (en?.Enemy) {
         if (KinkyDungeonHasStamina(-cost)) {
@@ -1551,7 +1547,7 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
                 let delta_x = en.x - entity.x
                 let delta_y = en.y - entity.y
 
-                // Check full backflip dist AND clear line to it.
+                // Check full dash dist AND clear line to it.
                 if(KinkyDungeonNoEnemy(entity.x + 2 * delta_x, entity.y + 2 * delta_y) && KDIsMovable(entity.x + 2 * delta_x, entity.y + 2 * delta_y)){
                     dash_x = entity.x + 2 * delta_x;
                     dash_y = entity.y + 2 * delta_y;
