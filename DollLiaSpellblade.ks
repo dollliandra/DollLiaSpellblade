@@ -1506,7 +1506,7 @@ let DLSB_Spellblade_Displacement = {name: "DLSB_Displacement", tags: ["stamina",
 
 KDCustomCost["DLSB_Fleche"] = (data) => {
     if(KinkyDungeonSlowLevel < (KinkyDungeonStatsChoice.get("HeelWalker") ? 3 : 2)){
-        data.cost = Math.round(10 * -(KDAttackCost().attackCost + KDSprintCost())) + "SP+SWVR";
+        data.cost = Math.round(10 * -(KDAttackCost().attackCost + KDSprintCost(undefined, undefined, true))) + "SP+SWVR";
         data.color = KDBaseMint;
     }else{
         data.cost = "999SP+SWVR";//"BOUND!";
@@ -1515,7 +1515,7 @@ KDCustomCost["DLSB_Fleche"] = (data) => {
 }
 KDCustomCost["DLSB_Displacement"] = (data) => {
     if(KinkyDungeonSlowLevel < (KinkyDungeonStatsChoice.get("HeelWalker") ? 3 : 2)){
-        data.cost = Math.round(10 * -(KDAttackCost().attackCost + 2*KDSprintCost())) + "SP";
+        data.cost = Math.round(10 * -(KDAttackCost().attackCost + 2*KDSprintCost(undefined, undefined, true))) + "SP";
         data.color = KDBaseMint;
     }else{
         data.cost = "999SP";//"BOUND!";
@@ -1582,7 +1582,7 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
         KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_NoSpellweaver"), KDBaseRed, 1, true);
         return "Fail";
     }
-    let cost = KDAttackCost().attackCost + KDSprintCost();
+    let cost = KDAttackCost().attackCost + KDSprintCost(undefined, undefined, true);
     let en = KinkyDungeonEntityAt(targetX, targetY);
     let dist = null;
     if(en?.Enemy){
@@ -1649,7 +1649,7 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
                     KinkyDungeonTrapMoved = true;  // Suffer
                     if (KinkyDungeonNoEnemy(dash_x, dash_y) && KDIsMovable(dash_x, dash_y)) {
                         KDMovePlayer(dash_x, dash_y, true, true);
-                        KDChangeStamina(spell.name, "spell", "cast", KDSprintCost());
+                        KDChangeStamina(spell.name, "spell", "cast", KDSprintCost(undefined, undefined, true));
                     }
                     
                     KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheSuccess"), "#e7cf1a", 1, false);
@@ -1657,7 +1657,7 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
                     KinkyDungeonTrapMoved = true;  // Suffer
                     if (KinkyDungeonNoEnemy(dash_x, dash_y) && KDIsMovable(dash_x, dash_y)) {
                         KDMovePlayer(dash_x, dash_y, true, true);
-                        KDChangeStamina(spell.name, "spell", "cast", KDSprintCost());
+                        KDChangeStamina(spell.name, "spell", "cast", KDSprintCost(undefined, undefined, true));
                     }
                     KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_AttackMiss"), KDBaseRed, 1, true);
                 }
@@ -1688,7 +1688,7 @@ KinkyDungeonSpellSpecials["DLSB_Displacement"] = (spell, _data, targetX, targetY
         KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_DisplacementFail_NoLegs"), KDBaseRed, 1, true);
         return "Fail";
     }
-    let cost = KDAttackCost().attackCost + 2*KDSprintCost();
+    let cost = KDAttackCost().attackCost + 2*KDSprintCost(undefined, undefined, true);
     let en = KinkyDungeonEntityAt(targetX, targetY);
     let space = false;
     if (en?.Enemy) {
@@ -1746,13 +1746,16 @@ KinkyDungeonSpellSpecials["DLSB_Displacement"] = (spell, _data, targetX, targetY
                     KinkyDungeonRemoveBuffsWithTag(en, ["displaceend"]);
                     KinkyDungeonRemoveBuffsWithTag(KDPlayer(), ["displaceend"]);
                     KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_DisplacementSuccess"), "#e7cf1a", 1, false);
-                    KDChangeStamina(spell.name, "spell", "cast", 2*KDSprintCost());
+                    KDChangeStamina(spell.name, "spell", "cast", 2*KDSprintCost(undefined, undefined, true));
 
 
                 } else if (result == "miss") {
                     KinkyDungeonTrapMoved = true;  // Backflipping into dangerous mechanics is the RDM way~
                     KDMovePlayer(backflip_x, backflip_y, true, true);
+                    KinkyDungeonRemoveBuffsWithTag(en, ["displaceend"]);
+                    KinkyDungeonRemoveBuffsWithTag(KDPlayer(), ["displaceend"]);
                     KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_AttackMiss"), KDBaseRed, 1, true);
+                    KDChangeStamina(spell.name, "spell", "cast", 2*KDSprintCost(undefined, undefined, true));
                 }
                 KinkyDungeonPlaySound(KinkyDungeonRootDirectory + "Audio/Miss.ogg");
                 return "Cast";
