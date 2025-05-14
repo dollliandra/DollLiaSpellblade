@@ -1550,10 +1550,7 @@ KDPlayerCastConditions["DLSB_Fleche"] = DLSB_CastCondUnnerfedFleche;
 // Handle partial components without attaching components to Fleche/Displacement
 // I THINK this prevents you from being teased for casting these in melee.
 // Unfortunate side-effect is generic spellcast fail messages, BUT this shows that you cannot "cast".
-// Unfortunate side-effect is MASSIVE COMPONENT SPAM IN THE SPELL'S PAGE AAAAAA
 KDAddEvent(KDEventMapGeneric, "calcCompPartial", "DLSB_Flecheplacement", (e, data) => {
-    //console.log("calculating")
-    //console.log(data)
     if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
         if(KinkyDungeoCheckComponentsPartial( {components: ["Legs"]} ).includes("Legs")){
             data.partial = ["Legs"];
@@ -1561,8 +1558,6 @@ KDAddEvent(KDEventMapGeneric, "calcCompPartial", "DLSB_Flecheplacement", (e, dat
     }
 });
 KDAddEvent(KDEventMapGeneric, "beforeCalcComp", "DLSB_Flecheplacement", (e, data) => {
-    //console.log("calculating")
-    //console.log(data)
     if(data.spell?.name == "DLSB_Fleche" || data.spell?.name == "DLSB_Displacement"){
         data.components = ["Legs"]
     }
@@ -1587,13 +1582,22 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
     }
     let cost = KDAttackCost().attackCost + KDSprintCost();
     let en = KinkyDungeonEntityAt(targetX, targetY);
+    let dist = null;
+    if(en?.Enemy){
+        dist = KDistChebyshev(en.x - entity.x, en.y - entity.y);
+        // Consider making this unavailable if slowed.
+        // if(dist < 1.5 && (KinkyDungeonSlowLevel > (KinkyDungeonStatsChoice.get("HeelWalker") ? 1 : 0))){
+        //     KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_NoLegs_FF"), KDBaseRed, 1, true);
+        //     return "Fail";
+        // }
+    }
     let space = false;
     let dash_x = null;
     let dash_y = null;
     //console.log(en)
     if (en?.Enemy) {
         if (KinkyDungeonHasStamina(-cost)) {
-            let dist = KDistChebyshev(en.x - entity.x, en.y - entity.y);
+            //let dist = KDistChebyshev(en.x - entity.x, en.y - entity.y);
             // If we are adjacent, we Fleche through.
             if (dist < 1.5) {
                 // Find our relation to the target.  This is the reverse of Displacement.

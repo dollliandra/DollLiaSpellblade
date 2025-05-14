@@ -156,8 +156,7 @@ DLSB_PreparedSuccess,"You steel yourself for a duel!"
 DLSB_PreparedSuccessChaos,"Your blade flashes with strange energy!"
 
 KinkyDungeonSpellDLSB_FancyFootwork,"Fancy Footwork"
-KinkyDungeonSpellDescriptionDLSB_FancyFootwork,"You have refined your form when making special attacks:|> Flèche can now strike a target up to 3 tiles away if you aren't slowed.|> Displacement makes the target vulnerable if it strikes them while they are attacking."
-KinkyDungeonSpellDescriptionDLSB_FancyFootwork_Legacy,"You have refined your form when making special attacks:|> Flèche can target an adjacent enemy to dash through them.|> Displacement makes the target vulnerable if it strikes them while they are attacking."
+KinkyDungeonSpellDescriptionDLSB_FancyFootwork,"You have refined your form when making special attacks:|> Flèche can target an adjacent enemy to dash through them.|> Displacement makes the target vulnerable if it strikes them while they are attacking."
 
 KinkyDungeonSpellDLSB_Mageblade,"Bound Weapon"
 KinkyDungeonSpellDescriptionDLSB_Mageblade,"Ritualistically bind yourself to a weapon over 5 turns, empowering it:|> The weapon's stamina cost is reduced by 1% per 10 Max MP, up to a max of 30%.|> The weapon can be wielded without arms while you have a Spellweaver charge, but with reduced accuracy."
@@ -172,6 +171,7 @@ KDDLSB_FlecheFail_NoSprint,You need to be able to sprint.
 KDDLSB_FlecheFail_NoAttack,You need to be able to attack.
 KDDLSB_FlecheFail_NoSpace,There is no room to dash!
 KDDLSB_FlecheFail_NoLegs,Your legs are too bound to Flèche!
+KDDLSB_FlecheFail_NoLegs_FF,Your legs are too bound to Flèche through a target!
 KDDLSB_DisplacementFail_NoLegs,Your legs are too bound to backflip!
 KDDLSB_FlecheFail_AttackMiss,You missed!
 KDDLSB_DisplacementFail_Backflip,There is no room to backflip to.
