@@ -593,8 +593,7 @@ KDAddEvent(KDEventMapSpell, "beforePlayerAttack", "DLSB_Spellweaver", (e, _weapo
     if(KinkyDungeonFlags.get("DLSB_PerformingFlecheDisplacement")){
         if (data.enemy && !data.miss && !data.disarm && !KDHelpless(data.enemy) && data.Damage && data.Damage.damage > 0) {
             if (data.enemy && (!e.requiredTag || data.enemy.Enemy.tags[e.requiredTag]) && (!e.chance || KDRandom() < e.chance) && data.enemy.hp > 0) {
-                // Balancing - Don't let this work for sneak attacking, since this bypasses vulnerable check.
-                // Don't do anything if the enemy is vulnerable, that's redundant.
+                // Don't do anything if the enemy is already vulnerable.
                 if (!data.enemy.vulnerable) {
                     // Take the event data from the ChangeDamageVulnerable event.
                     if(data.weapon.events){
@@ -1510,7 +1509,7 @@ KDCustomCost["DLSB_Fleche"] = (data) => {
         data.cost = Math.round(10 * -(KDAttackCost().attackCost + KDSprintCost())) + "SP+SWVR";
         data.color = KDBaseMint;
     }else{
-        data.cost = "999SP";//"BOUND!";
+        data.cost = "999SP+SWVR";//"BOUND!";
         data.color = KDBaseOrange;
     }
 }
