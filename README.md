@@ -30,7 +30,7 @@ All effects are in the description when you hover over the buff's tooltip.
 ![Flèche](/Spells/DLSB_Fleche.png)![Displacement](/Spells/DLSB_Displacement.png)
 
 The Spellweaver is a mobility focused class, and as such has tools to get in and out of combat quickly.
-* *Flèche* is a gapcloser melee strike to help you use your Spellweaver charges. With the Fancy Footwork upgrade, it can dash through an enemy in melee range.
+* *Flèche* uses Spellweaver to make a gapcloser melee strike. With the Fancy Footwork upgrade, it can dash through an enemy in melee range.
 * *Displacement* lets you backflip away from a target as you strike them. With the Fancy Footwork upgrade, it also applies vulnerable if you target an attacking enemy.
 
 ### Other Features

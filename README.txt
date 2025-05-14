@@ -38,10 +38,15 @@ KDTestSpellHits() - If another mod overrides this function, disable this feature
 #=========================================#
 
 v0.54:
-* Added a Changelog!  Oops.
+* LOAD EXISTING SAVE - You will be refunded +1 SP from Fleche, and Vault is removed if you never bought Dodge 1.
+* BALANCE PATCH - Fleche requires Spellweaver to use.  After dash-stabbing my way through several levels with a Dagger, this nerf had to happen at a minimum.
+* Added this Changelog!
+* Spellblade starts the game with Fleche.
 * Fleche sprite update.
-* Fleche & Displacement apply full Thrusting Sword damage if you're not sneak attacking.
-* Fleche & Displacement now require Legs.
+* Fleche & Displacement show SP/SWVR costs and leg components status. Cost shows 999 if you cannot sprint.
+* Fleche & Displacement apply full Thrusting Sword damage.
+* Fleche & Displacement now require slow level < 2, or < 3 if you have Deft Footwork.
+* Fleche cannot be used to dash through barricades and turrets.
 * Fleche loses 1 range if you are slowed.
 
 v0.53:
