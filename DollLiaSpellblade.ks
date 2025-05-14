@@ -595,7 +595,7 @@ KDAddEvent(KDEventMapSpell, "beforePlayerAttack", "DLSB_Spellweaver", (e, _weapo
             if (data.enemy && (!e.requiredTag || data.enemy.Enemy.tags[e.requiredTag]) && (!e.chance || KDRandom() < e.chance) && data.enemy.hp > 0) {
                 // Balancing - Don't let this work for sneak attacking, since this bypasses vulnerable check.
                 // Don't do anything if the enemy is vulnerable, that's redundant.
-                if (data.enemy.aware && !data.enemy.vulnerable) {
+                if (!data.enemy.vulnerable) {
                     // Take the event data from the ChangeDamageVulnerable event.
                     if(data.weapon.events){
                         let event = data.weapon.events.find((someEvent) => someEvent.type == "ChangeDamageVulnerable");
