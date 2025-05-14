@@ -29,11 +29,11 @@ let DLSB_VER = 0.54
 if (KDEventMapGeneric['afterModSettingsLoad'] != undefined) {
     KDEventMapGeneric['afterModSettingsLoad']["DLSBMCM"] = (e, data) => {
 
-        // addTextKey("KDModButtonDLSBMCM_Prep_ChaosChanceDesc", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow2"))
-        // addTextKey("KDModButtonDLSBMCM_Prep_ChaosChance", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow2"))
-        // addTextKey("KDModButtonDLSBMCM_ModCompatHeader", TextGet("KDModButtonDLSBMCM_ModCompatHeaderRow1"))
-        // addTextKey("KDModButtonDLSBMCM_TestSpellHitsDesc", TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow2")  + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow3"))
-        // addTextKey("KDModButtonDLSBMCM_TestSpellHits", TextGet("KDModButtonDLSBMCM_TestSpellHitsRow1") + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsRow2"));
+        addTextKey("KDModButtonDLSBMCM_Prep_ChaosChanceDesc", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceDescRow2"))
+        addTextKey("KDModButtonDLSBMCM_Prep_ChaosChance", TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow1") + "\n" + TextGet("KDModButtonDLSBMCM_Prep_ChaosChanceRow2"))
+        addTextKey("KDModButtonDLSBMCM_ModCompatHeader", TextGet("KDModButtonDLSBMCM_ModCompatHeaderRow1"))
+        addTextKey("KDModButtonDLSBMCM_TestSpellHitsDesc", TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow1") + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow2")  + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsDescRow3"))
+        addTextKey("KDModButtonDLSBMCM_TestSpellHits", TextGet("KDModButtonDLSBMCM_TestSpellHitsRow1") + "\n" + TextGet("KDModButtonDLSBMCM_TestSpellHitsRow2"));
 
         
         // Sanity check to make sure KDModSettings is NOT null. 
