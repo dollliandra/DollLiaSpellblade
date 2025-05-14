@@ -177,6 +177,10 @@ function DLSB_Init_SpellbladeSave(){
                     if(KDHasSpell("DLSB_Fleche")){
                         KinkyDungeonSpellPoints += 1;                           // Refund the spell point spent on Fleche.
                         KinkyDungeonSendTextMessage(10, "Refunded +1 SP spent on Flèche!", KDBaseCyan, 10);
+                    // Give the player Fleche if they didn't have it.
+                    }else{
+                        KDPushSpell(KinkyDungeonFindSpell("DLSB_Fleche"));
+                        KinkyDungeonSendTextMessage(10, "Learned Flèche!", KDBaseCyan, 10);
                     }
                     if(!KDHasSpell("Evasive1") && KDHasSpell("Vault")){         // If the player got Vault from Spellblade
                         KinkyDungeonSpellRemove("Vault")
