@@ -2,7 +2,6 @@
 
 //////////////////////////////////////////////////////
 // DLSB - Doll.Lia's Spellblade Class               //
-//  Version 0.51                                    //
 // Use DLSB_ as the prefix for any new content.     //
 //////////////////////////////////////////////////////
 
