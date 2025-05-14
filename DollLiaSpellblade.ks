@@ -1584,12 +1584,12 @@ KinkyDungeonSpellSpecials["DLSB_Fleche"] = (spell, _data, targetX, targetY, _tX,
     let en = KinkyDungeonEntityAt(targetX, targetY);
     let dist = null;
     if(en?.Enemy){
-        /// Do not allow dashing through barricades/turrets.
-        if(KDIsImmobile(en)){
+        dist = KDistChebyshev(en.x - entity.x, en.y - entity.y);
+        // Do not allow dashing through barricades/turrets.
+        if(KDIsImmobile(en) && dist < 1.5){
             KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_EnemyImmobile"), KDBaseRed, 1, true);
             return "Fail";
         }
-        dist = KDistChebyshev(en.x - entity.x, en.y - entity.y);
         // Consider making this unavailable if slowed.
         // if(dist < 1.5 && (KinkyDungeonSlowLevel > (KinkyDungeonStatsChoice.get("HeelWalker") ? 1 : 0))){
         //     KinkyDungeonSendTextMessage(8, TextGet("KDDLSB_FlecheFail_NoLegs_FF"), KDBaseRed, 1, true);
