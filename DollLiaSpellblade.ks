@@ -372,6 +372,16 @@ let DLSB_Spellblade_FF = {
 }
 
 
+//#region Blademistress
+// Does nothing but set a flag that other parts of the class will check.
+let DLSB_Spellblade_Blademistress = {
+    name: "DLSB_Blademistress", tags: ["utility", "offense"], school: "Special", manacost: 0, components: [],
+    classSpecific: "DLSB_Spellblade", prerequisite: "DLSB_Displacement", hideWithout: "DLSB_Spellweaver",
+    level:1, passive: true, type:"", onhit:"", time: 0, delay: 0, range: 0, lifetime: 0, power: 0, damage: "inert",
+    events: [],
+    learnFlags: ["DLSB_Blademistress"],     // Set a flag when you learn this spell, probably more performant than checking if you have the spell.
+}
+
 
 //#region Hexed Blade
 /************************************************************************
@@ -1252,6 +1262,7 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
     // Maybe reequip offhand if able?
 }
 
+//#region Consume Spellweaver
 /*****************************************************
  * playerAttack Spellweaver Event 
  * 
@@ -1427,15 +1438,31 @@ KDEventMapSpell.playerAttack["DLSB_Spellweaver"] = (e, spell, data) => {
                         break;
                 }
 
-                //console.log(data.enemy)
+                let spellweaverDmg  = KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.power;
+                let spellweaverCrit = KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_Crit;
+                if(KinkyDungeonFlags.get("DLSB_Blademistress")){
+                    console.log(KinkyDungeonPlayerDamage)
+
+                    // Change crit modifier if weapon is light.
+                    if(KinkyDungeonPlayerDamage?.light && KinkyDungeonPlayerDamage?.crit){
+                        if(KinkyDungeonPlayerDamage.crit > spellweaverCrit){
+                            spellweaverCrit = KinkyDungeonPlayerDamage.crit;
+                        }
+                    }
+                    let heavyTags = 0;
+                    if(KinkyDungeonPlayerDamage?.clumsy){heavyTags++}
+                    if(KinkyDungeonPlayerDamage?.massive){heavyTags++}
+                    if(KinkyDungeonPlayerDamage?.heavy){heavyTags++}
+                    if(heavyTags){spellweaverDmg += heavyTags * 0.5}
+                }
 
                 // Obtain all important stats from the buff itself.
                 KinkyDungeonDamageEnemy(data.enemy, {
                     type:       KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]].DLSB_Spellweaver_Type,     //spellweaverType,
-                    damage:     KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.power,//spellweaverPower,
+                    damage:     spellweaverDmg,
                     time:       KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_Time,
                     chance:     1,
-                    crit:       KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_Crit,
+                    crit:       spellweaverCrit,
                     bind:       KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_Bind,
                     distract:   KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_Distract,
                     bindType:   KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_BindType,
@@ -2227,6 +2254,8 @@ KinkyDungeonSpellList["Special"].push(DLSB_Spellblade_Mageblade_Invis);
 KinkyDungeonSpellList["Special"].push(DLSB_Spellblade_HexedBlade);
 KinkyDungeonSpellList["Special"].push(DLSB_Spellblade_SpellweaverQueue);
 
+KinkyDungeonSpellList["Special"].push(DLSB_Spellblade_Blademistress);
+
 // KinkyDungeonLearnableSpells[2][0].splice((KinkyDungeonLearnableSpells[2][0].indexOf("LeashSkill")+1),0,"DLSB_Spellweaver");
 // KinkyDungeonLearnableSpells[2][0].splice((KinkyDungeonLearnableSpells[2][0].indexOf("DLSB_Spellweaver")+1),0,"DLSB_SpellbladeOffhand");
 // Col 0 - Core
@@ -2242,5 +2271,6 @@ KinkyDungeonLearnableSpells[2][2].push("DLSB_ArcaneSynergy");
 KinkyDungeonLearnableSpells[2][2].push("DLSB_Mageblade");
 // Col 3 - Upgrades
 KinkyDungeonLearnableSpells[2][3].push("DLSB_FancyFootwork");
+//KinkyDungeonLearnableSpells[2][3].push("DLSB_Blademistress");         // Not sure if balanced.
 KinkyDungeonLearnableSpells[2][3].push("DLSB_HexedBlade");
 KinkyDungeonLearnableSpells[2][3].push("DLSB_SpellweaverQueue");

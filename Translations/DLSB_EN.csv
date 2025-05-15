@@ -158,6 +158,9 @@ DLSB_PreparedSuccessChaos,"Your blade flashes with strange energy!"
 KinkyDungeonSpellDLSB_FancyFootwork,"Fancy Footwork"
 KinkyDungeonSpellDescriptionDLSB_FancyFootwork,"You have refined your form when making special attacks:|> Flèche can target an adjacent enemy to dash through them. Does not work on immobile enemies such as barricades or turrets.|> Displacement makes the target vulnerable if it strikes them while they are attacking."
 
+KinkyDungeonSpellDLSB_Blademistress,"Blade Mistress"
+KinkyDungeonSpellDescriptionDLSB_Blademistress,"Your mastery of blades gives you the following bonuses:|> While wielding a Light weapon with higher than 130% base crit, it also applies to Spellweaver.|> While wielding a 2H, Heavy or Massive weapon, Spellweaver deals +5 more damage. This effect stacks."
+
 KinkyDungeonSpellDLSB_Mageblade,"Bound Weapon"
 KinkyDungeonSpellDescriptionDLSB_Mageblade,"Ritualistically bind yourself to a weapon over 5 turns, empowering it:|> The weapon's stamina cost is reduced by 1% per 10 Max MP, up to a max of 30%.|> The weapon can be wielded without arms while you have a Spellweaver charge, but with reduced accuracy."
 KDInventoryActionDLSB_BindWeapon,Bind to this Weapon
