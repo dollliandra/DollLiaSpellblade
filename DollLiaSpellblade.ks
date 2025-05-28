@@ -11,7 +11,7 @@
 // NOTE TO SELF:
 // Please remember to increment this when you update your own mod!
 // -Doll.Lia
-let DLSB_VER = 0.54
+let DLSB_VER = 0.55
 
 /**************************************************************
  * DLSB - Mod Configuration Menu

@@ -1,5 +1,5 @@
         ^
- _______|\       KD - Spellblade Class v0.54
+ _______|\       KD - Spellblade Class v0.55
 [///////| >====================----------
         |/               ~By Doll.Lia
         V
