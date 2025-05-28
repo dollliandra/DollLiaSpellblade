@@ -1180,8 +1180,14 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
  * > Some future buffs (Crit) might trigger on beforeCrit or duringCrit.
  *********************************************************/
 KDEventMapSpell.playerAttack["DLSB_Spellweaver"] = (e, spell, data) => {
-    if ((!data.bullet || e.bullet)
+    console.log("PLAYER ATTACK")
+    console.log(e)
+    console.log(spell)
+    console.log(data)
+    if ((!data.bullet || e.bullet
+        || (data?.bullet && data.bullet.bullet?.name == "SagittaBolt"))
         //&& KinkyDungeonHasMana(e.cost != undefined ? e.cost : KinkyDungeonGetManaCost(spell, false, true))
+        
         && !data.miss && !data.disarm && data.targetX && data.targetY && data.enemy && KDHostile(data.enemy)
         // Require the use of a weapon, OR Brawler perk.
         && ((KinkyDungeonPlayerDamage.name && KinkyDungeonPlayerDamage.name != "Unarmed") || KinkyDungeonStatsChoice.get("Brawler"))
