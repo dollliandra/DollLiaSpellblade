@@ -2186,6 +2186,39 @@ KinkyDungeonLearnableSpells[2][2].push("DLSB_ArcaneSynergy");
 KinkyDungeonLearnableSpells[2][2].push("DLSB_Mageblade");
 // Col 3 - Upgrades
 KinkyDungeonLearnableSpells[2][3].push("DLSB_FancyFootwork");
-//KinkyDungeonLearnableSpells[2][3].push("DLSB_Blademistress");         // Not sure if balanced.
+KinkyDungeonLearnableSpells[2][3].push("DLSB_Blademistress");         // Not sure if balanced.
 KinkyDungeonLearnableSpells[2][3].push("DLSB_HexedBlade");
 KinkyDungeonLearnableSpells[2][3].push("DLSB_SpellweaverQueue");
+
+
+
+
+
+
+
+
+
+
+
+//#region Player Titles
+//////////////////////////////////////////////////
+KDPlayerTitles["DLSB_ClassSpellblade"] = {
+    "unlockCondition": () => {
+        return (KDGameData?.Class == "DLSB_Spellblade")
+    },
+    "priority": -100,
+    "color": "#c708e0ff",
+    "titleActive": () => {
+        return false;
+    },
+    "titleActivate": () => {
+        return false;
+    },
+    "titleDeactivate": () => {
+        return false;
+    },
+    "category": "Classes",
+    "icon": "None",
+};
+
+KDPlayerTitlesRefreshCategories();

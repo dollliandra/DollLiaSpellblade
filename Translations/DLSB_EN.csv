@@ -181,3 +181,9 @@ KDDLSB_FlecheFail_AttackMiss,You missed!
 KDDLSB_DisplacementFail_Backflip,There is no room to backflip to.
 KDDLSB_FlecheSuccess,You dash at the target!
 KDDLSB_DisplacementSuccess,You stylishly backflip away from your target!
+
+
+
+
+KDPlayerTitle_DLSB_ClassSpellblade,Spellblade
+KDPlayerTitleDesc_DLSB_ClassSpellblade,Unlocked by playing as the Spellblade class.
