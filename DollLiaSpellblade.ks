@@ -2202,23 +2202,32 @@ KinkyDungeonLearnableSpells[2][3].push("DLSB_SpellweaverQueue");
 
 //#region Player Titles
 //////////////////////////////////////////////////
-KDPlayerTitles["DLSB_ClassSpellblade"] = {
-    "unlockCondition": () => {
-        return (KDGameData?.Class == "DLSB_Spellblade")
-    },
-    "priority": -100,
-    "color": "#c708e0ff",
-    "titleActive": () => {
-        return false;
-    },
-    "titleActivate": () => {
-        return false;
-    },
-    "titleDeactivate": () => {
-        return false;
-    },
-    "category": "Classes",
-    "icon": "None",
-};
+let DLSB_KDPlayerTitlesLive = false;
+try{
+    KDPlayerTitles;                     // If player titles aren't live, this throws an exception.
+    DLSB_KDPlayerTitlesLive = true;     // Otherwise, player titles are live
+}catch(e){
+    ;
+}
 
-KDPlayerTitlesRefreshCategories();
+if(DLSB_KDPlayerTitlesLive){
+    KDPlayerTitles["DLSB_ClassSpellblade"] = {
+        "unlockCondition": () => {
+            return (KDGameData?.Class == "DLSB_Spellblade")
+        },
+        "priority": -100,
+        "color": "#c708e0ff",
+        "titleActive": () => {
+            return false;
+        },
+        "titleActivate": () => {
+            return false;
+        },
+        "titleDeactivate": () => {
+            return false;
+        },
+        "category": "Classes",
+        "icon": "None",
+    };
+    KDPlayerTitlesRefreshCategories();
+}
