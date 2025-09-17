@@ -145,6 +145,7 @@ DLSB_BladeTwirlFail_NoWeapon,"You need to equip a weapon to twirl."
 DLSB_BladeTwirlFail_NoMana,You don't have enough mana.
 DLSB_BladeTwirlFail_NoStamina,You don't have enough stamina.
 DLSB_BladeTwirlFail_NoWill,You don't have the Willpower to block anything.
+DLSB_BladeTwirlFail_FreezingPoint,Freezing Point needs its blade to perform this action!
 DLSB_BladeTwirlSuccess,You twirl your blade!
 
 

@@ -1763,6 +1763,16 @@ KDAddEvent(KDEventMapSpell, "toggleSpell", "DLSB_BladeTwirl", (e, spell, data) =
         }
         // Check that the player has a weapon equipped.
         if(KinkyDungeonPlayerDamage?.name && (KinkyDungeonPlayerDamage.name != "Unarmed")){
+
+            // Freezing Point from Toy Box
+            if(KinkyDungeonPlayerDamage.name == "DLSE_FreezingPoint"
+               &&  KDGameData.DollLia?.ToyBox
+               &&  !KDGameData.DollLia.ToyBox.freezingPointLoaded
+            ){
+                KinkyDungeonSendTextMessage(5, TextGet("DLSB_BladeTwirlFail_FreezingPoint"), KDBaseOrange, 10);
+                return;
+            }
+
             if(KinkyDungeonStatMana >= KinkyDungeonGetManaCost(spell, false, false)){
                 if (KinkyDungeonStatStamina >= KinkyDungeonGetStaminaCost(spell, false, false)) {
                     // Should never happen unless I give this a duration.
