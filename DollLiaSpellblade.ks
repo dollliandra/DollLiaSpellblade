@@ -1180,10 +1180,10 @@ function DLSB_Spellweaver_BuffType(data, forceTag = null, forceDur = null){
  * > Some future buffs (Crit) might trigger on beforeCrit or duringCrit.
  *********************************************************/
 KDEventMapSpell.playerAttack["DLSB_Spellweaver"] = (e, spell, data) => {
-    console.log("PLAYER ATTACK")
-    console.log(e)
-    console.log(spell)
-    console.log(data)
+    // console.log("PLAYER ATTACK")
+    // console.log(e)
+    // console.log(spell)
+    // console.log(data)
     if ((!data.bullet || e.bullet
         || (data?.bullet && data.bullet.bullet?.name == "SagittaBolt"))
         //&& KinkyDungeonHasMana(e.cost != undefined ? e.cost : KinkyDungeonGetManaCost(spell, false, true))
@@ -1356,7 +1356,7 @@ KDEventMapSpell.playerAttack["DLSB_Spellweaver"] = (e, spell, data) => {
                 let spellweaverDmg  = KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.power;
                 let spellweaverCrit = KinkyDungeonPlayerBuffs[KDGameData.DollLia.Spellblade.spellweaver[0]]?.DLSB_Spellweaver_Crit;
                 if(KinkyDungeonFlags.get("DLSB_Blademistress")){
-                    console.log(KinkyDungeonPlayerDamage)
+                    //console.log(KinkyDungeonPlayerDamage)
 
                     // Change crit modifier if weapon is light.
                     if(KinkyDungeonPlayerDamage?.light && KinkyDungeonPlayerDamage?.crit){
